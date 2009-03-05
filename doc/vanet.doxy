@@ -6,8 +6,8 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "Vanet Simulator"
 PROJECT_NUMBER         = 0.0.1
-OUTPUT_DIRECTORY       = "C:/Users/utente/Desktop/vanet doc"
-CREATE_SUBDIRS         = NO
+OUTPUT_DIRECTORY       = C:/Users/utente/workspace/VanetSimulator/doc/documentation
+CREATE_SUBDIRS         = YES
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
 REPEAT_BRIEF           = YES
@@ -94,7 +94,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = C:/Users/utente/workspace/Vanet/src
+INPUT                  = C:/Users/utente/workspace/VanetSimulator/src
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
