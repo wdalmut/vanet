@@ -1,5 +1,14 @@
 package vanet;
 
+/**
+ * Utility class for configurations.
+ * 
+ * This class contains all configuration of your simulator
+ * 
+ * @author Walter Dal Mut
+ * @date 2009
+ *
+ */
 public class Configs 
 {
 	/**
@@ -24,10 +33,10 @@ public class Configs
 	/**
 	 * Beacons/seconds
 	 */
-	public static double BEACONS_SEC = 1;
+	public static double BEACONS_SEC = 0.1;
 	
 	/**
-	 * Lock moves of veichle for simulate only transmission
+	 * Lock moves of veichle for simulate only transmission and security implementation
 	 */
 	public static boolean NO_MOVES = false;
 	
@@ -45,8 +54,18 @@ public class Configs
 	 */
 	public static final int PAYLOAD_LENGTH = 200;
 	
+	//TODO: config file add this configurations
+	/**
+	 * This parameter force the certificate reattach every tot beacons
+	 */
+	public static final int REATTACH_CERTIFICATE = 15;
+	/**
+	 * This parameter change the pseudonyms every tot seconds
+	 */
+	public static final int CHANGE_CERTIFICATE = 5;
+	
 	/**
 	 * Max validity of certificate into wireless area
 	 */
-	public static int MAX_CERTIFICATE_VALIDITY_TIME = 60;
+	public static int MAX_CERTIFICATE_VALIDITY_TIME = 5;
 }

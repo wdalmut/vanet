@@ -3,12 +3,36 @@ package vanet.security;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
+/**
+ * This class contains  personal certificates and keys
+ * 
+ * @author Walter Dal Mut
+ * @date 2009
+ *
+ */
 public class PersonalCertificate 
 {
+	/**
+	 * The ID of certificate
+	 */
 	private int id;
+	/**
+	 * The certificate
+	 */
 	private X509Certificate certificate;
+	/**
+	 * Private key linked with the certificate
+	 */
 	private PrivateKey privateKey;
 	
+	/**
+	 * Constructor of personal certificate class
+	 * 
+	 * @param id The ID of couple certificate-private key
+	 * 
+	 * @param certificate The x509 certificate
+	 * @param privateKey The private key
+	 */
 	public PersonalCertificate( int id, X509Certificate certificate, PrivateKey privateKey )
 	{
 		this.id = id;
@@ -17,6 +41,10 @@ public class PersonalCertificate
 	}
 
 	/**
+	 * This function set the certificate
+	 * 
+	 * @deprecated You have to use the certificate constructor
+	 * 
 	 * @param certificate the certificate to set
 	 */
 	public void setCertificate(X509Certificate certificate) {
@@ -24,6 +52,8 @@ public class PersonalCertificate
 	}
 
 	/**
+	 * Retrive the certificate
+	 * 
 	 * @return the certificate
 	 */
 	public X509Certificate getCertificate() {
@@ -31,6 +61,10 @@ public class PersonalCertificate
 	}
 
 	/**
+	 * Set the private key
+	 * 
+	 * @deprecated Do not use, you have to set it using the constructor
+	 * 
 	 * @param privateKey the privateKey to set
 	 */
 	public void setPrivateKey(PrivateKey privateKey) 
@@ -39,6 +73,8 @@ public class PersonalCertificate
 	}
 
 	/**
+	 * Retrive the private key
+	 * 
 	 * @return the privateKey
 	 */
 	public PrivateKey getPrivateKey() {
@@ -46,6 +82,9 @@ public class PersonalCertificate
 	}
 
 	/**
+	 * Set the ID of certificate
+	 * @deprecated Do not use, you have to use the constructor of class
+	 * 
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
@@ -53,6 +92,8 @@ public class PersonalCertificate
 	}
 
 	/**
+	 * Retrive the ID of certificate
+	 * 
 	 * @return the id
 	 */
 	public int getId() {

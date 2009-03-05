@@ -57,7 +57,7 @@ public class KeyStore
 				    PKCS8EncodedKeySpec keysp = new PKCS8EncodedKeySpec(key);
 				    PrivateKey p = kf.generatePrivate(keysp);
 				    
-					this.personalCertificates.add( new PersonalCertificate(id, c, p ) );
+					this.personalCertificates.add( new PersonalCertificate((int)(Math.random()*100000), c, p ) );
 				}
 				catch( Exception e )
 				{

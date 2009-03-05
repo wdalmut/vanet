@@ -8,6 +8,7 @@ import vanet.Configs;
 
 /** 
  *  This class rappresent the repositoty of all certificate in wifi area
+ *  
  */
 public class CertificateStore 
 {
@@ -37,18 +38,22 @@ public class CertificateStore
 
   /** 
    *  Get certificate of repositiory
+   *  
+   *  This class provide a trash system for remove old certificates
    */
   public X509Certificate getCertificate(int id) 
   {
-	  X509Certificate c = this.certificates.get( id ).getCertificate();
+	  Certificate certificate = this.certificates.get( id );
+	  if( certificate == null ) return null; 
+	  
 	  long time = System.currentTimeMillis();
 	  
 	  if( (time-this.certificates.get(id).getExpiry())/1000 > Configs.MAX_CERTIFICATE_VALIDITY_TIME )
 	  {
-		  c = null;
 		  this.certificates.remove( id );
+		  return null;
 	  }
 		  
-	  return c;
+	  return this.certificates.get( id ).getCertificate();
   }
 }

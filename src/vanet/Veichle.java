@@ -29,7 +29,7 @@ public class Veichle extends TimerTask
 		
 		//Timer task for activate the transmission
 		this.time = new Timer( "Veichle - "+this.toString() );
-		this.time.scheduleAtFixedRate(this, 0, (long)(1000D/Configs.BEACONS_SEC) );
+		this.time.scheduleAtFixedRate(this, 1000, (long)(1000D/Configs.BEACONS_SEC) );
     }
     
     /** 
@@ -62,8 +62,6 @@ public class Veichle extends TimerTask
   	private void move() throws IOException
 	{
 		Moves.moveMe(this.position);
-		
-		transceiver.sendMessage( getPayload() );
 	}
   	
 	@Override
@@ -72,6 +70,8 @@ public class Veichle extends TimerTask
 		try 
 		{
 			this.move();
+//			System.out.println( "Veichle "+this.id+" send message" );
+			transceiver.sendMessage( getPayload() );
 		} 
 		catch (IOException e) 
 		{

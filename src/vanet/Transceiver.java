@@ -6,16 +6,37 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import vanet.security.SecurityBox;
+import vanet.security.VerifyMyMessageException;
 
+/**
+ * This class rappresent the transceiver of veichle
+ * 
+ * @author Walter Dal Mut
+ * @date 2009
+ *
+ */
 public class Transceiver implements Runnable 
 {
 
-  private SecurityBox securityBox;
-  private static byte index = 20;
-  private DatagramSocket socket;
+	/**
+	 * Security Box Implementation
+	 */
+	private SecurityBox securityBox;
+	/**
+	 * Index for generate IP
+	 */
+	private static byte index = 20;
+	/**
+	 * The datagram socket for send and receive messages
+	 */
+	private DatagramSocket socket;
 
   /** 
    *  Constructor of transceiver
+   *  
+   *  @param securityBox the security implementation which you want use for sign and verify messages
+   *  
+   *  @see vanet.Configs#SIMULATOR
    */
   	public Transceiver(SecurityBox securityBox) 
   	{
@@ -38,6 +59,10 @@ public class Transceiver implements Runnable
   	
   	/** 
   	 *  Send the payload to other veichles
+  	 *  
+  	 *  This function provide security to payload using the securize method of security box
+  	 *  
+  	 *  @see vanet.security.SecurityBox#securize
   	 */
   	public void sendMessage(byte[] payload)
   	{
@@ -54,6 +79,13 @@ public class Transceiver implements Runnable
   		}
   	}
 
+  	/**
+  	 * This function write on socket the data
+  	 * 
+  	 * @param data The data which you want send
+  	 * 
+  	 * @throws IOException In case of problems throw a IOException
+  	 */
   	private void write( byte[] data ) throws IOException
 	{
 		InetAddress address = InetAddress.getByName(Configs.SERVER_BROADCAST_ADDRESS);
@@ -65,16 +97,27 @@ public class Transceiver implements Runnable
    */
   public void receivedMessage(Message message) 
   {
-	  if( this.securityBox.verify(message) )
+	  try
 	  {
-		  //TODO: message secure
+		  boolean result = this.securityBox.verify(message);
+		  if( result )
+		  {
+//			  System.out.println( "MESSAGE SECURE: "+message.getId() );
+		  }
+		  else
+		  {
+			  System.out.println( "MESSAGE INSECURE: "+message.getId() );
+		  }
 	  }
-	  else
+	  catch( VerifyMyMessageException e )
 	  {
-		  //TODO: message insecure
+		  
 	  }
   }
 
+  	/**
+  	 * Method in multi-thread mode for receive new messages from network
+  	 */
   	@Override
 	public void run() 
   	{
@@ -82,37 +125,44 @@ public class Transceiver implements Runnable
 		{
 			try
 			{
-				DatagramPacket packet = new DatagramPacket(new byte[600], 600);
+				DatagramPacket packet = new DatagramPacket(new byte[1000], 1000);
 				this.socket.receive( packet );
 				
 				byte[] data = packet.getData();
+				int dataLength = packet.getLength();
 				
-				int id = 0;
-				byte[] payload = new byte[200];
-				byte[] signature = new byte[128];
-				byte[] certificate = new byte[ data.length-200-128];
-				
+				int id = 0;			
 				id = data[3]&0xFF;
-				id += data[2]&0xFF << 8;
-				id += data[1]&0xFF << 16;
-				id += data[0]&0xFF << 32;
+				id += (data[2]&0xFF) << 8;
+				id += (data[1]&0xFF) << 16;
+				id += (data[0]&0xFF) << 24;
 				
-				for( int i=4; i<data.length; i++)
-				{
-					if( i>=4 && i<200+4)
-						payload[i-4] = data[i];
-					else if( i>=200+4 && i<4+200+128 )
-						signature[i-4-200] = data[i];
-					else
-						certificate[i-4-200-128] = data[i];
-				}
+				byte[] payload = new byte[200];
+				int signatureLength;
+				signatureLength = data[7]&0xFF;
+				signatureLength += (data[6]&0xFF) << 8;
+				signatureLength += (data[5]&0xFF) << 16;
+				signatureLength += (data[4]&0xFF) << 24;
+				
+				byte[] signature = new byte[signatureLength];				
+				for( int i=4, j=0; i<200; i++, j++ )
+					payload[j] = data[i];
+				for( int i=4+200, j=0; j<signatureLength; i++, j++ )
+					signature[j] = data[i];
 				
 				Message m = null;
-				if( certificate.length < 20 )
-					m = new Message(id, payload, signature);	//Short message
-				else
-					m = new Message(id, payload, signature, certificate); //Long message
 				
+				int certificateLength = dataLength-4-200-signatureLength;
+				if( certificateLength > 0 )
+				{
+					byte[] certificate = new byte[ certificateLength ];
+					for( int i=4+200+signatureLength, j=0; i<dataLength; i++, j++ )
+						certificate[j] = data[i];
+					
+					m = new Message(id, payload, signature, certificate); //Long message
+				}
+				else
+					m = new Message(id, payload, signature);	//Short message				
 				receivedMessage( m );
 			}
 			catch( IOException exception )

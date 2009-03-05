@@ -11,11 +11,13 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public class Simulator 
 {
-	/** Veichles that exists */
-//	private Vector<Veichle> veichles;
-	
 	/**
-	 * Constructor for the area network
+	 * Constructor for the simulator
+	 * 
+	 * This method load your configuration and upload the static utility class Configs
+	 * with configuration picked up from files.
+	 * 
+	 * @see vanet.Configs
 	 */
 	public Simulator()
 	{
@@ -23,6 +25,7 @@ public class Simulator
 		
 		try
 		{			
+			//TODO: check change certificate every time...
 			FileInputStream fis = new FileInputStream( "properties/base.properties" );
 			System.out.println( ".:: Boostrap ::." );
 			System.out.println( "Loading base properties" );
@@ -42,9 +45,9 @@ public class Simulator
 	}
 	
 	/**
-	 * Main fuction for add new veichle
+	 * Main fuction for launch the simulator
 	 * 
-	 * @param args Command ARGS
+	 * @param args Command ARGS -not used-
 	 */
 	public static void main( String[] args )
 	{

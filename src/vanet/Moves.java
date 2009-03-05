@@ -1,7 +1,21 @@
 package vanet;
 
+/**
+ * This function move the veichle on map
+ * 
+ * @author Walter Dal Mut
+ * @date 2009
+ *
+ */
 public class Moves 
-{		
+{	
+	/**
+	 * Move to another position your veichle. In case of NO MOVES mode this function not work.
+	 * 
+	 * @see vanet.Configs#NO_MOVES
+	 * 
+	 * @param actualPosition Your position
+	 */
 	public static void moveMe( Position actualPosition )
 	{
 		if( Configs.NO_MOVES )

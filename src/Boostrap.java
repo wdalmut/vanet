@@ -1,7 +1,5 @@
 
 import java.io.InputStream;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.Properties;
 import java.util.Stack;
@@ -77,9 +75,6 @@ public class Boostrap
 	 * 
 	 * @return A Stack of veichle
 	 * 
-	 * @throws SocketException In case of Socket Exception
-	 * 
-	 * @throws UnknownHostException In case of Unknow Host
 	 */
 	private static Stack<Veichle> getVeichlesOnTheRoad( Document dom )
 	{

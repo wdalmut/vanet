@@ -1,5 +1,12 @@
 package vanet;
 
+/**
+ * This class rappresent a message
+ * 
+ * @author Walter Dal Mut
+ * @date 2009
+ *
+ */
 public class Message {
 
   /** 

@@ -1,6 +1,7 @@
 package vanet.security;
 
 import java.io.FileInputStream;
+import java.security.InvalidKeyException;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
@@ -17,16 +18,42 @@ import vanet.Message;
  */
 public class BaseLinePseudonyms implements SecurityBox
 {
-
+	/**
+	 * Key Store for baseline implementation which contains all certificates and private keys for securize messages
+	 */
 	private KeyStore keyStore;
+
+	/**
+	 * Certificate store for third party veichles. This system it's used for verify message with optimization
+	 */
 	private CertificateStore certificateStore;
+
+	/**
+	 * Timer for certificate validity for provide anonymization 
+	 */
 	private CertificateTimer timer;
-	private X509Certificate certificate;
-	private PrivateKey privateKey;
+	
+	/**
+	 * The certificate which the system can use at particoular time. The system must to check the validity of certificate before use it
+	 */
+	private PersonalCertificate personalCertificate;
+	
+	/**
+	 * The signature system
+	 */
 	private Signature sign;
 	
+	/**
+	 * Certificate of Certification Authority
+	 */
 	private X509Certificate ca;
 
+	
+	/**
+	 * Constructor of BaseLinePseudonyms
+	 * 
+	 * @param veichleID The ID of veiche. This parameter it's used for load the certificates and private key of veichle.
+	 */
 	public BaseLinePseudonyms( int veichleID )
 	{
 		this.keyStore = new KeyStore( veichleID );
@@ -47,12 +74,32 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 	}
 	
-	private byte[] signMessage( byte[] message, PrivateKey key ) throws Exception
+	/**
+	 * This method sign message
+	 * 
+	 * @param message Message which you want sign
+	 * @param key The private key for signing message
+	 * @return The signature of message
+	 */
+	private byte[] signMessage( byte[] message, PrivateKey key )
 	{
-		sign.initSign( privateKey );
-		sign.update(message);
-		
-		return sign.sign();
+		byte[] signature = null;
+		try
+		{
+			sign.initSign( key );
+			sign.update(message);
+			signature = sign.sign();
+		}
+		catch( SignatureException e )
+		{
+			System.out.println( "NON FATTA LA SIGNATURE");
+			signature = new byte[48];
+		} 
+		catch (InvalidKeyException e) 
+		{
+			e.printStackTrace();
+		}
+		return signature;
 	}
 	
 	@Override
@@ -60,31 +107,42 @@ public class BaseLinePseudonyms implements SecurityBox
 	{
 		byte[] message = null;
 		
+		//TODO: Reattach certificate every tot beacons
+		if( timer != null ) timer.setValid( false );
 		if( timer == null || !timer.isValid() )
 		{
 			//LONG MODE
 			timer = new CertificateTimer();
-			PersonalCertificate pc = this.keyStore.getCertificate();
-			this.certificate = pc.getCertificate();
-			this.privateKey = pc.getPrivateKey();
+			this.personalCertificate = this.keyStore.getCertificate();
+			X509Certificate certificate = this.personalCertificate.getCertificate();
+			PrivateKey privateKey = this.personalCertificate.getPrivateKey();
 			
 			try
 			{
-				byte[] cert = this.certificate.getEncoded();
+				byte[] cert = certificate.getEncoded();
 				
-				int certId = pc.getId();
-				int certLen = cert.length;
+				int certId = this.personalCertificate.getId();
 				
-				message = new byte[ 4 + Configs.PAYLOAD_LENGTH + 128 + certLen];
+				message = new byte[ 4 + Configs.PAYLOAD_LENGTH];
 				
-				message[0] = (byte)((certId & 0xFF000000) >> 32);	//Put the id
+				message[0] = (byte)((certId & 0xFF000000) >> 24);	//Put the id
 				message[1] = (byte)((certId & 0x00FF0000) >> 16);	//In byte mode
 				message[2] = (byte)((certId & 0x0000FF00) >> 8);	//Using shift
 				message[3] = (byte) (certId & 0x000000FF);
 				for( int i=0, j=4; i< Configs.PAYLOAD_LENGTH; i++, j++ )	//Payload copy
 					message[j] = payload[i]; 
 				
-				byte[] signature = signMessage(message, this.privateKey);
+				byte[] signature = signMessage(message, privateKey);
+				byte[ ] tmp = new byte[ message.length + signature.length + cert.length ];
+				//Put the signature length
+				message[4] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
+				message[5] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
+				message[6] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
+				message[7] = (byte)( signature.length & 0x000000FF ) ;
+				
+				for( int i=0; i<message.length; i++ )
+					tmp[i] = message[i];
+				message = tmp;
 				
 				for( int i=4+Configs.PAYLOAD_LENGTH, j=0; j<signature.length; i++, j++ )//Attach the signature
 					message[i] = signature[j];
@@ -101,20 +159,31 @@ public class BaseLinePseudonyms implements SecurityBox
 		{
 			try
 			{
-				PersonalCertificate pc = this.keyStore.getCertificate();
+				//Retrive the ID of certificate to use
+				int certId = personalCertificate.getId();
 				
-				int certId = pc.getId();
+				message = new byte[ 4 + payload.length ];
 				
-				message = new byte[ 4 + payload.length + 128 ];
-				
-				message[0] = (byte)((certId & 0xFF000000) >> 32);	//Put the id
+				message[0] = (byte)((certId & 0xFF000000) >> 24);	//Put the id
 				message[1] = (byte)((certId & 0x00FF0000) >> 16);	//In byte mode
 				message[2] = (byte)((certId & 0x0000FF00) >> 8);	//Using shift
 				message[3] = (byte) (certId & 0x000000FF);
 				for( int i=0, j=4; i< payload.length; i++, j++ )	//Payload copy
 					message[j] = payload[i]; 
 				
-				byte[] signature = signMessage(message, this.privateKey);
+				byte[] signature = signMessage(message, this.personalCertificate.getPrivateKey());
+				
+				byte[] tmp = new byte[message.length+signature.length];
+				//Put the signature length
+				message[4] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
+				message[5] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
+				message[6] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
+				message[7] = (byte)( signature.length & 0x000000FF ) ;
+				
+				for( int i=0; i< message.length ; i++ )
+					tmp[i] = message[i];
+				
+				message = tmp;	//Change support
 				
 				for( int i=4+payload.length, j=0; j<signature.length; i++, j++ )//Attach the signature
 					message[i] = signature[j];
@@ -129,8 +198,11 @@ public class BaseLinePseudonyms implements SecurityBox
 	}
 
 	@Override
-	public boolean verify(Message message) 
+	public boolean verify(Message message) throws VerifyMyMessageException 
 	{
+		if( message.getId() == this.personalCertificate.getId() )
+			throw new VerifyMyMessageException();
+		
 		if( message.getCertificate() == null )//SHORT MODE
 		{
 			X509Certificate c = certificateStore.getCertificate( message.getId() );
@@ -139,7 +211,7 @@ public class BaseLinePseudonyms implements SecurityBox
 			
 			byte[] ID = new byte[4];
 			int id = message.getId();
-			ID[0] = (byte)((id&0xFF000000) >> 32);
+			ID[0] = (byte)((id&0xFF000000) >> 24);
 			ID[1] = (byte)((id&0x00FF0000) >> 16); 
 			ID[2] = (byte)((id&0x0000FF00) >> 8); 
 			ID[3] = (byte) (id&0x000000FF); 
@@ -166,7 +238,7 @@ public class BaseLinePseudonyms implements SecurityBox
 		{
 			byte[] ID = new byte[4];
 			int id = message.getId();
-			ID[0] = (byte)((id&0xFF000000) >> 32);
+			ID[0] = (byte)((id&0xFF000000) >> 24);
 			ID[1] = (byte)((id&0x00FF0000) >> 16); 
 			ID[2] = (byte)((id&0x0000FF00) >> 8); 
 			ID[3] = (byte) (id&0x000000FF); 
@@ -174,14 +246,20 @@ public class BaseLinePseudonyms implements SecurityBox
 			try
 			{
 				X509Certificate c = constructCertificate(message.getCertificate());
-				if( verifyCertificate( c ) )
+				if( c != null && verifyCertificate( c ) )
 					certificateStore.addCertificate( message.getId(), c);
 				else
 					return false;
 				
 				sign.initVerify( c );
 				sign.update(ID);
-				sign.update(message.getPayload());
+				
+				byte[] payload = message.getPayload();
+				payload[0] = 0;
+				payload[1] = 0;
+				payload[2] = 0;
+				payload[3] = 0;
+				sign.update(payload);
 				if( sign.verify(message.getSignature()) )
 					return true;
 				else
@@ -200,10 +278,18 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 	}
 	
+	/**
+	 * Verify the certificate using the Certification Authority
+	 * 
+	 * @param c The certificate to test
+	 * @return The validy of that certificate
+	 */
 	private boolean verifyCertificate(X509Certificate c) 
 	{
 		try
 		{
+			Signature sign = Signature.getInstance(c.getSigAlgName());
+		    
 			sign.initVerify(ca);
 		    sign.update( c.getTBSCertificate() );
 		    if( sign.verify( c.getSignature() ) )
@@ -219,6 +305,12 @@ public class BaseLinePseudonyms implements SecurityBox
 		return false;
 	}
 
+	/**
+	 * Construct the certificate from byte rappresentation
+	 * 
+	 * @param cert The certificate in byte
+	 * @return The x509 certificate
+	 */
 	private X509Certificate constructCertificate( byte[] cert )
 	{
 		ByteInputStream bis = new ByteInputStream( cert, cert.length );
