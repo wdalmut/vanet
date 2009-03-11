@@ -107,10 +107,8 @@ public class BaseLinePseudonyms implements SecurityBox
 	{
 		byte[] message = null;
 		
-//		//TODO: Reattach certificate every tot beacons
-//		if( timer != null )
-//			timer.setValid( false );
-//		
+		//TODO: Reattach certificate every tot beacons
+
 		if( timer == null || !timer.isValid() )
 		{
 			//LONG MODE
