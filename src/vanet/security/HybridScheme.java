@@ -194,7 +194,7 @@ private KeyPair genOnTheFlyKey()  {
 		
 	  
   }
- /**
+	/**
 	 * This method sign message
 	 * 
 	 * @param message Message which you want sign
@@ -203,14 +203,18 @@ private KeyPair genOnTheFlyKey()  {
  * @throws SignatureException 
 	 */
 
- private byte[] signMessage( byte[] message, PrivateKey key ) throws SignatureException
-	{ Signature sign=null;
-	try {
-		sign = Signature.getInstance("SHA1withECDSA");
-	} catch (NoSuchAlgorithmException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+	 private byte[] signMessage( byte[] message, PrivateKey key ) throws SignatureException
+	 { 
+		 Signature sign=null;
+		 try 
+		 {
+			sign = Signature.getInstance("SHA1withECDSA");
+		 } 
+		 catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
 		byte[] signature = null;
 		try
 		{
@@ -230,226 +234,227 @@ private KeyPair genOnTheFlyKey()  {
 		}
 		return signature;
 	}
- /**
+ 	
+ 	/**
 	 * Verify the self certificate using the private Group signature
 	 * 
 	 * @param c The certificate to test
 	 * @return The validity of that certificate
 	 */
- 
-@Override
-public byte[] securize(byte[] payload) 
-{
-	byte[] message = null;
-	
-	KeyPair pair;
-	//TODO: Reattach certificate every tot beacons
-    //if( timer != null ) timer.setValid(false );
-	
-	if( timer == null || !timer.isValid() )
+	@Override
+	public byte[] securize(byte[] payload) 
 	{
-		System.out.print("long way");
-		//LONG MODE
-		timer = new CertificateTimer();
-		pair= this.genOnTheFlyKey();
-			
-		// add the certificate in the certificate store
+		byte[] message = null;
 		
-		this.certificateStore = new CertificateStore();
+		KeyPair pair;
+		//TODO: Reattach certificate every tot beacons
+	    //if( timer != null ) timer.setValid(false );
 		
-		try
-		
+		if( timer == null || !timer.isValid() )
 		{
-			// generate the new certificate on the generated key
-			X509Certificate cert= this.genSelfCertificate(pair); 
-			byte[] certif = cert.getEncoded();
-			
-			// Random certificate id
-			int certId = (int)(Math.random()*100000);
-			//
-			personalCertificate= new PersonalCertificate(certId,certif,pair.getPrivate());
-			
-			message = new byte[ 4 + Configs.PAYLOAD_LENGTH];
-			
-			message[0] = (byte)((certId & 0xFF000000) >> 24);	//Put the id
-			message[1] = (byte)((certId & 0x00FF0000) >> 16);	//In byte mode
-			message[2] = (byte)((certId & 0x0000FF00) >> 8);	//Using shift
-			message[3] = (byte) (certId & 0x000000FF);
-			for( int i=0, j=4; i< Configs.PAYLOAD_LENGTH; i++, j++ )	//Payload copy
-				message[j] = payload[i]; 
-			
-			byte[] signature = signMessage(message,pair.getPrivate());
-			
-			//System.out.print("signature:"+signature[12]+"\n");
-			// here i will add the certificate length after the payload not inside the payload after have already signed the message
-			byte[ ] tmp = new byte[ message.length + signature.length + certif.length+4];
-			// add the message
-			for( int i=0; i<message.length; i++ )
-				tmp[i] = message[i];
-			
-			tmp[message.length] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
-			tmp[message.length+1] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
-			tmp[message.length+2] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
-			tmp[message.length+3] = (byte)( signature.length & 0x000000FF ) ;
-						
-			//Attach the signature
-			for( int i=4+message.length, j=0; j<signature.length; i++, j++ )
+			System.out.print("long way");
+			//LONG MODE
+			timer = new CertificateTimer();
+			pair= this.genOnTheFlyKey();
 				
-			tmp[i] = signature[j];
-			// i specified that i have attached the certificate
-			//tmp[4+message.length+signature.length]=1;
-			//Attach the certificate
-			for( int i=4+message.length+signature.length, j=0; j<certif.length; i++, j++ )	
-				tmp[i] = certif[j];
+			// add the certificate in the certificate store
 			
-			message = tmp;
-			/*for(int m= 0; m<certif.length;m++)
-			System.out.print("\ntrans : "+m+" "+certif[m]);*/
+			this.certificateStore = new CertificateStore();
 			
-		}
-		catch( Exception e )
-		{
-			e.printStackTrace();
-		}
-	}
-	else
-	{
-		try
-		{
-			//Retrive the ID of certificate to use
-			int certId =  personalCertificate.getId();
-			System.out.print("Short way");
-			message = new byte[ 4 + payload.length ];
+			try
 			
-			message[0] = (byte)((certId & 0xFF000000) >> 24);	//Put the id
-			message[1] = (byte)((certId & 0x00FF0000) >> 16);	//In byte mode
-			message[2] = (byte)((certId & 0x0000FF00) >> 8);	//Using shift
-			message[3] = (byte) (certId & 0x000000FF);
-			for( int i=0, j=4; i< payload.length; i++, j++ )	//Payload copy
-				message[j] = payload[i]; 
-			
-			byte[] signature = signMessage(payload,personalCertificate.getPrivateKey() );
-			
-			byte[] tmp = new byte[message.length+signature.length+4+1];
-			// Add the message to tmp
-			for( int i=0; i< message.length ; i++ )
-				tmp[i] = message[i];
-			//Put the signature length
-			tmp[message.length] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
-			tmp[message.length+1] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
-			tmp[message.length+2] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
-			tmp[message.length+3] = (byte)( signature.length & 0x000000FF ) ;
-			
-			
-			//Attach the signature
-			for( int i=4+message.length, j=0; j<signature.length; i++, j++ )
-				tmp[i] = signature[j];
-			// i specified that i haven't attached the certificate
-			//tmp[4+message.length+signature.length]=0;
-			//Change support
-			message = tmp;	
-			
-		}
-		catch( Exception e )
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	return message;
-}
-
-@Override
-public boolean verify(Message message) throws VerifyMyMessageException 
-{
-
-	if( message.getId() == this.personalCertificate.getId() )
-		
-			throw new VerifyMyMessageException();
-	
-	if( message.getCertificate() == null )//SHORT MODE
-	{
-		X509Certificate c = certificateStore.getCertificate( message.getId() );
-		if( c == null )
-			return false;
-		
-		byte[] ID = new byte[4];
-		int id = message.getId();
-		ID[0] = (byte)((id&0xFF000000) >> 24);
-		ID[1] = (byte)((id&0x00FF0000) >> 16); 
-		ID[2] = (byte)((id&0x0000FF00) >> 8); 
-		ID[3] = (byte) (id&0x000000FF); 
-		
-		try
-		{
-			sign.initVerify( c );
-			sign.update(ID);
-			sign.update(message.getPayload());
-			
-			sign.verify(message.getSignature());
-			
-		}
-		catch( SignatureException e )
-		{
-			return false;
-		}
-		catch( Exception e )
-		{
-			e.printStackTrace();
-		}
-		
-		return true;
-	}
-	else
-	{
-		byte[] ID = new byte[4];
-		int id = message.getId();
-		ID[0] = (byte)((id&0xFF000000) >> 24);
-		ID[1] = (byte)((id&0x00FF0000) >> 16); 
-		ID[2] = (byte)((id&0x0000FF00) >> 8); 
-		ID[3] = (byte) (id&0x000000FF); 
-		
-		try
-		{
-			X509Certificate c = constructCertificate(message.getCertificate());
-			
-			if( c != null  )
-				certificateStore.addCertificate( message.getId(), c); 
+			{
+				// generate the new certificate on the generated key
+				X509Certificate cert= this.genSelfCertificate(pair); 
+				byte[] certif = cert.getEncoded();
+				
+				// Random certificate id
+				int certId = (int)(Math.random()*100000);
+				//
+				personalCertificate= new PersonalCertificate(certId,certif,pair.getPrivate());
+				
+				message = new byte[ 4 + Configs.PAYLOAD_LENGTH];
+				
+				message[0] = (byte)((certId & 0xFF000000) >> 24);	//Put the id
+				message[1] = (byte)((certId & 0x00FF0000) >> 16);	//In byte mode
+				message[2] = (byte)((certId & 0x0000FF00) >> 8);	//Using shift
+				message[3] = (byte) (certId & 0x000000FF);
+				for( int i=0, j=4; i< Configs.PAYLOAD_LENGTH; i++, j++ )	//Payload copy
+					message[j] = payload[i]; 
+				
+				byte[] signature = signMessage(message,pair.getPrivate());
+				
+				//System.out.print("signature:"+signature[12]+"\n");
+				// here i will add the certificate length after the payload not inside the payload after have already signed the message
+				byte[ ] tmp = new byte[ message.length + signature.length + certif.length+4];
+				// add the message
+				for( int i=0; i<message.length; i++ )
+					tmp[i] = message[i];
+				
+				tmp[message.length] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
+				tmp[message.length+1] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
+				tmp[message.length+2] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
+				tmp[message.length+3] = (byte)( signature.length & 0x000000FF ) ;
 							
-			else
-			{System.out.print("certi null");
-				return false;
+				//Attach the signature
+				for( int i=4+message.length, j=0; j<signature.length; i++, j++ )
+					
+				tmp[i] = signature[j];
+				// i specified that i have attached the certificate
+				//tmp[4+message.length+signature.length]=1;
+				//Attach the certificate
+				for( int i=4+message.length+signature.length, j=0; j<certif.length; i++, j++ )	
+					tmp[i] = certif[j];
+				
+				message = tmp;
+				/*for(int m= 0; m<certif.length;m++)
+				System.out.print("\ntrans : "+m+" "+certif[m]);*/
+				
 			}
-			sign.initVerify( c );
-			sign.update(ID);
-			
-			byte[] payload = message.getPayload();
-			
-			sign.update(payload);
-			
-			boolean test= sign.verify(message.getSignature());
-			
-			if(test )
-			
-				return true;
-			else{
-				System.out.print("test failed");
-				return false;
+			catch( Exception e )
+			{
+				e.printStackTrace();
 			}
 		}
-		catch( SignatureException e )
+		else
 		{
-			System.out.print(e.getMessage());
-			return false;
-		}
-		catch( Exception e )
-		{
-			e.printStackTrace();
+			try
+			{
+				//Retrive the ID of certificate to use
+				int certId =  personalCertificate.getId();
+				System.out.print("Short way");
+				message = new byte[ 4 + payload.length ];
+				
+				message[0] = (byte)((certId & 0xFF000000) >> 24);	//Put the id
+				message[1] = (byte)((certId & 0x00FF0000) >> 16);	//In byte mode
+				message[2] = (byte)((certId & 0x0000FF00) >> 8);	//Using shift
+				message[3] = (byte) (certId & 0x000000FF);
+				for( int i=0, j=4; i< payload.length; i++, j++ )	//Payload copy
+					message[j] = payload[i]; 
+				
+				byte[] signature = signMessage(payload,personalCertificate.getPrivateKey() );
+				
+				byte[] tmp = new byte[message.length+signature.length+4+1];
+				// Add the message to tmp
+				for( int i=0; i< message.length ; i++ )
+					tmp[i] = message[i];
+				//Put the signature length
+				tmp[message.length] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
+				tmp[message.length+1] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
+				tmp[message.length+2] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
+				tmp[message.length+3] = (byte)( signature.length & 0x000000FF ) ;
+				
+				
+				//Attach the signature
+				for( int i=4+message.length, j=0; j<signature.length; i++, j++ )
+					tmp[i] = signature[j];
+				// i specified that i haven't attached the certificate
+				//tmp[4+message.length+signature.length]=0;
+				//Change support
+				message = tmp;	
+				
+			}
+			catch( Exception e )
+			{
+				e.printStackTrace();
+			}
 		}
 		
-		return true;
+		return message;
 	}
-}
+
+	@Override
+	public boolean verify(Message message) throws VerifyMyMessageException 
+	{
+	
+		if( message.getId() == this.personalCertificate.getId() )
+			
+				throw new VerifyMyMessageException();
+		
+		if( message.getCertificate() == null )//SHORT MODE
+		{
+			X509Certificate c = certificateStore.getCertificate( message.getId() );
+			if( c == null )
+				return false;
+			
+			byte[] ID = new byte[4];
+			int id = message.getId();
+			ID[0] = (byte)((id&0xFF000000) >> 24);
+			ID[1] = (byte)((id&0x00FF0000) >> 16); 
+			ID[2] = (byte)((id&0x0000FF00) >> 8); 
+			ID[3] = (byte) (id&0x000000FF); 
+			
+			try
+			{
+				sign.initVerify( c );
+				sign.update(ID);
+				sign.update(message.getPayload());
+				
+				sign.verify(message.getSignature());
+				
+			}
+			catch( SignatureException e )
+			{
+				return false;
+			}
+			catch( Exception e )
+			{
+				e.printStackTrace();
+			}
+			
+			return true;
+		}
+		else
+		{
+			byte[] ID = new byte[4];
+			int id = message.getId();
+			ID[0] = (byte)((id&0xFF000000) >> 24);
+			ID[1] = (byte)((id&0x00FF0000) >> 16); 
+			ID[2] = (byte)((id&0x0000FF00) >> 8); 
+			ID[3] = (byte) (id&0x000000FF); 
+			
+			try
+			{
+				X509Certificate c = constructCertificate(message.getCertificate());
+				
+				if( c != null  )
+					certificateStore.addCertificate( message.getId(), c); 
+								
+				else
+				{System.out.print("certi null");
+					return false;
+				}
+				sign.initVerify( c );
+				sign.update(ID);
+				
+				byte[] payload = message.getPayload();
+				
+				sign.update(payload);
+				
+				boolean test= sign.verify(message.getSignature());
+				
+				if(test )
+				
+					return true;
+				else{
+					System.out.print("test failed");
+					return false;
+				}
+			}
+			catch( SignatureException e )
+			{
+				System.out.print(e.getMessage());
+				return false;
+			}
+			catch( Exception e )
+			{
+				e.printStackTrace();
+			}
+			
+			return true;
+		}
+	}
+
 	private boolean verifyCertificate(X509Certificate c) {
 		// TODO Auto-generated method stub
 		return true;

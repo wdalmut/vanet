@@ -50,16 +50,19 @@ public class KeyStore
 						FileInputStream fr = new FileInputStream( folder+"/"+certs[i] );
 						X509Certificate c = (X509Certificate) cf.generateCertificate( fr );
 						
-						fr = new FileInputStream( folder2+"/"+privates[i] );
-						KeyFactory kf = KeyFactory.getInstance("ECDSA", "BC");
-					    byte[] key = new byte[fr.available()];
-					    fr.read(key, 0, fr.available());
-					    fr.close();
-					    
-					    PKCS8EncodedKeySpec keysp = new PKCS8EncodedKeySpec(key);
-					    PrivateKey p = kf.generatePrivate(keysp);
-					    
-						this.personalCertificates.add( new PersonalCertificate((int)(Math.random()*100000), c, p ) );
+						if( privates[i].indexOf(".key") > 0 )
+						{
+							fr = new FileInputStream( folder2+"/"+privates[i] );
+							KeyFactory kf = KeyFactory.getInstance("ECDSA", "BC");
+						    byte[] key = new byte[fr.available()];
+						    fr.read(key, 0, fr.available());
+						    fr.close();
+						
+						    PKCS8EncodedKeySpec keysp = new PKCS8EncodedKeySpec(key);
+						    PrivateKey p = kf.generatePrivate(keysp);
+						    
+							this.personalCertificates.add( new PersonalCertificate((int)(Math.random()*100000), c, p ) );
+						}
 					}
 				}
 				catch( Exception e )
