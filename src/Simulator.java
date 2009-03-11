@@ -15,7 +15,7 @@ public class Simulator
 	 * Constructor for the simulator
 	 * 
 	 * This method load your configuration and upload the static utility class Configs
-	 * with configuration picked up from files.
+	 * with configuration picked up from files...
 	 * 
 	 * @see vanet.Configs
 	 */
