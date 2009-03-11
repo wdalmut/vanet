@@ -122,10 +122,21 @@ public class PersonalCertificate
 		return id;
 	}
 
+	/**
+	 * 
+	 * @deprecated Don't use byte representation for self certificate
+	 * 
+	 * @param selfCertificate You self certificate in Byte representation
+	 */
 	public void setSelfCertificate(byte[] selfCertificate) {
 		this.selfCertificate = selfCertificate;
 	}
 
+	/**
+	 * @deprecated Don't use byte representation fro self certificate
+	 * 
+	 * @return Byte representation of self certificate
+	 */
 	public byte[] getSelfCertificate() {
 		return selfCertificate;
 	}
