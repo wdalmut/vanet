@@ -114,6 +114,7 @@ public class BaseLinePseudonyms implements SecurityBox
 		if( timer == null || !timer.isValid() )
 		{
 			//LONG MODE
+			System.out.println("LONG MESSAGE");
 			timer = new CertificateTimer();
 			this.personalCertificate = this.keyStore.getCertificate();
 			X509Certificate certificate = this.personalCertificate.getCertificate();
@@ -159,6 +160,7 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 		else
 		{
+			System.out.println("SHORT MESSAGE");
 			//SHORT MODE
 			try
 			{
