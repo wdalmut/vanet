@@ -110,8 +110,6 @@ public class BaseLinePseudonyms implements SecurityBox
 	public byte[] securize( byte[] payload ) 
 	{
 		byte[] message = null;
-		
-		//TODO: Reattach certificate every tot beacons
 
 		if( timer == null || !timer.isValid() || (beaconsSent % Configs.REATTACH_CERTIFICATE) == 0 )
 		{
