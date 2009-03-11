@@ -96,6 +96,8 @@ public class BaseLinePseudonyms implements SecurityBox
 		{
 			System.out.println( "NON FATTA LA SIGNATURE");
 			signature = new byte[48];
+			
+			e.printStackTrace();
 		} 
 		catch (InvalidKeyException e) 
 		{
@@ -114,7 +116,6 @@ public class BaseLinePseudonyms implements SecurityBox
 		if( timer == null || !timer.isValid() || beaconsSent % Configs.REATTACH_CERTIFICATE == 0 )
 		{
 			//LONG MODE
-			System.out.println("LONG MESSAGE");
 			timer = new CertificateTimer();
 			this.personalCertificate = this.keyStore.getCertificate();
 			X509Certificate certificate = this.personalCertificate.getCertificate();
@@ -160,7 +161,6 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 		else
 		{
-			System.out.println("SHORT MESSAGE");
 			//SHORT MODE
 			try
 			{
