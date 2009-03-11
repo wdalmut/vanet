@@ -33,7 +33,7 @@ public class CertificateTimer extends TimerTask
 	public CertificateTimer()
 	{
 		timer = new Timer();
-		timer.schedule(this, 1000*Configs.CHANGE_CERTIFICATE );
+		timer.schedule(this, 1000*Configs.MAX_CERTIFICATE_VALIDITY_TIME );
 	}
 	
 	/**

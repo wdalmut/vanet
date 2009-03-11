@@ -59,10 +59,6 @@ public class Configs
 	 * This parameter force the certificate reattach every tot beacons
 	 */
 	public static final int REATTACH_CERTIFICATE = 15;
-	/**
-	 * This parameter change the pseudonyms every tot seconds
-	 */
-	public static final int CHANGE_CERTIFICATE = 5;
 	
 	/**
 	 * Max validity of certificate into wireless area
