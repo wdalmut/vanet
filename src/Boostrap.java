@@ -58,6 +58,8 @@ public class Boostrap
 				Configs.SIMULATOR = vS;
 			if( (vS = (String)properties.getProperty( "maxCertificateValidityTime" )) != null )
 				Configs.MAX_CERTIFICATE_VALIDITY_TIME = Integer.valueOf( vS ).intValue();
+			if( (vS = (String)properties.getProperty( "reattachCertificate" )) != null )
+				Configs.REATTACH_CERTIFICATE = Integer.valueOf( vS ).intValue();
 			
 			properties = null;	//to garbage collector 
 			

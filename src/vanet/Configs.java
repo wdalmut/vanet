@@ -58,7 +58,7 @@ public class Configs
 	/**
 	 * This parameter force the certificate reattach every tot beacons
 	 */
-	public static final int REATTACH_CERTIFICATE = 15;
+	public static int REATTACH_CERTIFICATE = 15;
 	
 	/**
 	 * Max validity of certificate into wireless area
