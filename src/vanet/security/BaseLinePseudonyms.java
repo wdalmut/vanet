@@ -113,13 +113,27 @@ public class BaseLinePseudonyms implements SecurityBox
 		
 		//TODO: Reattach certificate every tot beacons
 
-		if( timer == null || !timer.isValid() || beaconsSent % Configs.REATTACH_CERTIFICATE == 0 )
+		if( timer == null || !timer.isValid() || (beaconsSent % Configs.REATTACH_CERTIFICATE) == 0 )
 		{
-			//LONG MODE
-			timer = new CertificateTimer();
-			this.personalCertificate = this.keyStore.getCertificate();
-			X509Certificate certificate = this.personalCertificate.getCertificate();
-			PrivateKey privateKey = this.personalCertificate.getPrivateKey();
+			X509Certificate certificate;
+			PrivateKey privateKey;
+			if( timer == null || !timer.isValid() )
+			{
+				//LONG MODE
+				timer = new CertificateTimer();
+				this.personalCertificate = this.keyStore.getCertificate();
+				certificate = this.personalCertificate.getCertificate();
+				privateKey = this.personalCertificate.getPrivateKey();
+				
+				System.out.println("REATTACH FOR TIMING ID: "+this.personalCertificate.getId());
+			}
+			else
+			{	
+				certificate = this.personalCertificate.getCertificate();
+				privateKey = this.personalCertificate.getPrivateKey();
+				
+				System.out.println("REATTACH FOR BEACONS SENT ID: "+personalCertificate.getId());
+			}
 			
 			try
 			{
@@ -161,6 +175,7 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 		else
 		{
+			System.out.println("SHORT");
 			//SHORT MODE
 			try
 			{
