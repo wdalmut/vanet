@@ -1,10 +1,6 @@
 package vanet.security;
 
-import vanet.Configs;
-import vanet.Message;
-import java.io.FileInputStream;
 import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -17,15 +13,17 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 
-
-import org.bouncycastle.crypto.util.PublicKeyFactory;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.X509Principal;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.x509.X509V1CertificateGenerator;
+
+import vanet.Configs;
+import vanet.Message;
 
 import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 /** 
@@ -452,28 +450,29 @@ public boolean verify(Message message) throws VerifyMyMessageException
 		return true;
 	}
 }
-private boolean verifyCertificate(X509Certificate c) {
-	// TODO Auto-generated method stub
-	return true;
-}
-private X509Certificate  constructCertificate(byte[] cert) {
-	ByteInputStream bis = new ByteInputStream( cert, cert.length );
-		
-	X509Certificate c = null;
-	
-	try
-	{
-		CertificateFactory cf = CertificateFactory.getInstance("X509", "BC");
-		
-		c =(X509Certificate) cf.generateCertificate(bis);
-		if(c==null)
-			System.out.println( "\n mess null");
-		bis.close();
+	private boolean verifyCertificate(X509Certificate c) {
+		// TODO Auto-generated method stub
+		return true;
 	}
-	catch( Exception e )
-	{
-		e.printStackTrace();
-	}
-	return c;
+
+	private X509Certificate  constructCertificate(byte[] cert) {
+		ByteInputStream bis = new ByteInputStream( cert, cert.length );
+			
+		X509Certificate c = null;
+		
+		try
+		{
+			CertificateFactory cf = CertificateFactory.getInstance("X509", "BC");
+			
+			c =(X509Certificate) cf.generateCertificate(bis);
+			if(c==null)
+				System.out.println( "\n mess null");
+			bis.close();
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
+		return c;
 }
 }
