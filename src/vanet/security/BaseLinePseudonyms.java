@@ -47,6 +47,8 @@ public class BaseLinePseudonyms implements SecurityBox
 	 * Certificate of Certification Authority
 	 */
 	private X509Certificate ca;
+	
+	private int beaconsSent = 0;
 
 	
 	/**
@@ -109,7 +111,7 @@ public class BaseLinePseudonyms implements SecurityBox
 		
 		//TODO: Reattach certificate every tot beacons
 
-		if( timer == null || !timer.isValid() )
+		if( timer == null || !timer.isValid() || beaconsSent % Configs.REATTACH_CERTIFICATE == 0 )
 		{
 			//LONG MODE
 			System.out.println("LONG MESSAGE");
