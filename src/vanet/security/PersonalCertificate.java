@@ -1,6 +1,7 @@
 package vanet.security;
 
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.cert.X509Certificate;
 
 /**
@@ -26,6 +27,11 @@ public class PersonalCertificate
 	private PrivateKey privateKey;
 	
 	/**
+	 * Self generated certificate 
+	 */
+	private byte[] selfCertificate;
+	
+	/**
 	 * Constructor of personal certificate class
 	 * 
 	 * @param id The ID of couple certificate-private key
@@ -39,7 +45,12 @@ public class PersonalCertificate
 		this.certificate = certificate;
 		this.privateKey = privateKey;
 	}
-
+	public PersonalCertificate( int id, byte[] selfCertificate, PrivateKey privateKey)
+	{
+		this.id = id;
+		this.selfCertificate=selfCertificate;
+		this.privateKey = privateKey;
+	}
 	/**
 	 * This function set the certificate
 	 * 

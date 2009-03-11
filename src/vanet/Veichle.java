@@ -48,7 +48,7 @@ public class Veichle extends TimerTask
 		if( Configs.SIMULATOR.equals("bp"))
 			this.transceiver = new Transceiver( new BaseLinePseudonyms( id ) );
 		else
-			this.transceiver = new Transceiver( new HybridScheme() );
+			this.transceiver = new Transceiver( new HybridScheme(id) );
   	}
 
   	/** 
