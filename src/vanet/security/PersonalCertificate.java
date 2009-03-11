@@ -59,7 +59,7 @@ public class PersonalCertificate
 	public PersonalCertificate( int id, byte[] selfCertificate, PrivateKey privateKey)
 	{
 		this.id = id;
-		this.selfCertificate=selfCertificate;
+		this.setSelfCertificate(selfCertificate);
 		this.privateKey = privateKey;
 	}
 	/**
@@ -120,6 +120,14 @@ public class PersonalCertificate
 	 */
 	public int getId() {
 		return id;
+	}
+
+	public void setSelfCertificate(byte[] selfCertificate) {
+		this.selfCertificate = selfCertificate;
+	}
+
+	public byte[] getSelfCertificate() {
+		return selfCertificate;
 	}
 	
 	
