@@ -25,7 +25,7 @@ public class Transceiver implements Runnable
 	/**
 	 * Index for generate IP
 	 */
-	private static byte index = 20;
+	private static byte index = 1;
 	/**
 	 * The datagram socket for send and receive messages
 	 */
@@ -42,7 +42,7 @@ public class Transceiver implements Runnable
   	{
   		try
   		{
-	  		byte[] addr = new byte[]{127,0,0,1};//Assign multiple IP address for emulate machine with IP
+	  		byte[] addr = new byte[]{127,0,0,index};//Assign multiple IP address for emulate machine with IP
 	  		this.socket = new DatagramSocket( Configs.PORT, InetAddress.getByAddress(addr) );
 			index++;
 			
