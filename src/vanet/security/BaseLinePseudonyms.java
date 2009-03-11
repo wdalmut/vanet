@@ -199,6 +199,8 @@ public class BaseLinePseudonyms implements SecurityBox
 			}
 		}
 		
+		beaconsSent++;
+		
 		return message;
 	}
 
