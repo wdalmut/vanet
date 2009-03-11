@@ -27,6 +27,8 @@ public class PersonalCertificate
 	
 	/**
 	 * Self generated certificate 
+	 * 
+	 * @deprecated unuseful variable
 	 */
 	private byte[] selfCertificate;
 	
@@ -44,6 +46,16 @@ public class PersonalCertificate
 		this.certificate = certificate;
 		this.privateKey = privateKey;
 	}
+	
+	/**
+	 * Constructor of personal certificate class
+	 * 
+	 * @deprecated Don't use this constructor
+	 * 
+	 * @param id The certificate ID
+	 * @param selfCertificate The Self certiticate in byte reperesetation
+	 * @param privateKey The private key
+	 */
 	public PersonalCertificate( int id, byte[] selfCertificate, PrivateKey privateKey)
 	{
 		this.id = id;
