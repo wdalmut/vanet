@@ -94,7 +94,7 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 		catch( SignatureException e )
 		{
-			System.out.println( "NON FATTA LA SIGNATURE");
+			log.Log.critical(this, "signMessage", "Signature not executed"+e.getMessage() );
 			signature = new byte[48];
 			
 			e.printStackTrace();
@@ -123,14 +123,14 @@ public class BaseLinePseudonyms implements SecurityBox
 				certificate = this.personalCertificate.getCertificate();
 				privateKey = this.personalCertificate.getPrivateKey();
 				
-				System.out.println("REATTACH FOR TIMING ID: "+this.personalCertificate.getId());
+				log.Log.debug(this, "securize", "Message sent in LONG MODE. REATTACH FOR TIMING. Certificate ID: "+this.personalCertificate.getId());
 			}
 			else
 			{	
 				certificate = this.personalCertificate.getCertificate();
 				privateKey = this.personalCertificate.getPrivateKey();
 				
-				System.out.println("REATTACH FOR BEACONS SENT ID: "+personalCertificate.getId());
+				log.Log.debug(this, "securize", "Message sent in LONG MODE. REATTACH FOR BEACONS SENT. Certificate ID: "+personalCertificate.getId());
 			}
 			
 			try
@@ -173,8 +173,7 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 		else
 		{
-			System.out.println("SHORT");
-			//SHORT MODE
+			log.Log.debug( this, "securize", "Message sent in SHORT MODE for certificate. Certificate ID: "+this.personalCertificate.getId() );
 			try
 			{
 				//Retrive the ID of certificate to use

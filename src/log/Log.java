@@ -11,6 +11,8 @@ public class Log
 	private static Connection conn;
 	private static Statement stmt;
 	
+	private static boolean noLog = false;
+	
 	private static LogLevel minLevel = LogLevel.CRITICAL;
 	
 	public static void initLogger()
@@ -23,18 +25,24 @@ public class Log
 		}
 		catch( Exception e )
 		{
-			//TODO: in case of errors
-			e.printStackTrace();
+			noLog = true;
+			System.out.println( "WARINING - no database for logging" );
 		}
 	}
 	
 	private static void log( LogLevel level, Object object, String method, String message )
 	{
+		if ( noLog )
+			return;
+		
 		if( conn == null )
 			initLogger();
 		
-		if( level.compareTo( minLevel ) >= 0 )
+		if( level.compareTo( minLevel ) < 0 )
+		{
+			System.out.println( level + " " + minLevel );
 			return;
+		}
 		
 		try
 		{
