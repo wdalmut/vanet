@@ -70,7 +70,6 @@ public class Veichle extends TimerTask
 		try 
 		{
 			this.move();
-//			System.out.println( "Veichle "+this.id+" send message" );
 			transceiver.sendMessage( getPayload() );
 		} 
 		catch (IOException e) 

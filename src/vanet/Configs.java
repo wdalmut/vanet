@@ -72,5 +72,5 @@ public class Configs
 	public static String password = "";
 	public static String database = "vanet";
 	
-	public static LogLevel logDebug = LogLevel.DEBUG;
+	public static LogLevel logDebug = LogLevel.FINEST;
 }

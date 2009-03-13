@@ -96,12 +96,10 @@ public class BaseLinePseudonyms implements SecurityBox
 		{
 			log.Log.critical(this, "signMessage", "Signature not executed"+e.getMessage() );
 			signature = new byte[48];
-			
-			e.printStackTrace();
 		} 
 		catch (InvalidKeyException e) 
 		{
-			e.printStackTrace();
+			log.Log.critical(this, "signMessage", "Invalid Key: "+e.getMessage() );
 		}
 		return signature;
 	}

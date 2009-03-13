@@ -102,16 +102,16 @@ public class Transceiver implements Runnable
 		  boolean result = this.securityBox.verify(message);
 		  if( result )
 		  {
-//			  System.out.println( "MESSAGE SECURE: "+message.getId() );
+			  log.Log.finest(this, "receivedMessage", "Message secure: "+message.getId());
 		  }
 		  else
 		  {
-			  System.out.println( "MESSAGE INSECURE: "+message.getId() );
+			  log.Log.critical(this, "receivedMessage", "Message insecure: "+message.getId());
 		  }
 	  }
 	  catch( VerifyMyMessageException e )
 	  {
-		  
+		  log.Log.debug( this, "receivedMessage", "Skip auto-verification for message"+message.getId() );
 	  }
   }
 

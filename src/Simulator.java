@@ -25,7 +25,6 @@ public class Simulator
 		
 		try
 		{			
-			//TODO: check change certificate every time...
 			FileInputStream fis = new FileInputStream( "properties/base.properties" );
 			System.out.println( ".:: Boostrap ::." );
 			System.out.println( "Loading base properties" );
@@ -36,7 +35,6 @@ public class Simulator
 			Boostrap.getVeichlesOnTheRoad( "veichles/veichles.xml" );
 			System.out.println( "Veichles configuration loaded" );
 			System.out.println( ".:: Boostrap end ::." );
-			
 		}
 		catch (Exception e) 
 		{
