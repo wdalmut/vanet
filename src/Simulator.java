@@ -41,6 +41,7 @@ public class Simulator
 		catch (Exception e) 
 		{
 			System.out.println( "ERROR!!! Veichle file not propertly configured" );
+			System.exit(1);
 		} 
 	}
 	

@@ -1,5 +1,7 @@
 package vanet;
 
+import log.LogLevel;
+
 /**
  * Utility class for configurations.
  * 
@@ -64,4 +66,11 @@ public class Configs
 	 * Max validity of certificate into wireless area
 	 */
 	public static int MAX_CERTIFICATE_VALIDITY_TIME = 5;
+	
+	public static String host = "127.0.0.1";
+	public static String username = "root";
+	public static String password = "";
+	public static String database = "vanet";
+	
+	public static LogLevel logDebug = LogLevel.DEBUG;
 }
