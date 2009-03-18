@@ -1,8 +1,11 @@
 package vanet.security;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +16,7 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -45,8 +49,16 @@ public class HybridScheme implements SecurityBox {
 	 * Key pair contents private and public key generated on the fly
 	 */
 	
-
-
+	/**
+	 * private group key for signing
+	 */
+	private PrivateKey prGrpKey  ;
+	
+	/**
+	 * public group Key to sign and add to the certificate
+	 */
+    public byte[] pbGrpKey;
+   
 private Signature sign;
 /**
  * The certificate which the system can use at particular time. The system must to check the validity of certificate before use it
@@ -56,6 +68,7 @@ private PersonalCertificate personalCertificate;
 
  public Message message;
 
+ private int beaconsSent = 0;
  private int lengthKey=0;
  /** 
   *  The Hybrid Scheme constructor 
@@ -64,39 +77,40 @@ private PersonalCertificate personalCertificate;
 	 this.certificateStore = new CertificateStore();
 	 try {
 		this.sign = Signature.getInstance("SHA1withECDSA");
-	} catch (NoSuchAlgorithmException e) {
+	
+	
+	//Load the group Private key of a given car.
+	String fId = new Integer( veichleID ).toString();
+	
+	String folder = "security/hybribKey";
+	
+	File dir = new File( folder );
+	
+	FileInputStream fr=null;
+	
+	fr = new FileInputStream( folder+"/"+veichleID+".key" );
+	
+	KeyFactory kf = KeyFactory.getInstance("ECDSA", "BC");
+	
+    byte[] key = new byte[fr.available()];
+    
+    fr.read(key, 0, fr.available());
+    
+    fr.close();
+    PKCS8EncodedKeySpec keysp = new PKCS8EncodedKeySpec(key);
+   prGrpKey = kf.generatePrivate(keysp);
+	System.out.print("\n vehicle "+veichleID+":::"+prGrpKey+"\n\n");
+	 } catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	
  }
  /**
 	 * Verify the self certificate using the private Group signature
 	 * 
 	 */
 public boolean verifySelfCertificate( byte[] selfCertificate)  {
-	 
-	 /*try {
-		sign.initVerify( this.pair.getPublic() );
-	} catch (InvalidKeyException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		try {
-			sign.update(signedKey);
-		} catch (SignatureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			if( sign.verify(selfCertificate) )
-				return true;
-							
-		} catch (SignatureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+	 	 
 	 try {
 		Thread.sleep(5000);
 	} catch (InterruptedException e) {
@@ -127,7 +141,7 @@ public byte[]  genSelfCertificate(PublicKey pubKey) throws Exception {
 		return certif;
   }
  /**
-	 *Generated a Key signature 
+	 *Generated a a signature on the key generated.
 	 * 
 	 */
 private byte[] signedPubKey(PublicKey pubKey) {
@@ -137,7 +151,6 @@ private byte[] signedPubKey(PublicKey pubKey) {
 		 // Use the group key to sign the message
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Random r = new Random();
@@ -163,8 +176,8 @@ public X509Certificate  genSelfCertificate(KeyPair pair) throws Exception {
 		certGen.setSubjectDN(subDN);                       // note: same as issuer
 		certGen.setPublicKey(pair.getPublic());
 		certGen.setSignatureAlgorithm("SHA1withECDSA");
-       
-		X509Certificate cert = certGen.generate(pair.getPrivate(), "BC");
+       //Use the Group private key of the vehicle to sign all the generated certificate
+		X509Certificate cert = certGen.generate(prGrpKey , "BC");
 		
 		return cert;
 }
@@ -250,13 +263,14 @@ private KeyPair genOnTheFlyKey()  {
 		//TODO: Reattach certificate every tot beacons
 	    //if( timer != null ) timer.setValid(false );
 		
-		if( timer == null || !timer.isValid() )
+		//if( timer == null || !timer.isValid() )
+		if( timer == null || !timer.isValid() || (beaconsSent % Configs.REATTACH_CERTIFICATE) == 0 )
 		{
-			System.out.print("long way");
+			//System.out.print("\nlong way");
 			//LONG MODE
 			timer = new CertificateTimer();
 			pair= this.genOnTheFlyKey();
-				
+			
 			// add the certificate in the certificate store
 			
 			this.certificateStore = new CertificateStore();
@@ -264,14 +278,17 @@ private KeyPair genOnTheFlyKey()  {
 			try
 			
 			{
-				// generate the new certificate on the generated key
+				// generate the new certificate on the generated key TODO modified the function using 
+				//the Public key generated an the private group key of the vehicle.
+				PrivateKey prGkey;
+				
 				X509Certificate cert= this.genSelfCertificate(pair); 
 				byte[] certif = cert.getEncoded();
 				
 				// Random certificate id
 				int certId = (int)(Math.random()*100000);
 				//
-				personalCertificate= new PersonalCertificate(certId,certif,pair.getPrivate());
+				personalCertificate = new PersonalCertificate(certId,cert,pair.getPrivate());
 				
 				message = new byte[ 4 + Configs.PAYLOAD_LENGTH];
 				
@@ -284,26 +301,26 @@ private KeyPair genOnTheFlyKey()  {
 				
 				byte[] signature = signMessage(message,pair.getPrivate());
 				
-				//System.out.print("signature:"+signature[12]+"\n");
-				// here i will add the certificate length after the payload not inside the payload after have already signed the message
-				byte[ ] tmp = new byte[ message.length + signature.length + certif.length+4];
+				
+				byte[ ] tmp = new byte[ Configs.PAYLOAD_LENGTH + signature.length + certif.length+4];
+				// put the signature length
+				
+				message[4] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
+				message[5] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
+				message[6] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
+				message[7] = (byte)( signature.length & 0x000000FF ) ;
+				
 				// add the message
 				for( int i=0; i<message.length; i++ )
 					tmp[i] = message[i];
-				
-				tmp[message.length] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
-				tmp[message.length+1] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
-				tmp[message.length+2] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
-				tmp[message.length+3] = (byte)( signature.length & 0x000000FF ) ;
-							
+										
 				//Attach the signature
-				for( int i=4+message.length, j=0; j<signature.length; i++, j++ )
+				for( int i=4+Configs.PAYLOAD_LENGTH, j=0; j<signature.length; i++, j++ ) 
 					
 				tmp[i] = signature[j];
-				// i specified that i have attached the certificate
-				//tmp[4+message.length+signature.length]=1;
+				
 				//Attach the certificate
-				for( int i=4+message.length+signature.length, j=0; j<certif.length; i++, j++ )	
+				for( int i=4+Configs.PAYLOAD_LENGTH+signature.length, j=0; j<certif.length; i++, j++ )	
 					tmp[i] = certif[j];
 				
 				message = tmp;
@@ -322,8 +339,8 @@ private KeyPair genOnTheFlyKey()  {
 			{
 				//Retrive the ID of certificate to use
 				int certId =  personalCertificate.getId();
-				System.out.print("Short way");
-				message = new byte[ 4 + payload.length ];
+				//System.out.print("\nShort way");
+				message = new byte[ 4 + Configs.PAYLOAD_LENGTH ];
 				
 				message[0] = (byte)((certId & 0xFF000000) >> 24);	//Put the id
 				message[1] = (byte)((certId & 0x00FF0000) >> 16);	//In byte mode
@@ -334,22 +351,21 @@ private KeyPair genOnTheFlyKey()  {
 				
 				byte[] signature = signMessage(payload,personalCertificate.getPrivateKey() );
 				
-				byte[] tmp = new byte[message.length+signature.length+4+1];
+				byte[] tmp = new byte[Configs.PAYLOAD_LENGTH+signature.length+4];
+				
+				//Put the signature length
+				message[4] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
+				message[5] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
+				message[6] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
+				message[7] = (byte)( signature.length & 0x000000FF ) ;
 				// Add the message to tmp
 				for( int i=0; i< message.length ; i++ )
 					tmp[i] = message[i];
-				//Put the signature length
-				tmp[message.length] = (byte)((signature.length & 0xFF000000) >> 24 ) ;
-				tmp[message.length+1] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
-				tmp[message.length+2] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
-				tmp[message.length+3] = (byte)( signature.length & 0x000000FF ) ;
-				
-				
+						
 				//Attach the signature
-				for( int i=4+message.length, j=0; j<signature.length; i++, j++ )
+				for( int i=4+Configs.PAYLOAD_LENGTH, j=0; j<signature.length; i++, j++ )
 					tmp[i] = signature[j];
-				// i specified that i haven't attached the certificate
-				//tmp[4+message.length+signature.length]=0;
+				
 				//Change support
 				message = tmp;	
 				
@@ -359,7 +375,7 @@ private KeyPair genOnTheFlyKey()  {
 				e.printStackTrace();
 			}
 		}
-		
+		beaconsSent++;
 		return message;
 	}
 
@@ -374,6 +390,7 @@ private KeyPair genOnTheFlyKey()  {
 		if( message.getCertificate() == null )//SHORT MODE
 		{
 			X509Certificate c = certificateStore.getCertificate( message.getId() );
+			
 			if( c == null )
 				return false;
 			
@@ -388,10 +405,21 @@ private KeyPair genOnTheFlyKey()  {
 			{
 				sign.initVerify( c );
 				sign.update(ID);
-				sign.update(message.getPayload());
+				byte[] payload = message.getPayload();
+				payload[0] = 0;
+				payload[1] = 0;
+				payload[2] = 0;
+				payload[3] = 0;
+				sign.update(payload);
 				
-				sign.verify(message.getSignature());
-				
+				//sign.verify(message.getSignature()); -- check if the verification is right or not
+			  		 
+				if(sign.verify(message.getSignature()) )
+					return true;
+				else{
+					System.out.print("\ntest failed short mode");
+					return false;
+				}
 			}
 			catch( SignatureException e )
 			{
@@ -417,25 +445,29 @@ private KeyPair genOnTheFlyKey()  {
 			{
 				X509Certificate c = constructCertificate(message.getCertificate());
 				
-				if( c != null  )
+				if( c != null && this.verifyCertificate(c) )
 					certificateStore.addCertificate( message.getId(), c); 
 								
 				else
-				{System.out.print("certi null");
+				{
+					System.out.print("certi null");
 					return false;
 				}
-				sign.initVerify( c );
+				sign.initVerify( c.getPublicKey() );
 				sign.update(ID);
 				
 				byte[] payload = message.getPayload();
-				
+				payload[0] = 0;
+				payload[1] = 0;
+				payload[2] = 0;
+				payload[3] = 0;
 				sign.update(payload);
-				
 				boolean test= sign.verify(message.getSignature());
 				
-				if(test )
-				
+				if(test ){
+					System.out.print("test works");
 					return true;
+					}
 				else{
 					System.out.print("test failed");
 					return false;
@@ -456,7 +488,12 @@ private KeyPair genOnTheFlyKey()  {
 	}
 
 	private boolean verifyCertificate(X509Certificate c) {
-		// TODO Auto-generated method stub
+		try {
+			 // Use the group key to sign the message
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		return true;
 	}
 

@@ -238,7 +238,11 @@ public class BaseLinePseudonyms implements SecurityBox
 				sign.initVerify( c );
 				sign.update(ID);
 				sign.update(message.getPayload());
-				sign.verify(message.getSignature());
+				//sign.verify(message.getSignature()); -- check if the verification is good or not
+				if( sign.verify(message.getSignature()) )
+					return true;
+				else
+					return false;
 			}
 			catch( SignatureException e )
 			{

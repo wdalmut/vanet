@@ -102,10 +102,12 @@ public class Transceiver implements Runnable
 		  boolean result = this.securityBox.verify(message);
 		  if( result )
 		  {
+			  // System.out.print("\nMessage secure: "+message.getId());
 			  log.Log.finest(this, "receivedMessage", "Message secure: "+message.getId());
 		  }
 		  else
 		  {
+			  //System.out.print("\nMessage insecure: "+message.getId());
 			  log.Log.critical(this, "receivedMessage", "Message insecure: "+message.getId());
 		  }
 	  }
@@ -153,16 +155,21 @@ public class Transceiver implements Runnable
 				Message m = null;
 				
 				int certificateLength = dataLength-4-200-signatureLength;
-				if( certificateLength > 0 )
+				
+				if( certificateLength > 10 )
 				{
 					byte[] certificate = new byte[ certificateLength ];
-					for( int i=4+200+signatureLength, j=0; i<dataLength; i++, j++ )
+					for( int i=4+200+signatureLength, j=0; j<certificateLength; i++, j++ )
 						certificate[j] = data[i];
 					
 					m = new Message(id, payload, signature, certificate); //Long message
+					
 				}
 				else
-					m = new Message(id, payload, signature);	//Short message				
+				{
+					m = new Message(id, payload, signature);	
+					
+				}//Short message				
 				receivedMessage( m );
 			}
 			catch( IOException exception )

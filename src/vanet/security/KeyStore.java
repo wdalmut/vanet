@@ -69,6 +69,7 @@ public class KeyStore
 				{
 					e.printStackTrace();
 				}
+				
 			}
 		}
 		catch( Exception e )
@@ -87,4 +88,5 @@ public class KeyStore
 		int certNumber = (int)(Math.random()*this.personalCertificates.size());
 		return this.personalCertificates.get(certNumber);
 	}
+	
 }
