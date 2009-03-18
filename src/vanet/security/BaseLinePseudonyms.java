@@ -8,6 +8,8 @@ import java.security.SignatureException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
+import log.Log;
+
 import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 
 import vanet.Configs;
@@ -194,7 +196,7 @@ public class BaseLinePseudonyms implements SecurityBox
 				message[5] = (byte)((signature.length & 0x00FF0000) >> 16 ) ;
 				message[6] = (byte)((signature.length & 0x0000FF00) >> 8 ) ;
 				message[7] = (byte)( signature.length & 0x000000FF ) ;
-				
+
 				for( int i=0; i< message.length ; i++ )
 					tmp[i] = message[i];
 				
@@ -224,7 +226,10 @@ public class BaseLinePseudonyms implements SecurityBox
 		{
 			X509Certificate c = certificateStore.getCertificate( message.getId() );
 			if( c == null )
+			{
+				Log.debug(this, "verify", "Certificate NOT stored: "+message.getId());
 				return false;
+			}
 			
 			byte[] ID = new byte[4];
 			int id = message.getId();
@@ -237,8 +242,12 @@ public class BaseLinePseudonyms implements SecurityBox
 			{
 				sign.initVerify( c );
 				sign.update(ID);
-				sign.update(message.getPayload());
-				//sign.verify(message.getSignature()); -- check if the verification is good or not
+				byte[] payload = message.getPayload();
+				payload[0] = 0;
+				payload[1] = 0;
+				payload[2] = 0;
+				payload[3] = 0;
+				sign.update(payload);
 				if( sign.verify(message.getSignature()) )
 					return true;
 				else

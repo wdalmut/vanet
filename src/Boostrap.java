@@ -53,7 +53,7 @@ public class Boostrap
 			if( (vS = (String)properties.getProperty( "server_port" )) != null )
 				Configs.PORT = Integer.valueOf( vS ).intValue();
 			if( (vS = (String)properties.getProperty( "beacons_sec" )) != null )
-				Configs.BEACONS_SEC = Integer.valueOf( vS ).doubleValue();
+				Configs.BEACONS_SEC = Double.valueOf( vS ).doubleValue();
 			if( (vS = (String)properties.getProperty( "simulator" )) != null )
 				Configs.SIMULATOR = vS;
 			if( (vS = (String)properties.getProperty( "maxCertificateValidityTime" )) != null )

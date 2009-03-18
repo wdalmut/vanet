@@ -58,11 +58,11 @@ public class Log
 		if( conn == null )
 			initLogger();
 		
-		if( level.compareTo( minLevel ) > 0 )
-		{
-			return;
-		}
-		
+//		if( level.compareTo( minLevel ) > 0 )
+//		{
+//			return;
+//		}
+//		
 		try
 		{
 			stmt = conn.createStatement();	
