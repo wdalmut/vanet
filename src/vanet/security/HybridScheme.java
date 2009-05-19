@@ -281,7 +281,7 @@ private KeyPair genOnTheFlyKey()  {
 				// generate the new certificate on the generated key TODO modified the function using 
 				//the Public key generated an the private group key of the vehicle.
 				PrivateKey prGkey;
-				
+				// 19.05.9 :  Modify using others version of gen certificate
 				X509Certificate cert= this.genSelfCertificate(pair); 
 				byte[] certif = cert.getEncoded();
 				
@@ -442,10 +442,12 @@ private KeyPair genOnTheFlyKey()  {
 			ID[3] = (byte) (id&0x000000FF); 
 			
 			try
-			{
+			{// i should use another version of construct Certificate that should return an
+			 // array of byte
 				X509Certificate c = constructCertificate(message.getCertificate());
 				
 				if( c != null && this.verifyCertificate(c) )
+	// 19.0509 I should in this add self certificate which will be array of byte
 					certificateStore.addCertificate( message.getId(), c); 
 								
 				else
