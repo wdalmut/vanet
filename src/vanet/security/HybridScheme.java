@@ -254,6 +254,7 @@ private KeyPair genOnTheFlyKey()  {
 	 * @param c The certificate to test
 	 * @return The validity of that certificate
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public byte[] securize(byte[] payload) 
 	{
@@ -283,12 +284,14 @@ private KeyPair genOnTheFlyKey()  {
 				PrivateKey prGkey;
 				// 19.05.9 :  Modify using others version of gen certificate
 				X509Certificate cert= this.genSelfCertificate(pair); 
-				byte[] certif = cert.getEncoded();
+				/*byte[] certif = cert.getEncoded();*/
+				
+				byte[] certif = this.genSelfCertificate(pair.getPublic()); // bytes rapresenting selft Certificate
 				
 				// Random certificate id
 				int certId = (int)(Math.random()*100000);
-				//
-				personalCertificate = new PersonalCertificate(certId,cert,pair.getPrivate());
+				// old version personalCertificate = new PersonalCertificate(certId,cert,pair.getPrivate());
+				personalCertificate  = new PersonalCertificate(certId,certif,pair.getPrivate());
 				
 				message = new byte[ 4 + Configs.PAYLOAD_LENGTH];
 				
@@ -447,7 +450,7 @@ private KeyPair genOnTheFlyKey()  {
 				X509Certificate c = constructCertificate(message.getCertificate());
 				
 				if( c != null && this.verifyCertificate(c) )
-	// 19.0509 I should in this add self certificate which will be array of byte
+	// 19.05.09 I should in this add self certificate which will be array of byte
 					certificateStore.addCertificate( message.getId(), c); 
 								
 				else
@@ -505,7 +508,7 @@ private KeyPair genOnTheFlyKey()  {
 		X509Certificate c = null;
 		
 		try
-		{
+		{// 19.05.09
 			CertificateFactory cf = CertificateFactory.getInstance("X509", "BC");
 			
 			c =(X509Certificate) cf.generateCertificate(bis);
