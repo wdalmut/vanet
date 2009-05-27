@@ -9,6 +9,7 @@ import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
@@ -16,7 +17,9 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -112,7 +115,7 @@ private PersonalCertificate personalCertificate;
 public boolean verifySelfCertificate( byte[] selfCertificate)  {
 	 	 
 	 try {
-		Thread.sleep(5000);
+		Thread.sleep(668);
 	} catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -124,20 +127,21 @@ public boolean verifySelfCertificate( byte[] selfCertificate)  {
  * 
  */
 public byte[]  genSelfCertificate(PublicKey pubKey) throws Exception {
-	PublicKey pubKey2;
-	 KeyPair pair;
-	byte[] signedKey;
-	 byte[] certif= new byte[115];
-	 System.out.print(pubKey);
+	 byte[] signedKey;
+	 byte[] certif= new byte[294];
+	// System.out.print(pubKey);
 	 byte[] pbkey=pubKey.getEncoded(); 
+	 
+       // add the pubkey
 	 for(int i=0;i<pbkey.length;i++)
 		 certif[i]=pbkey[i];
-	 lengthKey=pbkey.length;
-		signedKey= this.signedPubKey( pubKey);
-			
-		pair=this.genOnTheFlyKey();
+	 
+	signedKey= this.signedPubKey(pubKey);
+	// add the signed key
 		for(int i=0;i<signedKey.length;i++)
 			 certif[i+pbkey.length]=signedKey[i];
+		
+		
 		return certif;
   }
  /**
@@ -146,10 +150,10 @@ public byte[]  genSelfCertificate(PublicKey pubKey) throws Exception {
 	 */
 private byte[] signedPubKey(PublicKey pubKey) {
 	// i created the signature on the key with the 
-	 byte[] bytes= new byte[46];
+	 byte[] bytes= new byte[225];
 	 try {
 		 // Use the group key to sign the message
-			Thread.sleep(5000);
+			Thread.sleep(727);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -282,10 +286,7 @@ private KeyPair genOnTheFlyKey()  {
 				// generate the new certificate on the generated key TODO modified the function using 
 				//the Public key generated an the private group key of the vehicle.
 				PrivateKey prGkey;
-				// 19.05.9 :  Modify using others version of gen certificate
-				X509Certificate cert= this.genSelfCertificate(pair); 
-				/*byte[] certif = cert.getEncoded();*/
-				
+							
 				byte[] certif = this.genSelfCertificate(pair.getPublic()); // bytes rapresenting selft Certificate
 				
 				// Random certificate id
@@ -447,7 +448,7 @@ private KeyPair genOnTheFlyKey()  {
 			try
 			{// i should use another version of construct Certificate that should return an
 			 // array of byte
-				X509Certificate c = constructCertificate(message.getCertificate());
+				SelfCertify c = constructCertificate(message.getCertificate());
 				
 				if( c != null && this.verifyCertificate(c) )
 	// 19.05.09 I should in this add self certificate which will be array of byte
@@ -458,7 +459,7 @@ private KeyPair genOnTheFlyKey()  {
 					System.out.print("certi null");
 					return false;
 				}
-				sign.initVerify( c.getPublicKey() );
+				sign.initVerify( c.getPubKey() );
 				sign.update(ID);
 				
 				byte[] payload = message.getPayload();
@@ -467,16 +468,8 @@ private KeyPair genOnTheFlyKey()  {
 				payload[2] = 0;
 				payload[3] = 0;
 				sign.update(payload);
-				boolean test= sign.verify(message.getSignature());
+				 sign.verify(message.getSignature());
 				
-				if(test ){
-					System.out.print("test works");
-					return true;
-					}
-				else{
-					System.out.print("test failed");
-					return false;
-				}
 			}
 			catch( SignatureException e )
 			{
@@ -492,34 +485,48 @@ private KeyPair genOnTheFlyKey()  {
 		}
 	}
 
-	private boolean verifyCertificate(X509Certificate c) {
+	private boolean verifyCertificate(SelfCertify c) {
 		try {
 			 // Use the group key to sign the message
-				Thread.sleep(5000);
+				Thread.sleep(668);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		return true;
 	}
 
-	private X509Certificate  constructCertificate(byte[] cert) {
-		ByteInputStream bis = new ByteInputStream( cert, cert.length );
-			
-		X509Certificate c = null;
+	private SelfCertify  constructCertificate(byte[] cert) {
+					
+		SelfCertify c = null;
+		PublicKey pub = null;
+		byte[] pbkey = new byte[69];
+		byte[] signedKey=new byte[225];
+		 // retrieve the pubkey
+		for(int i=0;i<69;i++)
+			 pbkey[i]=cert[i];
+		// construct the public key
+		X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(pbkey);
+		 KeyFactory keyFactory;
+		try {
+			keyFactory = KeyFactory.getInstance("ECDSA", "BC");
+			 pub = keyFactory.generatePublic(pubKeySpec);
 		
-		try
-		{// 19.05.09
-			CertificateFactory cf = CertificateFactory.getInstance("X509", "BC");
-			
-			c =(X509Certificate) cf.generateCertificate(bis);
-			if(c==null)
-				System.out.println( "\n mess null");
-			bis.close();
-		}
-		catch( Exception e )
-		{
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchProviderException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		 
+		// retrieve the signature on the key
+		for(int i=0;i<69;i++)
+			 signedKey[i]=cert[i];
+		
+		c= new SelfCertify(pub,signedKey);
 		return c;
 }
 }

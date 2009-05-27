@@ -56,4 +56,12 @@ public class CertificateStore
 		  
 	  return this.certificates.get( id ).getCertificate();
   }
+
+
+
+public void addCertificate(int id, SelfCertify certify) {
+	Certificate c = new Certificate( certify );
+	  
+	  this.certificates.put( new Integer(id), c);
+}
 }

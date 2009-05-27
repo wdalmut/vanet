@@ -49,7 +49,7 @@ public class Configs
 	 * bp -> BaseLine Pseudonyms
 	 * gs -> Group Signature
 	 */
-	public static String SIMULATOR = "bp";
+	public static String SIMULATOR = "gs";
 	
 	/**
 	 * Length of payload in bytes

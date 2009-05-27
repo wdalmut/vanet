@@ -8,10 +8,13 @@ import java.security.cert.X509Certificate;
 public class Certificate 
 {
 	/** 
-	 *  The certificate
+	 *  The certificate for base line
 	 */
 	private X509Certificate certificate;
-
+	/** 
+	 *  The certificate for base line
+	 */
+	private SelfCertify selfCertify;
 	/** 
 	 *  The validity of certificate
 	 */
@@ -25,7 +28,18 @@ public class Certificate
 	{
 		this.setCertificate(certificate);
 	}
-
+// second constructor
+	public Certificate(SelfCertify certificate2 )
+	{
+		this.setSelfCerty(certificate2);
+	}
+	/**
+	 * @param set the self certify
+	 */
+	private void setSelfCerty(SelfCertify certificate2) {
+	this.selfCertify=certificate2;
+	
+}
 	/**
 	 * @param certificate the certificate to set
 	 */
@@ -39,16 +53,21 @@ public class Certificate
 	public X509Certificate getCertificate() {
 		return certificate;
 	}
-
 	/**
-	 * @param expiry the expiry to set
+	 * @return the self certificate
+	 */
+	public SelfCertify getSelfCertify() {
+		return this.selfCertify;
+	}
+	/**
+	 * @param expiry the expire to set
 	 */
 	public void setExpiry(long expiry) {
 		this.expiry = expiry;
 	}
 
 	/**
-	 * @return the expiry
+	 * @return the expire
 	 */
 	public long getExpiry() {
 		return expiry;
