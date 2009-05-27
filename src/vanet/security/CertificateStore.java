@@ -57,7 +57,24 @@ public class CertificateStore
 	  return this.certificates.get( id ).getCertificate();
   }
 
-
+/*
+ * 
+ * */
+  public SelfCertify getSelfCertificate(int id) 
+  {
+	  Certificate certificate = this.certificates.get( id );
+	  if( certificate == null ) return null; 
+	  
+	  long time = System.currentTimeMillis();
+	  
+	  if( (time-this.certificates.get(id).getExpiry())/1000 > Configs.MAX_CERTIFICATE_VALIDITY_TIME )
+	  {
+		  this.certificates.remove( id );
+		  return null;
+	  }
+		  
+	  return this.certificates.get( id ).getSelfCertify();
+  }
 
 public void addCertificate(int id, SelfCertify certify) {
 	Certificate c = new Certificate( certify );

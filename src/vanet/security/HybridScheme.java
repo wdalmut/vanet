@@ -128,18 +128,18 @@ public boolean verifySelfCertificate( byte[] selfCertificate)  {
  */
 public byte[]  genSelfCertificate(PublicKey pubKey) throws Exception {
 	 byte[] signedKey;
-	 byte[] certif= new byte[294];
-	// System.out.print(pubKey);
-	 byte[] pbkey=pubKey.getEncoded(); 
+	 	// System.out.print(pubKey);
+	 byte[] pbkey=pubKey.getEncoded();
 	 
+	 byte[] certif= new byte[225+pbkey.length];
        // add the pubkey
-	 for(int i=0;i<pbkey.length;i++)
-		 certif[i]=pbkey[i];
+	 signedKey= this.signedPubKey(pubKey);
+	 for(int i=0;i<signedKey.length;i++)
+		 certif[i]=signedKey[i];
 	 
-	signedKey= this.signedPubKey(pubKey);
-	// add the signed key
-		for(int i=0;i<signedKey.length;i++)
-			 certif[i+pbkey.length]=signedKey[i];
+		// add the signed key
+		for(int i=0;i<pbkey.length;i++)
+			 certif[i+signedKey.length]=pbkey[i];
 		
 		
 		return certif;
@@ -160,30 +160,6 @@ private byte[] signedPubKey(PublicKey pubKey) {
 		Random r = new Random();
        r.nextBytes(bytes);
 		return bytes;
-}
-public X509Certificate  genSelfCertificate(KeyPair pair) throws Exception {
-	 
-	Date startDate = new Date();              // time from which certificate is valid
-	
-	Calendar cal = Calendar.getInstance();
-	cal.add(Calendar.YEAR, 10);
-	Date expiryDate = cal.getTime();
-	 BigInteger serialNumber = new BigInteger("13512376512376581376");
-	 X509V1CertificateGenerator certGen = new X509V1CertificateGenerator();
-		X509Principal dnName = new X509Principal("CN=Vanet Simulator CA");
-		X509Principal subDN = new X509Principal("CN=Walter Dal Mut");
-
-		certGen.setSerialNumber(serialNumber);
-		certGen.setIssuerDN(dnName);
-		certGen.setNotBefore(startDate);
-		certGen.setNotAfter(expiryDate);
-		certGen.setSubjectDN(subDN);                       // note: same as issuer
-		certGen.setPublicKey(pair.getPublic());
-		certGen.setSignatureAlgorithm("SHA1withECDSA");
-       //Use the Group private key of the vehicle to sign all the generated certificate
-		X509Certificate cert = certGen.generate(prGrpKey , "BC");
-		
-		return cert;
 }
 
 private KeyPair genOnTheFlyKey()  {
@@ -393,10 +369,11 @@ private KeyPair genOnTheFlyKey()  {
 		
 		if( message.getCertificate() == null )//SHORT MODE
 		{
-			X509Certificate c = certificateStore.getCertificate( message.getId() );
+			SelfCertify c = certificateStore.getSelfCertificate( message.getId() );
 			
-			if( c == null )
-				return false;
+			if( c == null ){
+				System.out.print(" \ncerti null\n");
+				return false;}
 			
 			byte[] ID = new byte[4];
 			int id = message.getId();
@@ -407,7 +384,7 @@ private KeyPair genOnTheFlyKey()  {
 			
 			try
 			{
-				sign.initVerify( c );
+				sign.initVerify( c.getPubKey() );
 				sign.update(ID);
 				byte[] payload = message.getPayload();
 				payload[0] = 0;
@@ -499,11 +476,15 @@ private KeyPair genOnTheFlyKey()  {
 					
 		SelfCertify c = null;
 		PublicKey pub = null;
-		byte[] pbkey = new byte[69];
+		int lengthKey=cert.length-225;
+		byte[] pbkey = new byte[lengthKey];
 		byte[] signedKey=new byte[225];
 		 // retrieve the pubkey
-		for(int i=0;i<69;i++)
-			 pbkey[i]=cert[i];
+		for(int i=0;i<225;i++)
+			signedKey[i]=cert[i];
+		// signed key
+		for(int i=0;i<lengthKey;i++)
+			 pbkey[i]=cert[i+225];
 		// construct the public key
 		X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(pbkey);
 		 KeyFactory keyFactory;
@@ -523,8 +504,7 @@ private KeyPair genOnTheFlyKey()  {
 		}
 		 
 		// retrieve the signature on the key
-		for(int i=0;i<69;i++)
-			 signedKey[i]=cert[i];
+		
 		
 		c= new SelfCertify(pub,signedKey);
 		return c;
