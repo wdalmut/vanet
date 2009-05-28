@@ -372,7 +372,6 @@ private KeyPair genOnTheFlyKey()  {
 			SelfCertify c = certificateStore.getSelfCertificate( message.getId() );
 			
 			if( c == null ){
-				System.out.print(" \ncerti null\n");
 				return false;}
 			
 			byte[] ID = new byte[4];
@@ -381,11 +380,10 @@ private KeyPair genOnTheFlyKey()  {
 			ID[1] = (byte)((id&0x00FF0000) >> 16); 
 			ID[2] = (byte)((id&0x0000FF00) >> 8); 
 			ID[3] = (byte) (id&0x000000FF); 
-			
 			try
 			{
 				sign.initVerify( c.getPubKey() );
-				sign.update(ID);
+				//sign.update(ID);
 				byte[] payload = message.getPayload();
 				payload[0] = 0;
 				payload[1] = 0;
@@ -394,13 +392,11 @@ private KeyPair genOnTheFlyKey()  {
 				sign.update(payload);
 				
 				//sign.verify(message.getSignature()); -- check if the verification is right or not
-			  		 
-				if(sign.verify(message.getSignature()) )
+			  if( sign.verify(message.getSignature()) )
 					return true;
-				else{
-					System.out.print("\ntest failed short mode");
+				else
 					return false;
-				}
+				
 			}
 			catch( SignatureException e )
 			{
@@ -445,7 +441,10 @@ private KeyPair genOnTheFlyKey()  {
 				payload[2] = 0;
 				payload[3] = 0;
 				sign.update(payload);
-				 sign.verify(message.getSignature());
+				if( sign.verify(message.getSignature()) )
+					return true;
+				else
+					return false;
 				
 			}
 			catch( SignatureException e )

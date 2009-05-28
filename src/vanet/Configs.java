@@ -35,7 +35,7 @@ public class Configs
 	/**
 	 * Beacons/seconds
 	 */
-	public static double BEACONS_SEC = 0.1;
+	public static double BEACONS_SEC = 0.5;
 	
 	/**
 	 * Lock moves of veichle for simulate only transmission and security implementation
