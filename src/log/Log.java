@@ -19,6 +19,11 @@ import vanet.Configs;
  */
 public class Log 
 {	
+	/**
+	 * This function init the logger system
+	 * 
+	 * @see Configs.logSystem
+	 */
 	public static void initLogger()
 	{
 		Properties logProperties = new Properties();
