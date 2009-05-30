@@ -27,7 +27,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `logs` (
   `log_id` int(11) unsigned zerofill NOT NULL auto_increment,
-  `level` enum('DEBUG','FINEST','FINE','WARNING','CRITICAL','HIGH','HIGHEST') NOT NULL,
+  `level` varchar(255) NOT NULL,
   `class_name` varchar(255) NOT NULL,
   `method_name` varchar(255) NOT NULL,
   `message` text NOT NULL,

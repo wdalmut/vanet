@@ -3,6 +3,7 @@ package log;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -30,12 +31,15 @@ public class Log
 				break;
 			case 1:
 				logProperties.load(new FileInputStream("properties/file.properties"));
+				String date = new Date().toString();
+				date = date.replace(' ', '_');
+				date = date.replace(':', '_');
+				logProperties.setProperty("log4j.appender.R.File", "logs/"+date+".log");
 				break;
 			case 2:
 				logProperties.load(new FileInputStream("properties/stdout.properties"));
 				break;
 			}
-			
 		}
 		catch (FileNotFoundException e) 
 		{

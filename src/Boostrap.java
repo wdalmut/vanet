@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import vanet.Configs;
-import vanet.Veichle;
+import vanet.Vehicle;
 
 /**
  * Use boostrap class for create the simulator
@@ -80,12 +80,12 @@ public class Boostrap
 	 * @return A Stack of veichle
 	 * 
 	 */
-	private static Stack<Veichle> getVeichlesOnTheRoad( Document dom )
+	private static Stack<Vehicle> getVehiclesOnTheRoad( Document dom )
 	{
 		if( dom == null )
 			throw new NullPointerException( "Impossibile to parse file" );
 		
-		Stack<Veichle> veichles = new Stack<Veichle>();
+		Stack<Vehicle> veichles = new Stack<Vehicle>();
 		
 		NodeList veichlesNode = dom.getElementsByTagName("Veichle");
 		for( int i=0; i<veichlesNode.getLength(); i++ )
@@ -98,7 +98,7 @@ public class Boostrap
 			
 			try
 			{
-				veichles.push( new Veichle( id, speed, x, y ) );
+				veichles.push( new Vehicle( id, speed, x, y ) );
 			}
 			catch (Exception e) 
 			{
@@ -119,16 +119,16 @@ public class Boostrap
 	 * @throws ParseException In case of parsing problem 
 	 * 
 	 */
-	public static Stack<Veichle> getVeichlesOnTheRoad( String url ) throws ParseException
+	public static Stack<Vehicle> getVehiclesOnTheRoad( String url ) throws ParseException
 	{
 		Document doc;
-		Stack<Veichle> v;
+		Stack<Vehicle> v;
 		try
 		{
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			doc = db.parse( url );
-			v = getVeichlesOnTheRoad( doc );
+			v = getVehiclesOnTheRoad( doc );
 		} 
 		catch (Exception e) 
 		{

@@ -50,7 +50,7 @@ public class Transceiver implements Runnable
 	  		this.socket = new DatagramSocket( Configs.PORT, InetAddress.getByAddress(addr) );
 			index++;
 			
-			Thread t = new Thread( this );
+			Thread t = new Thread( this, "Transceiver For Vehicle" );
 			t.start();
   		}
   		catch( Exception e )
@@ -112,7 +112,7 @@ public class Transceiver implements Runnable
 		  else
 		  {
 			  //System.out.print("\nMessage insecure: "+message.getId());
-			  log.info("Message insecure: "+message.getId());
+			  log.warn("Message insecure: "+message.getId());
 		  }
 	  }
 	  catch( VerifyMyMessageException e )

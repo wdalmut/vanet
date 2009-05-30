@@ -39,7 +39,7 @@ public class Simulator
 			log.debug("Logger inited");
 			
 			System.out.println( "Loading veichles configuration" );
-			Boostrap.getVeichlesOnTheRoad( "veichles/veichles.xml" );
+			Boostrap.getVehiclesOnTheRoad( "veichles/veichles.xml" );
 			System.out.println( "Veichles configuration loaded" );
 			System.out.println( ".:: Boostrap end ::." );
 		}

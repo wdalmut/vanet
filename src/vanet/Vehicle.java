@@ -10,7 +10,7 @@ import vanet.security.HybridScheme;
 /** 
  *  This class rappresent the veichle into area
  */
-public class Veichle extends TimerTask 
+public class Vehicle extends TimerTask 
 {
 	private double speed = 0;
 	private int id = 0;
@@ -18,7 +18,7 @@ public class Veichle extends TimerTask
     private Transceiver transceiver = null;
     private Timer time;
 
-    public Veichle( int id, int speed, int x, int y )
+    public Vehicle( int id, int speed, int x, int y )
     {
     	this.setId(id);
 		this.setSpeed(speed / 3.6);
