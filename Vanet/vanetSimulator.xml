@@ -3,16 +3,16 @@
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="create_run_jar">
-        <jar destfile="C:/Users/utente/workspace/VanetSimulator/Vanet/vanetSimulator.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="vanetSimulator.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Main-Class" value="Simulator"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="C:/Users/utente/workspace/VanetSimulator/bin"/>
-            <zipfileset excludes="META-INF/*.SF" src="C:/Users/utente/workspace/VanetSimulator/bcprov-jdk16-141.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="C:/Users/utente/workspace/VanetSimulator/mysql-connector-java-5.1.7-bin.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="C:/Users/utente/workspace/VanetSimulator/log4j-1.2.15.jar"/>
+            <fileset dir="../../bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="../bcprov-jdk16-141.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../mysql-connector-java-5.1.7-bin.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="../log4j-1.2.15.jar"/>
         </jar>
     </target>
 </project>
