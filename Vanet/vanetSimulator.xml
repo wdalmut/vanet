@@ -9,7 +9,7 @@
                 <attribute name="Main-Class" value="Simulator"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="../../bin"/>
+            <fileset dir="../bin"/>
             <zipfileset excludes="META-INF/*.SF" src="../bcprov-jdk16-141.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="../mysql-connector-java-5.1.7-bin.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="../log4j-1.2.15.jar"/>
