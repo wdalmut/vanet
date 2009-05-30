@@ -5,7 +5,7 @@
     <target name="create_run_jar">
         <jar destfile="vanetSimulator.jar" filesetmanifest="mergewithoutmain">
             <manifest>
-                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Built-By" value="Walter Dal Mut"/>
                 <attribute name="Main-Class" value="Simulator"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
