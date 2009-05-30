@@ -56,13 +56,14 @@ Section -Main SEC0000
     SetOverwrite on
     File vanetSimulator.jar
     SetOutPath $INSTDIR\properties
-    File /r ..\properties\*
+    File /r ..\properties\*.properties
+    File /r ..\properties\*.sql
     SetOutPath $INSTDIR\security
-    File /r ..\security\*
+    File /r ..\security\*.crt
+    File /r ..\security\*.key
     SetOutPath $INSTDIR\logs
-    File /r ..\logs\*
     SetOutPath $INSTDIR\vehicles
-    File /r ..\vehicles\*
+    File /r ..\vehicles\*.xml
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 
