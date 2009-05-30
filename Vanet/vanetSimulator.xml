@@ -2,7 +2,7 @@
 <project default="create_run_jar" name="Create Runnable Jar for Project VanetSimulator">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
-    <target name="create_run_jar">
+    <target name="create_run_jar">   	
         <jar destfile="vanetSimulator.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Built-By" value="Walter Dal Mut"/>
@@ -15,6 +15,9 @@
             <zipfileset excludes="META-INF/*.SF" src="../log4j-1.2.15.jar"/>
         </jar>
     	
-    	<nsis script="setup.nsi"/>
+    	<taskdef name="nsis" classname="net.sf.nsisant.Task">
+            <classpath location="nsisant-1.2.jar"/>
+        </taskdef>
+    	<nsis script="./setup.nsi"/>
     </target>
 </project>

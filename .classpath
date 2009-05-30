@@ -5,6 +5,5 @@
 	<classpathentry kind="lib" path="bcprov-jdk16-141.jar"/>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.7-bin.jar"/>
 	<classpathentry kind="lib" path="log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="nsisant-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
