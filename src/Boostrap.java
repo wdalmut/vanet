@@ -87,7 +87,7 @@ public class Boostrap
 		
 		Stack<Vehicle> veichles = new Stack<Vehicle>();
 		
-		NodeList veichlesNode = dom.getElementsByTagName("Veichle");
+		NodeList veichlesNode = dom.getElementsByTagName("Vehicle");
 		for( int i=0; i<veichlesNode.getLength(); i++ )
 		{
 			Node node = veichlesNode.item(i);
