@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import org.apache.log4j.Logger;
+
 import vanet.security.SecurityBox;
 import vanet.security.VerifyMyMessageException;
 
@@ -30,6 +32,8 @@ public class Transceiver implements Runnable
 	 * The datagram socket for send and receive messages
 	 */
 	private DatagramSocket socket;
+	
+	private static org.apache.log4j.Logger log = Logger.getLogger(Transceiver.class);
 
   /** 
    *  Constructor of transceiver
@@ -103,17 +107,17 @@ public class Transceiver implements Runnable
 		  if( result )
 		  {
 			  // System.out.print("\nMessage secure: "+message.getId());
-			  log.Log.finest(this, "receivedMessage", "Message secure: "+message.getId());
+			  log.info("Message secure: "+message.getId());
 		  }
 		  else
 		  {
 			  //System.out.print("\nMessage insecure: "+message.getId());
-			  log.Log.critical(this, "receivedMessage", "Message insecure: "+message.getId());
+			  log.info("Message insecure: "+message.getId());
 		  }
 	  }
 	  catch( VerifyMyMessageException e )
 	  {
-		  log.Log.debug( this, "receivedMessage", "Skip auto-verification for message"+message.getId() );
+		  log.info("Skip auto-verification for message"+message.getId() );
 	  }
   }
 

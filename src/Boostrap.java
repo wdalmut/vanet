@@ -60,6 +60,8 @@ public class Boostrap
 				Configs.MAX_CERTIFICATE_VALIDITY_TIME = Integer.valueOf( vS ).intValue();
 			if( (vS = (String)properties.getProperty( "reattachCertificate" )) != null )
 				Configs.REATTACH_CERTIFICATE = Integer.valueOf( vS ).intValue();
+			if( (vS = (String)properties.getProperty( "logSystem" )) != null )
+				Configs.logSystem = Integer.valueOf( vS ).intValue();
 			
 			properties = null;	//to garbage collector 
 			

@@ -8,12 +8,12 @@ import java.security.SignatureException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
-import log.Log;
-
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+import org.apache.log4j.Logger;
 
 import vanet.Configs;
 import vanet.Message;
+
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 
 /** 
  *  Implementation of Base Line Pseudonyms method
@@ -51,6 +51,8 @@ public class BaseLinePseudonyms implements SecurityBox
 	private X509Certificate ca;
 	
 	private int beaconsSent = 0;
+	
+	private static org.apache.log4j.Logger log = Logger.getLogger(BaseLinePseudonyms.class);
 
 	
 	/**
@@ -96,12 +98,12 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 		catch( SignatureException e )
 		{
-			log.Log.critical(this, "signMessage", "Signature not executed"+e.getMessage() );
+			log.info("Signature not executed"+e.getMessage() );
 			signature = new byte[48];
 		} 
 		catch (InvalidKeyException e) 
 		{
-			log.Log.critical(this, "signMessage", "Invalid Key: "+e.getMessage() );
+			log.info("Invalid Key: "+e.getMessage() );
 		}
 		return signature;
 	}
@@ -123,14 +125,14 @@ public class BaseLinePseudonyms implements SecurityBox
 				certificate = this.personalCertificate.getCertificate();
 				privateKey = this.personalCertificate.getPrivateKey();
 				
-				log.Log.debug(this, "securize", "Message sent in LONG MODE. REATTACH FOR TIMING. Certificate ID: "+this.personalCertificate.getId());
+				log.debug("Message sent in LONG MODE. REATTACH FOR TIMING. Certificate ID: "+this.personalCertificate.getId());
 			}
 			else
 			{	
 				certificate = this.personalCertificate.getCertificate();
 				privateKey = this.personalCertificate.getPrivateKey();
 				
-				log.Log.debug(this, "securize", "Message sent in LONG MODE. REATTACH FOR BEACONS SENT. Certificate ID: "+personalCertificate.getId());
+				log.debug("Message sent in LONG MODE. REATTACH FOR BEACONS SENT. Certificate ID: "+personalCertificate.getId());
 			}
 			
 			try
@@ -173,7 +175,7 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 		else
 		{
-			log.Log.debug( this, "securize", "Message sent in SHORT MODE for certificate. Certificate ID: "+this.personalCertificate.getId() );
+			log.debug("Message sent in SHORT MODE for certificate. Certificate ID: "+this.personalCertificate.getId() );
 			try
 			{
 				//Retrive the ID of certificate to use
@@ -227,7 +229,7 @@ public class BaseLinePseudonyms implements SecurityBox
 			X509Certificate c = certificateStore.getCertificate( message.getId() );
 			if( c == null )
 			{
-				Log.debug(this, "verify", "Certificate NOT stored: "+message.getId());
+				log.debug("Certificate NOT stored: "+message.getId());
 				return false;
 			}
 			
