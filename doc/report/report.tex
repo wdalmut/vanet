@@ -1,0 +1,109 @@
+%
+% 1. process this file with pdflatex
+% 2. remind to process it twice otherwise cross-references will be wrong
+%
+\documentclass[a4paper,12pt]{article}
+%
+% This is to create hyperlinks for index, URLs and citations
+% (now we can use the command \url{...} to create URL with hyperlink)
+% 
+\usepackage{color}
+\usepackage[a4paper,colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue,bookmarks=false]{hyperref}
+%
+% This allows inclusion of pictures.
+% Create figures with PowerPoint and then export them individually
+% in PDF, PNG, JPEG, or GIF format (in order of preference)
+%
+\usepackage[pdftex]{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.gif}
+%
+% Definition of margins
+%
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+%
+% Paragraph skip and indent
+%
+\setlength\parskip{\medskipamount}
+\setlength\parindent{0pt}
+%
+% Frequently used abbreviations.
+% Note that if there is a space after an abbreviation then it must be quoted:
+%-  example1: \ie\ this is an example
+% - example2: the \ipsec\ protocol
+% but tehre is no need for this when there is a punctuation mark
+% - example3 (note the full stop at the end): we use SSL rather than \ipsec.
+%
+\def\eg{e.g.}
+\def\ie{i.e.}
+\def\ipsec{IPsec}
+\def\myfig#1{Fig.~#1}
+\def\mytab#1{Tab.~#1}
+\def\rfc#1{RFC-#1}% usage: \rfc{1422}
+\def\baseline{Baseline Pseudonyms}
+\def\hybrid{Hybrid Scheme}
+%
+\begin{document}
+
+\title{Vanet Simulator
+\\
+{\normalsize Report for the Computer Security exam at the Politecnico di Torino}
+}
+\author{Walter Dal Mut (161600)\\Armand Sofack (124515)
+\\
+{\normalsize tutor: Giorgio Calandriello}
+}
+\date{June 2009}
+\maketitle
+
+\vfill
+
+\rule{\textwidth}{1pt}
+
+\tableofcontents
+
+\rule{\textwidth}{1pt}
+
+\vfill
+
+\newpage
+\section{Introduction}
+\section{UML Diagrams}
+\section{Security Implementations}
+\subsection{\baseline}
+\include{baseline_pseudonyms}
+\subsection{\hybrid}
+\section{Simulation Framework implementation}
+\include{simulations}
+\section{Test and profile of simulations}
+\section{Comparisons and conclusions}
+\section{Documentation}
+\subsection{User Manual}
+In this part of this monography we explain the possibilities offred by configurations for using the Vanet Simulator in all of it parts. In particoular the main features offered by simulator are changing the security implementation passing by \baseline and \hybrid implementations and configure vehicles on the road, the number of beacons sent during the simulations and modifing logging system for understanding results of simulation.\\
+The Vanet Simulator is completly configurable modifing it\'s configurations files under the folder \textit{properties} in the root directoty of simulator.
+\include{usermanual}
+
+\begin{thebibliography}{99}
+%
+% Citations will be numbered according to the order
+% in which they are listed in this section.
+%
+\bibitem{calandriello}
+P.~Papadimitratos, G.~Calandriello, J.-P.~Hubaux, A.~Lioy,
+``Efficient and Robust Pseudonymous Authentication in VANET'',
+MOVE 2008: IEEE INFOCOM-2008 workshop on Mobile Networking for Vehicular Environments,
+Phoenix (AZ, USA), April 13-18, 2008, pp.~19-27 
+\bibitem{raya}
+P.~Papadimitratos, M.~Raya, J.-P.~Hubaux,
+``Securing Vehicular Communications'',
+MOVE 2006: IEEE Wireless Communications Intervehicular Communications,
+October, 2006, pp.~8-15 
+\bibitem{kargl}F.~Kargl, E.~Schoch, B.~Wiedersheim, T.~Leinmuller,
+``Secure and Efficient Beaconing for Vehicular Networks'',
+VANET 2008: IEEE INFOCOM-2008 workshop on Mobile Networking for Vehicular Environments,
+San Francisco (CA, USA), September 15, 2008, pp.~1-2 
+\end{thebibliography}
+\end{document}
+%
+% Before delivering your report, don't forget to run a spell checker,
+% such as aspell (with a UK-english dictionary)
+%

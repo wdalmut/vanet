@@ -1,0 +1,151 @@
+\subsubsection{Base Configurations}\label{usermanual:baseconfiguration}
+The base configurations provide modifications in the core of Vanet Simulator, in particoular you can change the \textit{base.properties} file for change core properties like beacons sent, security implementations and others base properties.
+If you open the configuration file you see:
+\begin{verbatim}
+#Max speed in km/h
+max_speed = 140
+#Max 802.11 cover in meters
+wifi_cover = 200
+#Access Point broadcast point
+server_broadcast_point = 127.255.255.255
+#Server Port
+server_port = 55055
+#Beacons/sec
+beacons_sec = 0.1
+#If you want no moves of veichles
+no_moves = true
+#choose simulator BP or GS
+simulator = bp
+#max certificate validity into area in seconds
+maxCertificateValidityTime = 33
+#Reattach certificate every tot beacons
+reattachCertificate = 5
+#MYSQL properties
+mysql_host=127.0.0.1
+mysql_username=root
+mysql_password=
+mysql_database=vanet
+#Define the log system
+#  0 MYSQL log
+#  1 File log
+#  2 StdOut log
+logSystem=0
+\end{verbatim}
+For detailed information you can see table \ref{tab:BaseConfiguration} at page \pageref{tab:BaseConfiguration}.
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{|c|c|c|}
+	\hline\hline 
+	\textbf{Property Name} & \textbf{Property Translation} & \textbf{Property Type} \\
+	\hline
+	max\_speed & The maximum speed of vehicles & int \\
+	\hline
+	wifi\_cover & The maximum wireless area coverage & int \\
+	\hline
+	server\_broadcast\_point & The broadcast node for send messages & string \\
+	\hline
+	server\_port & The port for receive messages & int \\
+	\hline
+	beacons\_sec & The number of beacons sent in one second & float \\
+	\hline
+	no\_moves & Lock vehicles into the map & boolean \\
+	\hline
+	simulator & The simulator which you want use. & string\\
+	{} & BP for baseline implementations. & {} \\
+	{} & GS for group signature implementation & {} \\
+	\hline
+	maxCertificateValidityTime & The maximum time for certificate validity & int \\
+	\hline
+	reattachCertificate & Reattach the certificate every tot beacons & int \\
+	\hline
+	mysql\_host & The host for mysql & string \\
+	\hline
+	mysql\_username & Username for authenticate into mysql & string \\
+	\hline
+	mysql\_password & Password for authenticate into mysql & string \\
+	\hline
+	mysql\_database & Database to use & string \\
+	\hline
+	logSystem & The log system which you want use. & int\\
+	{} & 0 for mysql log system. & {} \\
+	{} & 1 for log data into a files & {} \\
+	{} & 2 for log data on console & {} \\
+	\hline
+	\hline     %inserts single line 
+ 	\end{tabular} 
+	\label{tab:BaseConfiguration}
+	\caption{Base Configuration specifications}
+\end{table}
+\subsubsection{Vehicle Configurations}\label{usermanual:vehicleconfigurations}
+The vehicles configurations set the status of roads into the simulator. In particoular you can modify the number of vehicles into the road, velocity and initial position.\\
+The configuration file for vehicle is XML (eXtensible Markup Language) based and is named \textit{vehicles.xml} and positioned into folder \textit{vehicles}; if you open this file you see:
+\begin{verbatim}
+<?xml version="1.0" encoding="UTF-8"?>
+<Vehicles>
+    <Vehicle id="1" speed="100" x="10" y="20" />
+    <Vehicle id="2" speed="120" x="20" y="50" />
+</Vehicles>
+\end{verbatim}
+Every tag, excluding root tag, identify a new vehicle with attributes like options, in paticoular you can modify the vehicle identification number changing the \textit{id} attribute or you can change the veichle speed modifing the \textit{speed} attribute or the position of the veichle using the \textit{x} or \textit{y} attributes.
+\subsubsection{Why many log configurations}
+The log system for this application is really difficult, infact the normal stdout or file log system is too slow and produce conflicts if you send a lot of beacons during sign and verify operation but it's really useful because you can understand immediatly what the system are doing in real time, the other methods are a middle solution for see result and velocity during sign and verify and the best solution for velocity but difficult to understand in real time the system but it's useful for post-processing. For this reason we have written three type of log system for use the best method when that are compatible with the simulation.
+\subsubsection{Log configuration}\label{usermanual:logconfiguration}
+The log system use the \textit{log4j} module for write sensible information of simulator. The system provide three log configurations, on standard output stream, file stream or on MySQL datbase.\\
+The configuration of log system it's really powerful and you can set the level of logging or change the log representation for standard out stream or file stream. The configuration of log system is divided into three file, ones for each method and it's collected into folder \textit{properties} which names \textit{stdout.properties} for standard out, \textit{file.properties} for file stream or \textit{mysql.properties} for MySQL database log system.
+\subsubsection{MySQL database configuration}
+For using MySQL database log system you have to configure the database before launching the Vanet Simulator. You have to create or import a database with tables definition into MySQL using the \textit{vanet.sql} file under the \textit{properties} directoty.\\
+For import the database and tables definition you have to enter in you MySQL command line and create a new database using command:
+\begin{verbatim}
+mysql> CREATE DATABASE vanet;
+\end{verbatim}
+After this step you have to create a table in the new database using commands:
+\begin{verbatim}
+mysql> use vanet;
+...
+mysql>CREATE TABLE IF NOT EXISTS `logs` (
+  `log_id` int(11) unsigned zerofill NOT NULL auto_increment,
+  `level` varchar(255) NOT NULL,
+  `class_name` varchar(255) NOT NULL,
+  `method_name` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  PRIMARY KEY  (`log_id`),
+  KEY `level` (`level`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+...
+\end{verbatim}
+After this step you have configured the MySQL database for record logs from Vanet Simulator.
+\subsubsection{Install Vanet Simulator on Windows}
+For install Vanet simulator on Windows operating system you can use the installer \textit{setupVanetSimulator.exe} and follow the sceen information for complete the setup of application.\\
+After install procedure you have to open a new console and go into install directory and send the command
+\begin{verbatim}
+C:\Program File\Vanet Simulator\>java -jar vanetSimulator.jar
+\end{verbatim}
+After this command you see the boostrap procedure and after the system run. The default log operation is the standard out and you can see directly all the informations.\\
+The common output on screen are this:
+\begin{verbatim}
+.:: Boostrap ::.
+Loading base properties
+Base properties loaded
+Loading veichles configuration
+security/certificates/1/c
+security/certificates/2/c
+Veichles configuration loaded
+.:: Boostrap end ::.
+\end{verbatim}
+\subsubsection{Install Vanet Simulator on generic OS}
+For install Vanet Simulator you have to setup all folders and executable jar manually. Create new folder in a point of file system and enter in it, after that copy the content of \textit{build} directory and now you can send the command for start the simulator.
+\begin{verbatim}
+name@domain$ java -jar vanetSimulator.jar
+\end{verbatim}
+After this command you see the boostrap procedure and after the system run. The default log operation is the standard out and you can see directly all the informations.\\
+The common output on screen are this:
+\begin{verbatim}
+.:: Boostrap ::.
+Loading base properties
+Base properties loaded
+Loading veichles configuration
+security/certificates/1/c
+security/certificates/2/c
+Veichles configuration loaded
+.:: Boostrap end ::.
+\end{verbatim}
