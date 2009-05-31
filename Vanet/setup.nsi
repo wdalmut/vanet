@@ -118,7 +118,7 @@ SectionEnd
 Function .onInit
     InitPluginsDir
     Push $R1
-    File /oname=$PLUGINSDIR\spltmp.bmp image_vanet.bmp
+    File /oname=$PLUGINSDIR\spltmp.bmp splash\image_vanet.bmp
     advsplash::show 2000 600 400 -1 $PLUGINSDIR\spltmp
     Pop $R1
     Pop $R1
