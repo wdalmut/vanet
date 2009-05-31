@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.log4j.Logger;
+
 import vanet.security.BaseLinePseudonyms;
 import vanet.security.HybridScheme;
 
@@ -17,6 +19,7 @@ public class Vehicle extends TimerTask
     private Position position = null;
     private Transceiver transceiver = null;
     private Timer time;
+    private static org.apache.log4j.Logger log = Logger.getLogger(Vehicle.class);
 
     public Vehicle( int id, int speed, int x, int y )
     {
@@ -70,7 +73,16 @@ public class Vehicle extends TimerTask
 		try 
 		{
 			this.move();
-			transceiver.sendMessage( getPayload() );
+			if( this.position.getX() <= Configs.wifiCover && this.position.getY() <= Configs.wifiCover )
+			{
+				log.debug("Vehicle "+this.getId()+" send new message");
+				transceiver.sendMessage( getPayload() );
+			}
+			else
+			{
+				log.info("Vehicle "+this.getId()+" is not in the WIFI area, set x position equal to 0");
+				this.position.setX(0);
+			}
 		} 
 		catch (IOException e) 
 		{
