@@ -67,10 +67,27 @@ public class Configs
 	public static int MAX_CERTIFICATE_VALIDITY_TIME = 5;
 	
 	/**
+	 * Host for connect to mysql
+	 */
+	public static String MYSQL_HOST = "localhost";
+	/**
+	 * Username for authenticate into mysql server
+	 */
+	public static String MYSQL_USERNAME = "root";
+	/**
+	 * Password for authenticate into mysql server
+	 */
+	public static String MYSQL_PASSWORD = "";
+	/**
+	 * Database to use for save information
+	 */
+	public static String MYSQL_DATABASE = "vanet";
+	
+	/**
 	 * Set log system:
 	 *   0 MySQL log
 	 *   1 File log
 	 *   2 StdOut log
 	 */
-	public static int logSystem = 0;
+	public static int logSystem = 2;
 }

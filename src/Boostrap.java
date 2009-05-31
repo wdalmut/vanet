@@ -62,6 +62,14 @@ public class Boostrap
 				Configs.REATTACH_CERTIFICATE = Integer.valueOf( vS ).intValue();
 			if( (vS = (String)properties.getProperty( "logSystem" )) != null )
 				Configs.logSystem = Integer.valueOf( vS ).intValue();
+			if( (vS = (String)properties.getProperty( "mysql_host" )) != null )
+				Configs.MYSQL_HOST = vS;
+			if( (vS = (String)properties.getProperty( "mysql_username" )) != null )
+				Configs.MYSQL_USERNAME = vS;
+			if( (vS = (String)properties.getProperty( "mysql_password" )) != null )
+				Configs.MYSQL_PASSWORD = vS;
+			if( (vS = (String)properties.getProperty( "mysql_database" )) != null )
+				Configs.MYSQL_DATABASE = vS;
 			
 			properties = null;	//to garbage collector 
 			

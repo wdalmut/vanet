@@ -33,6 +33,9 @@ public class Log
 			{
 			case 0:
 				logProperties.load(new FileInputStream("properties/mysql.properties"));
+				logProperties.setProperty("log4j.appender.DB.URL", "jdbc:mysql://"+Configs.MYSQL_HOST+":3306/"+Configs.MYSQL_DATABASE+"?autoReconnect=true");
+				logProperties.setProperty("log4j.appender.DB.user", Configs.MYSQL_USERNAME);
+				logProperties.setProperty("log4j.appender.DB.password", Configs.MYSQL_PASSWORD);
 				break;
 			case 1:
 				logProperties.load(new FileInputStream("properties/file.properties"));
