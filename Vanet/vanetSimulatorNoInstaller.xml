@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="create_run_jar" name="Create Runnable Jar for Project VanetSimulator">
+	<mkdir dir="../build" />
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="create_run_jar">
-        <jar destfile="vanetSimulator.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="../build/vanetSimulator.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Built-By" value="Walter Dal Mut"/>
                 <attribute name="Main-Class" value="Simulator"/>
@@ -14,5 +15,16 @@
             <zipfileset excludes="META-INF/*.SF" src="../mysql-connector-java-5.1.7-bin.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="../log4j-1.2.15.jar"/>
         </jar>
+    	
+        <copy todir="../build/properties">
+            <fileset dir="../properties"/>
+        </copy>
+    	<copy todir="../build/vehicles">
+            <fileset dir="../vehicles"/>
+        </copy>
+    	<copy todir="../build/security">
+            <fileset dir="../security"/>
+        </copy>  
+    	<mkdir dir="../build/logs" />
     </target>
 </project>
