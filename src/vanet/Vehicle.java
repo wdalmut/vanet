@@ -9,18 +9,49 @@ import org.apache.log4j.Logger;
 import vanet.security.BaseLinePseudonyms;
 import vanet.security.HybridScheme;
 
-/** 
- *  This class rappresent the veichle into area
+/**
+ * This class rappresent the veichle into area
+ * 
+ * @author Walter Dal Mut
+ * @date 2009
+ *
  */
 public class Vehicle extends TimerTask 
 {
+	/**
+	 * Speed of vehicle in m/s
+	 */
 	private double speed = 0;
+	/**
+	 * ID of vehicle
+	 */
 	private int id = 0;
+	/**
+	 * Actual position of Vehicle
+	 */
     private Position position = null;
+    /**
+     * Vehicle transceiver for send and receive messages
+     */
     private Transceiver transceiver = null;
+    /**
+     * Timer for schedule beacon send
+     */
     private Timer time;
+    
+    /**
+     * Logger
+     */
     private static org.apache.log4j.Logger log = Logger.getLogger(Vehicle.class);
 
+    /**
+     * Create new Vehicle
+     * 
+     * @param id ID of vehicle
+     * @param speed Speed of vehicle in km/h
+     * @param x X position of vehicle
+     * @param y Y position of vehicle
+     */
     public Vehicle( int id, int speed, int x, int y )
     {
     	this.setId(id);
@@ -62,17 +93,25 @@ public class Vehicle extends TimerTask
   		//TODO: Not interesting
   	}
 
+  	/**
+  	 * Move the vehicle into the area
+  	 * @throws IOException
+  	 */
   	private void move() throws IOException
 	{
-		Moves.moveMe(this.position);
+		Moves.moveMe(this.position, this.speed);
 	}
   	
+  	/**
+  	 * Send beacons thread routine
+  	 */
 	@Override
 	public void run() 
 	{
 		try 
 		{
 			this.move();
+			log.debug("Veichle "+this.getId()+" position, x="+this.position.getX()+" y="+this.position.getY());
 			if( this.position.getX() <= Configs.wifiCover && this.position.getY() <= Configs.wifiCover )
 			{
 				log.debug("Vehicle "+this.getId()+" send new message");
@@ -118,6 +157,9 @@ public class Vehicle extends TimerTask
 		return id;
 	}
 	
+	/**
+	 * Convert vehicle in string representation
+	 */
 	public String toString()
 	{
 		return new Integer(getId()).toString();

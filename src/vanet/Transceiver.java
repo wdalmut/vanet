@@ -117,7 +117,7 @@ public class Transceiver implements Runnable
 	  }
 	  catch( VerifyMyMessageException e )
 	  {
-		  log.info("Skip auto-verification for message"+message.getId() );
+		  log.info("Skip auto-verification for message: "+message.getId() );
 	  }
   }
 

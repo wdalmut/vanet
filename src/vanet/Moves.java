@@ -16,13 +16,13 @@ public class Moves
 	 * 
 	 * @param actualPosition Your position
 	 */
-	public static void moveMe( Position actualPosition )
+	public static void moveMe( Position actualPosition, double speed )
 	{
 		if( Configs.NO_MOVES )
 			return;
 		else
 		{
-			actualPosition.setX( actualPosition.getX() + 1 );
+			actualPosition.setX( actualPosition.getX() + (int)(speed*Configs.BEACONS_SEC) );
 		}
 //		if( Math.round( Math.random() ) == 0 )
 //		{
