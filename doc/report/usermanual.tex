@@ -34,6 +34,7 @@ logSystem=0
 For detailed information you can see table \ref{tab:BaseConfiguration} at page \pageref{tab:BaseConfiguration}.
 \begin{table}[!ht]
 	\centering
+	\caption{Base Configuration specifications}
 	\begin{tabular}{|c|c|c|}
 	\hline\hline 
 	\textbf{Property Name} & \textbf{Property Translation} & \textbf{Property Type} \\
@@ -74,7 +75,6 @@ For detailed information you can see table \ref{tab:BaseConfiguration} at page \
 	\hline     %inserts single line 
  	\end{tabular} 
 	\label{tab:BaseConfiguration}
-	\caption{Base Configuration specifications}
 \end{table}
 \subsubsection{Vehicle Configurations}\label{usermanual:vehicleconfigurations}
 The vehicles configurations set the status of roads into the simulator. In particoular you can modify the number of vehicles into the road, velocity and initial position.\\
@@ -87,6 +87,7 @@ The configuration file for vehicle is XML (eXtensible Markup Language) based and
 </Vehicles>
 \end{verbatim}
 Every tag, excluding root tag, identify a new vehicle with attributes like options, in paticoular you can modify the vehicle identification number changing the \textit{id} attribute or you can change the veichle speed modifing the \textit{speed} attribute or the position of the veichle using the \textit{x} or \textit{y} attributes.
+For the \baseline~operating mode you have to link certificates and private keys to each vehicles, for doing that you have to follow instruction in section \ref{usermanual:preloadkey} at page \pageref{usermanual:preloadkey}
 \subsubsection{Why many log configurations}
 The log system for this application is really difficult, infact the normal stdout or file log system is too slow and produce conflicts if you send a lot of beacons during sign and verify operation but it's really useful because you can understand immediatly what the system are doing in real time, the other methods are a middle solution for see result and velocity during sign and verify and the best solution for velocity but difficult to understand in real time the system but it's useful for post-processing. For this reason we have written three type of log system for use the best method when that are compatible with the simulation.
 \subsubsection{Log configuration}\label{usermanual:logconfiguration}
@@ -149,3 +150,6 @@ security/certificates/2/c
 Veichles configuration loaded
 .:: Boostrap end ::.
 \end{verbatim}
+\subsubsection{Add certificates and private keys for \baseline}\label{usermanual:preloadkey}
+When the system doing the boostrap in \baseline~mode research certificate and private keys for doing digital signatures.\\
+Security properties are in \textit{security} folder and for \baseline~implementation only you have another folder active during the simulation named \textit{certificates} and under that folder you have another one folder for each vehicle named with the \textit{vehicle id} (section \ref{usermanual:vehicleconfigurations} at page \pageref{usermanual:vehicleconfigurations}). Under this folder you have to create two folders named \textit{c} for certificates and \textit{p} for private keys; after this steps you have to copy private keys in folder \textit{p} and certificates in folder \textit{c}.
