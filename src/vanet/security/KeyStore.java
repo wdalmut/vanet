@@ -9,6 +9,8 @@ import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 
 /** 
  *  This class rappresent the key store for veichle certificates
@@ -18,6 +20,7 @@ public class KeyStore
 	/** Personal certificates */
 	private Vector<PersonalCertificate> personalCertificates;
 
+	private static org.apache.log4j.Logger log = Logger.getLogger(KeyStore.class);
 	/**
 	 * The key store implementation
 	 * 
@@ -60,8 +63,10 @@ public class KeyStore
 						
 						    PKCS8EncodedKeySpec keysp = new PKCS8EncodedKeySpec(key);
 						    PrivateKey p = kf.generatePrivate(keysp);
-						    
-							this.personalCertificates.add( new PersonalCertificate((int)(Math.random()*100000), c, p ) );
+						    int randNumber = (int)(Math.random()*100000);
+							this.personalCertificates.add( new PersonalCertificate( randNumber, c, p ) );
+							
+							log.trace("Private Key: "+privates[i]+" is linked with "+randNumber);
 						}
 					}
 				}

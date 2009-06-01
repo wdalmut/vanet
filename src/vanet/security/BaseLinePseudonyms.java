@@ -98,7 +98,7 @@ public class BaseLinePseudonyms implements SecurityBox
 		}
 		catch( SignatureException e )
 		{
-			log.info("Signature not executed"+e.getMessage() );
+			log.warn( "Signature not executed" );
 			signature = new byte[48];
 		} 
 		catch (InvalidKeyException e) 
@@ -229,7 +229,7 @@ public class BaseLinePseudonyms implements SecurityBox
 			X509Certificate c = certificateStore.getCertificate( message.getId() );
 			if( c == null )
 			{
-				log.debug("Certificate NOT stored: "+message.getId());
+				log.warn("Certificate NOT stored: "+message.getId());
 				return false;
 			}
 			
@@ -281,7 +281,10 @@ public class BaseLinePseudonyms implements SecurityBox
 				if( c != null && verifyCertificate( c ) )
 					certificateStore.addCertificate( message.getId(), c);
 				else
+				{
+					log.warn("Certificate NOT signed by the CA");
 					return false;
+				}
 				
 				sign.initVerify( c );
 				sign.update(ID);
