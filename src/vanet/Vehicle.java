@@ -59,7 +59,6 @@ public class Vehicle extends TimerTask
 		this.position = new Position( x, y );
 		
 		boostrap();
-		loadkeys();
 		
 		//Timer task for activate the transmission
 		this.time = new Timer( "Veichle - "+this.toString() );
@@ -83,14 +82,6 @@ public class Vehicle extends TimerTask
 			this.transceiver = new Transceiver( new BaseLinePseudonyms( id ) );
 		else
 			this.transceiver = new Transceiver( new HybridScheme(id) );
-  	}
-
-  	/** 
-   	 *  Load keys with the appropriate method, it is base line or hybrid or others
-   	 */
-  	public void loadkeys() 
-  	{
-  		//TODO: Not interesting
   	}
 
   	/**

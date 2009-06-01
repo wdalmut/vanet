@@ -125,14 +125,14 @@ public class BaseLinePseudonyms implements SecurityBox
 				certificate = this.personalCertificate.getCertificate();
 				privateKey = this.personalCertificate.getPrivateKey();
 				
-				log.debug("Message sent in LONG MODE. REATTACH FOR TIMING. Certificate ID: "+this.personalCertificate.getId());
+				log.debug("Message sent in LONG MODE. Certificate expired use new pseudonymous. Certificate ID: "+this.personalCertificate.getId());
 			}
 			else
 			{	
 				certificate = this.personalCertificate.getCertificate();
 				privateKey = this.personalCertificate.getPrivateKey();
 				
-				log.debug("Message sent in LONG MODE. REATTACH FOR BEACONS SENT. Certificate ID: "+personalCertificate.getId());
+				log.debug("Message sent in LONG MODE. Reattach certificate for new vehicles in listening. Certificate ID: "+personalCertificate.getId());
 			}
 			
 			try
