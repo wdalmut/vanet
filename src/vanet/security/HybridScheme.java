@@ -2,7 +2,6 @@ package vanet.security;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -15,24 +14,17 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.SignatureException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
 import org.bouncycastle.jce.ECNamedCurveTable;
-import org.bouncycastle.jce.X509Principal;
 import org.bouncycastle.jce.spec.ECParameterSpec;
-import org.bouncycastle.x509.X509V1CertificateGenerator;
 
 import vanet.Configs;
 import vanet.Message;
-
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 /** 
  *  The Hybrid Scheme implementation
  */
@@ -43,7 +35,9 @@ public class HybridScheme implements SecurityBox {
  */
 	private CertificateStore certificateStore;
 
-	/**
+	
+	private static org.apache.log4j.Logger log = Logger.getLogger(HybridScheme.class);
+	/**;
 	 * Timer for certificate validity for provide anonymity 
 	 */
 	private CertificateTimer timer;
@@ -102,7 +96,6 @@ private PersonalCertificate personalCertificate;
     fr.close();
     PKCS8EncodedKeySpec keysp = new PKCS8EncodedKeySpec(key);
    prGrpKey = kf.generatePrivate(keysp);
-	System.out.print("\n vehicle "+veichleID+":::"+prGrpKey+"\n\n");
 	 } catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -218,12 +211,12 @@ private KeyPair genOnTheFlyKey()  {
 		}
 		catch( SignatureException e )
 		{
-			System.out.println( "NON FATTA LA SIGNATURE:"+e.getMessage());
+			log.warn("Signature not executed"+e.getMessage() );
 			signature = new byte[48];
 		} 
 		catch (InvalidKeyException e) 
 		{
-			e.printStackTrace();
+			log.warn("Invalid Key: "+e.getMessage() );
 		}
 		return signature;
 	}
@@ -247,7 +240,6 @@ private KeyPair genOnTheFlyKey()  {
 		//if( timer == null || !timer.isValid() )
 		if( timer == null || !timer.isValid() || (beaconsSent % Configs.REATTACH_CERTIFICATE) == 0 )
 		{
-			//System.out.print("\nlong way");
 			//LONG MODE
 			timer = new CertificateTimer();
 			pair= this.genOnTheFlyKey();
@@ -329,7 +321,7 @@ private KeyPair genOnTheFlyKey()  {
 				for( int i=0, j=4; i< payload.length; i++, j++ )	//Payload copy
 					message[j] = payload[i]; 
 				
-				byte[] signature = signMessage(payload,personalCertificate.getPrivateKey() );
+				byte[] signature = signMessage(message,personalCertificate.getPrivateKey() );
 				
 				byte[] tmp = new byte[Configs.PAYLOAD_LENGTH+signature.length+4];
 				
@@ -372,6 +364,7 @@ private KeyPair genOnTheFlyKey()  {
 			SelfCertify c = certificateStore.getSelfCertificate( message.getId() );
 			
 			if( c == null ){
+				log.debug("Certificate NOT stored: "+message.getId());
 				return false;}
 			
 			byte[] ID = new byte[4];
@@ -383,7 +376,7 @@ private KeyPair genOnTheFlyKey()  {
 			try
 			{
 				sign.initVerify( c.getPubKey() );
-				//sign.update(ID);
+				sign.update(ID);
 				byte[] payload = message.getPayload();
 				payload[0] = 0;
 				payload[1] = 0;
