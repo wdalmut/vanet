@@ -69,20 +69,35 @@
 
 \newpage
 \section{Introduction}
+Vehicular networks  (VANET) as all wireless networks can be easily subject to any kinds of security  attacks  then , it need an appropriate security achitecture. One of the principale features is to ensure the integrity of messages exchanged between vehicles.\\
+Our project is to implement a simple frame work for the simulation of secure messages exchange in VANET. The simulator will essentially based on  signing  messages  before send its through the network and to able to verify  the integrity of any messages received from the VANET.\\
+The techniques used to provide this integrity are essentially based on two mains approachs provided by\cite{calandriello} which are :
+\begin{itemize}
+\item BaseLine Pseudonyms, a pseudonym is a public certified key,
+the basic approach to privacy is based on periodically changing the psuedonym.
+\item Hybrib Scheme,is the combination of two approachs coupling the pseudonym generation and the Group signature scheme
+\\
+\url{http://www.sigmobile.org/workshops/vanet2007/slides/3.pdf}
+\end{itemize}
+These two techniques during the implatations has been subject to somes otpimization.
+\\
+\\
+
 \section{UML Diagrams}
 \include{uml_diagrams}
 \section{Security Implementations}
 \subsection{\baseline}
 \include{baseline_pseudonyms}
 \subsection{\hybrid}
+\include{hybrid_scheme}
 \section{Simulation Framework implementation}
 \include{simulations}
 \section{Test and profile of simulations}
 \section{Comparisons and conclusions}
 \section{Documentation}
 \subsection{User Manual}
-In this part of this monography we explain the possibilities offred by configurations for using the Vanet Simulator in all of it parts. In particoular the main features offered by simulator are changing the security implementation passing by \baseline and \hybrid implementations and configure vehicles on the road, the number of beacons sent during the simulations and modifing logging system for understanding results of simulation.\\
-The Vanet Simulator is completly configurable modifing it\'s configurations files under the folder \textit{properties} in the root directoty of simulator.
+In this part of this monography we explain the possibilities offred by configurations for using the Vanet Simulator in all of it parts. In particular the main features offered by simulator are changing the security implementation passing by \baseline and \hybrid implementations and configure vehicles on the road, the number of beacons sent during the simulations and modifing logging system for understanding results of simulation.\\
+The Vanet Simulator is completely configurable modifying it\'s configurations files under the folder \textit{properties} in the root directory of simulator.
 \include{usermanual}
 
 \begin{thebibliography}{99}
@@ -90,7 +105,7 @@ The Vanet Simulator is completly configurable modifing it\'s configurations file
 % Citations will be numbered according to the order
 % in which they are listed in this section.
 %
-\bibitem{calandriello}
+\bibitem{calandriello} 
 P.~Papadimitratos, G.~Calandriello, J.-P.~Hubaux, A.~Lioy,
 ``Efficient and Robust Pseudonymous Authentication in VANET'',
 MOVE 2008: IEEE INFOCOM-2008 workshop on Mobile Networking for Vehicular Environments,
