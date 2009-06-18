@@ -68,7 +68,19 @@
 \vfill
 
 \newpage
-\include{introduction}
+\section{Introduction}
+Vehicular networks  (VANET) as all wireless networks can be easily subject to any kinds of security  attacks  then , it need an appropriate security achitecture. One of the principale features is to ensure the integrity of messages exchanged between vehicles.\\
+Our project is to implement a simple frame work for the simulation of secure messages exchange in VANET. The simulator will essentially based on  signing  messages  before send its through the network and to able to verify  the integrity of any messages received from the VANET.\\
+The techniques used to provide this integrity are essentially based on two mains approachs provided by\cite{calandriello} which are :
+\begin{itemize}
+\item BaseLine Pseudonyms, a pseudonym is a public certified key,
+the basic approach to privacy is based on periodically changing the psuedonym.
+\item Hybrib Scheme,is the combination of two approachs coupling the pseudonym generation and the Group signature scheme
+\\
+\url{http://www.sigmobile.org/workshops/vanet2007/slides/3.pdf}
+\end{itemize}
+These two techniques during the implatations has been subject to somes otpimization.
+\section{UML Diagrams}
 \include{uml_diagrams}
 \section{Security Implementations}
 \subsection{\baseline}\include{baseline_pseudonyms}
@@ -87,8 +99,7 @@ We can said that up of this basic functionality of the framework, some of the im
 In this part of this monography we explain the possibilities offred by configurations for using the Vanet Simulator in all of it parts. In particular the main features offered by simulator are changing the security implementation passing by \baseline and \hybrid implementations and configure vehicles on the road, the number of beacons sent during the simulations and modifing logging system for understanding results of simulation.\\
 The Vanet Simulator is completely configurable modifying it\'s configurations files under the folder \textit{properties} in the root directory of simulator.
 \include{usermanual}
-
-\begin{thebibliography}{99}
+\begin{thebibliography}{99}\label{bibliography}
 %
 % Citations will be numbered according to the order
 % in which they are listed in this section.
@@ -107,6 +118,12 @@ October, 2006, pp.~8-15
 ``Secure and Efficient Beaconing for Vehicular Networks'',
 VANET 2008: IEEE INFOCOM-2008 workshop on Mobile Networking for Vehicular Environments,
 San Francisco (CA, USA), September 15, 2008, pp.~1-2 
+\bibitem{bouncycastle}Bouncy Castle Security Provider,
+``http://www.bouncycastle.org'',
+Legion of the Bouncy Castle, a provider for the Java Cryptography Extension and the Java Cryptography Architecture
+\bibitem{openssl}OpenSSL,
+``http://www.openssl.org'',
+OpenSSL, C implementation for security.
 \end{thebibliography}
 \end{document}
 %
