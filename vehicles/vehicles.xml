@@ -2,4 +2,9 @@
 <Vehicles>
     <Vehicle id="1" speed="100" x="10" y="20" />
     <Vehicle id="2" speed="120" x="20" y="50" />
+<!--
+    <Vehicle id="3" speed="120" x="30" y="50" />
+    <Vehicle id="4" speed="120" x="40" y="50" />
+    <Vehicle id="5" speed="120" x="50" y="50" /> 
+-->
 </Vehicles>
