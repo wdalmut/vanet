@@ -101,6 +101,9 @@ public class Transceiver implements Runnable
    */
   public void receivedMessage(Message message) 
   {
+	  if( message == null )
+		  return;
+	  
 	  try
 	  {
 		  boolean result = this.securityBox.verify(message);
