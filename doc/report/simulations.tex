@@ -51,14 +51,14 @@ For \baseline we can realize three different optimizations picked up from \cite{
 The beacon identification is random number compute on four byte without consider other vehicles, is resonable to use this method whitout remember other IDs is because probability which two vehicle use the same identification number is really quite.
 \baseline use optimization two from \cite{calandriello} for limit cryptography overhead, see section \ref{sec:CryptographyOverhead} at page \pageref{sec:CryptographyOverhead} for importance of cryptography overhead, and you can change parameters for realize you personal optimization, for example certificate reattach after tot beacons and certificate or change certificate after a period of time.
 \subsection{Performance of Simulator}
-For analyze performace of Simulator we have computed statistics for understand the number of signature which we are able to do with the simulator. We have set up the \baseline simulator and set logger into console, after that we have ran system and observed comportaments modifing the number of beacons/sec and the number of vehicles into wireless area.
+For analyze performace of Simulator (figure \ref{fig:performance} at page \pageref{fig:performance}) we have computed statistics for understand the number of signature which we are able to do with the simulator. We have set up the \baseline simulator and set logger into console, after that we have ran system and observed comportaments modifing the number of beacons/sec and the number of vehicles into wireless area.
 \begin{figure}[ht]
 % If the picture uses fonts of the correct size (10 ... 12 pt)
 % then can be included without scaling
 %\centerline{\includegraphics{class_diagram.pdf}}
 % otherwise see the example in the following (commented out) line
 % to scale it relatively to the page width
-\centerline{\includegraphics[width=0.4\textwidth]{chart_baseline.pdf}}
+\centerline{\includegraphics[width=0.5\textwidth]{chart_baseline.pdf}}
 \caption{Performace of simulator}
 \label{fig:performance}
 \end{figure}
