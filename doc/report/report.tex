@@ -67,38 +67,12 @@
 
 \vfill
 
-\newpage
-\section{Introduction}
-Vehicular networks  (VANET) as all wireless networks can be easily subject to any kinds of security  attacks  then, it need an appropriate security achitecture. One of the principale features is to ensure the integrity of messages exchanged between vehicles.\\
-Our project is to implement a simple frame work for the simulation of secure messages exchange in VANET. The simulator will essentially based on  signing  messages  before send its through the network and to able to verify  the integrity of any messages received from the VANET.\\
-The techniques used to provide this integrity are essentially based on two mains approachs provided by\cite{calandriello} which are :
-\begin{itemize}
-\item BaseLine Pseudonyms, a pseudonym is a public certified key,
-the basic approach to privacy is based on periodically changing the psuedonym.
-\item Hybrib Scheme,is the combination of two approachs coupling the pseudonym generation and the Group signature scheme
-\\
-\url{http://www.sigmobile.org/workshops/vanet2007/slides/3.pdf}
-\end{itemize}
-These two techniques during the implatations has been subject to somes otpimization.
-\section{UML Diagrams}
+\include{introduction}
 \include{uml_diagrams}
-\section{Security Implementations}
-\subsection{\baseline}
 \include{baseline_pseudonyms}
-\subsection{\hybrid}
 \include{hybrid_scheme}
-\section{Simulations and Tests}
 \include{simulations}
-\section{Comparisons and conclusions}
-The work to do was to build a simple as possible a framework that will simulate exchange of secure messages between vehicles in a given area using two principals scheme baseline pseudonym and Hybrid scheme  basically differ  from the way to provide pseudonym  and the related certificate.\\
-During the simulation and the development  the behavior of the two scheme were  little different in some points the principal difference has been noted at t he test where for the baseline  pseudonym increasing the sending rate ( number of messages sent per  second by each vehicle) some wrong messages start been appeared due to the impossibility of some vehicle to sign some messages or the overlap time of the life time of two consecutives pseudonyms. The main reason of this can also be due to the fact that simulator run in a same computer because after testing the exchange of the message between two vehicles by installing the framework on two separated computers connected in we have noted the difference and some improvements
-This situation is not more present in the hybrid scheme due to the fact that some of the mains functions are not really implemented like the group signature and the group verification that are only dummy function.\\
-We can said that up of this basic functionality of the framework, some of the improvements can be added.  In the optimization scheme used in this case is not so efficient because we didn't tacking in account the case where some receiver lost two consecutive messages that can be the last signed by the old pseudonym and the first signed by the  new pseudonym . This could be improved by adding in the combination scheme the optimization 3 provided by [2] and try to implemented in some robust scheme both in sircuze and in verify.\\
-
-\section{Documentation}
-\subsection{User Manual}
-In this part of monography we explain the possibilities offred by configurations for using the Vanet Simulator in all of it parts. In particular the main features offered by simulator are changing the security implementation passing by \baseline and \hybrid implementations and configure vehicles on the road, the number of beacons sent during the simulations and modifing logging system for understanding results of simulation.\\
-The Vanet Simulator is completely configurable modifying it's configurations files under the folder \textit{properties} in the root directory of simulator.
+\include{conclusions}
 \include{usermanual}
 \begin{thebibliography}{99}\label{bibliography}
 %
