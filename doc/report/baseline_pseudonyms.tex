@@ -1,4 +1,20 @@
 \section{Security Implementations}
+\subsection{Packet Dimension}\label{sec:PacketDimension}
+Before statarting with security implementation we want to focus on packet (beacon) dimension because is another central problem of this technology. Every message is based on 200 byte of paylad, the real message which we want send on an insecure network, followed by digital signature, tipically long 48 bytes and a certificate wit, tipically long 234 byte, for check signature. The longest certificate in the network is around 500 bytes, during this monography we analyze optimizations for reduce packet dimension to 250 bytes.
+\pageref{tab:CryptographyOverhead} for more details.
+\begin{table}[!ht]
+	\centering
+	\caption{Messages on network}
+	\begin{tabular}{|c|c|c|}
+	\hline\hline 
+	\textbf{Payload} & \textbf{Signature} & \textbf{Certificate}\\
+	\hline
+	$200$ &	$48$ & $234$\\
+	\hline
+	\hline     %inserts single line 
+ 	\end{tabular} 
+	\label{tab:MessagesOnNetwork}
+\end{table}
 \subsection{\baseline}
 For the $i$-th pseudonym the CA provide a valid certificate with the public key signed by the CA and a private key for signing messages.\\
 The easy way for realize this security implementation is to attach after every message a digital signature and the certificate used for signing message. In this way a vehicle which receive the message can verify the validity of certificate and so verify the digital signature of message. It's really important that pseudonyms is used only for a few time $\tau$ for provide security against the track message reception, because if I use the same certificate for a long period of time an attacker can follow the certitificate and identify the car which send messages. This implementation it's really difficult to implement because the message is too long because if we sum the message length plus the signature plus certificate with public key we have a big packet to send on network. For resolve the overhead problem we can use three optimizations \cite{calandriello}.\\

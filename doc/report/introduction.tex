@@ -15,5 +15,38 @@ Instead of stored the pseudonyms like in the previous case, the pseudonym  is ge
 \url{http://www.sigmobile.org/workshops/vanet2007/slides/3.pdf}
 \end{itemize}
 These two techniques during the implatations has been subject to somes otpimization.
-\\
-\\
+\section{Framework Introduction}
+\subsection{Security Implementations}
+Befere starting with real implementation of Vanet Simulator we want to focus on security methods. All this technology walk around three main task: authentication, message integrity and no-repudiation; for this reason this technology use asymmetric cryptography. At this time we have two principal techniques: RSA and Elliptic curves. At the begining of this project we have implemented the first technique with 1024 bit of securtity level because is ready to use in java platform. After few steps in this project we reach a lot of problem linked to the nature of this security implementation. In first analysis we have a real good time responses, see table \ref{tab:RSAVelocity} at page \pageref{tab:RSAVelocity}, for sign and verify and authority verification but on the other hand we reach network problems caused by packet dimensions.
+\begin{table}[!ht]
+	\centering
+	\caption{RSA Speed Analysis}
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+	\hline\hline 
+	\textbf{Provider} & \textbf{Sign} & \textbf{Verify} & \textbf{CA verification} & \textbf{sign/s} & \textbf{verify/s}  & \textbf{CA verify/s}\\
+	\hline
+	Java2 1.6u14 & 0.009284s & 0.000521s & 0.000525s & 107.7 & 1919 & 1904 \\
+	\hline
+	\hline     %inserts single line 
+ 	\end{tabular} 
+	\label{tab:RSAVelocity}
+\end{table}
+\section{Certification Authority}
+If we consider to send on netowork beacons of 200 bytes with RSA technique we have an enormous crypyography overhead, see table \ref{tab:RSAOverHead} at page \pageref{tab:RSAOverHead}.
+\begin{table}[!ht]
+	\centering
+	\caption{RSA Cryptography Overhead}
+	\begin{tabular}{|c|c|c|}
+	\hline\hline 
+	\textbf{Payload} & \textbf{Signature} & \textbf{Certificate}\\
+	\hline
+	200 & 128 & 1029 \\
+	\hline
+	\hline     %inserts single line 
+ 	\end{tabular} 
+	\label{tab:RSAOverHead}
+\end{table}
+Before passing to Elliptic curves we check a solution on this technology, infact the real problem is the signature length and more of all certificate length. If we want 1024 bit of security level we can not modify signature length but we can working on certificate length, we have constructed a X509 striped certificate for reduce dimension of packet removing all not useful information from certificate. After this step we have reduced dimension to 750 bytes, too big yet. The real problem is length of public key inside certificate and we can not work on that.\\
+At this point we have decided to passed on elliptic curves because we are not able to explain motivation of RSA using in this project.
+\subsection{Role of Certification Authority and CRL}
+Certification authority and CRL for Vanet Simulator is actually a point of discussion\cite{calandriello}. Vanet Simulator implement only one CA and not use certicate revocation list.
