@@ -4,14 +4,14 @@ Version=2
 
 [SessionInfo]
 ActiveTab=2
-FrameCount=6
-ActiveFrame=4
+FrameCount=7
+ActiveFrame=0
 
 [Frame0]
 Columns=1
 Rows=1
-Flags=0
-ShowCmd=1
+Flags=2
+ShowCmd=3
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
@@ -24,17 +24,17 @@ Class=CLatexEdit
 Document=report.tex
 
 [Frame0_Row0]
-cyCur=224
+cyCur=365
 cyMin=10
 
 [Frame0_Col0]
-cxCur=932
+cxCur=1054
 cxMin=10
 
 [Frame0_View0,0]
-Cursor.row=0
+Cursor.row=74
 Cursor.column=0
-TopSubLine=0
+TopSubLine=64
 
 [Frame1]
 Columns=1
@@ -62,7 +62,7 @@ cxMin=10
 
 [Frame1_View0,0]
 Cursor.row=4
-Cursor.column=532
+Cursor.column=0
 TopSubLine=0
 
 [Frame2]
@@ -90,9 +90,9 @@ cxCur=936
 cxMin=10
 
 [Frame2_View0,0]
-Cursor.row=159
-Cursor.column=904
-TopSubLine=176
+Cursor.row=0
+Cursor.column=0
+TopSubLine=0
 
 [Frame3]
 Columns=1
@@ -119,15 +119,15 @@ cxCur=936
 cxMin=10
 
 [Frame3_View0,0]
-Cursor.row=52
-Cursor.column=12
+Cursor.row=0
+Cursor.column=0
 TopSubLine=76
 
 [Frame4]
 Columns=1
 Rows=1
-Flags=2
-ShowCmd=3
+Flags=0
+ShowCmd=1
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
@@ -140,17 +140,17 @@ Class=CLatexEdit
 Document=introduction.tex
 
 [Frame4_Row0]
-cyCur=365
+cyCur=228
 cyMin=10
 
 [Frame4_Col0]
-cxCur=1054
+cxCur=936
 cxMin=10
 
 [Frame4_View0,0]
-Cursor.row=91
-Cursor.column=212
-TopSubLine=108
+Cursor.row=0
+Cursor.column=0
+TopSubLine=0
 
 [Frame5]
 Columns=1
@@ -180,4 +180,33 @@ cxMin=10
 Cursor.row=31
 Cursor.column=0
 TopSubLine=19
+
+[Frame6]
+Columns=1
+Rows=1
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-4
+MaxPos.y=-23
+NormalPos.left=0
+NormalPos.top=0
+NormalPos.right=964
+NormalPos.bottom=275
+Class=CLatexEdit
+Document=uml_diagrams.tex
+
+[Frame6_Row0]
+cyCur=228
+cyMin=10
+
+[Frame6_Col0]
+cxCur=936
+cxMin=10
+
+[Frame6_View0,0]
+Cursor.row=10
+Cursor.column=38
+TopSubLine=2
 
