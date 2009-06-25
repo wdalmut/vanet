@@ -3,9 +3,9 @@ Type=TeXnicCenterProjectSessionInformation
 Version=2
 
 [SessionInfo]
-ActiveTab=0
-FrameCount=4
-ActiveFrame=3
+ActiveTab=2
+FrameCount=6
+ActiveFrame=4
 
 [Frame0]
 Columns=1
@@ -47,23 +47,23 @@ MaxPos.x=-4
 MaxPos.y=-23
 NormalPos.left=110
 NormalPos.top=110
-NormalPos.right=1190
-NormalPos.bottom=469
+NormalPos.right=1074
+NormalPos.bottom=385
 Class=CLatexEdit
-Document=baseline_pseudonyms.tex
+Document=conclusions.tex
 
 [Frame1_Row0]
-cyCur=312
+cyCur=228
 cyMin=10
 
 [Frame1_Col0]
-cxCur=1052
+cxCur=936
 cxMin=10
 
 [Frame1_View0,0]
-Cursor.row=15
-Cursor.column=29
-TopSubLine=1
+Cursor.row=4
+Cursor.column=532
+TopSubLine=0
 
 [Frame2]
 Columns=1
@@ -74,27 +74,56 @@ MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
 MaxPos.y=-23
-NormalPos.left=154
-NormalPos.top=154
-NormalPos.right=1146
-NormalPos.bottom=663
+NormalPos.left=0
+NormalPos.top=0
+NormalPos.right=964
+NormalPos.bottom=275
 Class=CLatexEdit
-Document=simulations.tex
+Document=usermanual.tex
 
 [Frame2_Row0]
-cyCur=462
+cyCur=228
 cyMin=10
 
 [Frame2_Col0]
-cxCur=964
+cxCur=936
 cxMin=10
 
 [Frame2_View0,0]
-Cursor.row=11
-Cursor.column=50
-TopSubLine=0
+Cursor.row=159
+Cursor.column=904
+TopSubLine=176
 
 [Frame3]
+Columns=1
+Rows=1
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-4
+MaxPos.y=-23
+NormalPos.left=22
+NormalPos.top=22
+NormalPos.right=986
+NormalPos.bottom=297
+Class=CLatexEdit
+Document=simulations.tex
+
+[Frame3_Row0]
+cyCur=228
+cyMin=10
+
+[Frame3_Col0]
+cxCur=936
+cxMin=10
+
+[Frame3_View0,0]
+Cursor.row=52
+Cursor.column=12
+TopSubLine=76
+
+[Frame4]
 Columns=1
 Rows=1
 Flags=2
@@ -103,23 +132,52 @@ MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-4
 MaxPos.y=-23
-NormalPos.left=22
-NormalPos.top=22
-NormalPos.right=1102
-NormalPos.bottom=381
+NormalPos.left=44
+NormalPos.top=44
+NormalPos.right=1008
+NormalPos.bottom=319
 Class=CLatexEdit
 Document=introduction.tex
 
-[Frame3_Row0]
+[Frame4_Row0]
 cyCur=365
 cyMin=10
 
-[Frame3_Col0]
+[Frame4_Col0]
 cxCur=1054
 cxMin=10
 
-[Frame3_View0,0]
-Cursor.row=46
-Cursor.column=182
-TopSubLine=51
+[Frame4_View0,0]
+Cursor.row=91
+Cursor.column=212
+TopSubLine=108
+
+[Frame5]
+Columns=1
+Rows=1
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-4
+MaxPos.y=-23
+NormalPos.left=66
+NormalPos.top=66
+NormalPos.right=1030
+NormalPos.bottom=341
+Class=CLatexEdit
+Document=bibliography.tex
+
+[Frame5_Row0]
+cyCur=228
+cyMin=10
+
+[Frame5_Col0]
+cxCur=936
+cxMin=10
+
+[Frame5_View0,0]
+Cursor.row=31
+Cursor.column=0
+TopSubLine=19
 

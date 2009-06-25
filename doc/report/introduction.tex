@@ -31,7 +31,7 @@ Befere starting with real implementation of Vanet Simulator we want to focus on 
  	\end{tabular} 
 	\label{tab:RSAVelocity}
 \end{table}
-\section{Certification Authority}
+\subsection{From RSA to EC}
 If we consider to send on netowork beacons of 200 bytes with RSA technique we have an enormous crypyography overhead, see table \ref{tab:RSAOverHead} at page \pageref{tab:RSAOverHead}.
 \begin{table}[!ht]
 	\centering
@@ -49,4 +49,44 @@ If we consider to send on netowork beacons of 200 bytes with RSA technique we ha
 Before passing to Elliptic curves we check a solution on this technology, infact the real problem is the signature length and more of all certificate length. If we want 1024 bit of security level we can not modify signature length but we can working on certificate length, we have constructed a X509 striped certificate for reduce dimension of packet removing all not useful information from certificate. After this step we have reduced dimension to 750 bytes, too big yet. The real problem is length of public key inside certificate and we can not work on that.\\
 At this point we have decided to passed on elliptic curves because we are not able to explain motivation of RSA using in this project.
 \subsection{Role of Certification Authority and CRL}
-Certification authority and CRL for Vanet Simulator is actually a point of discussion\cite{calandriello}. Vanet Simulator implement only one CA and not use certicate revocation list.
+Certification authority and CRL for Vanet Simulator is actually a point of discussion\cite{calandriello}. Vanet Simulator implement only one CA and not use certicate revocation list. In particular the positioning of CA and CRL is really difficult for Vanet and for simplicity at this this time the Simulator use only one CA for all vehicle. 
+\subsection{Output Reading}
+Vanet simulator have only a log system for show information, this lines are levelled on five states:
+\begin{itemize}
+	\item trace
+	\item debug
+	\item warn
+	\item error
+	\item fatal
+\end{itemize}
+More in general this implementation can represent information with three methods, directly on your screen using \textit{stdout} or put all into a new file or store all information on a database table. All log system show the same information but with different organization, a tipical stdout representation is:
+\begin{verbatim}
+07:22:22,870 [1632] [Veichle - 1] (new line for readability reasons)
+	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
+		Veichle 1 position, x=37 y=20(new line for readability reasons)
+		
+07:22:22,870 [1632] [Veichle - 1] (new line for readability reasons)
+	DEBUG vanet.Vehicle:108 - (new line for readability reasons)
+		Vehicle 1 send new message(new line for readability reasons)
+		
+07:22:22,905 [1667] [Veichle - 2] (new line for readability reasons)
+	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
+		Veichle 2 position, x=53 y=50 (new line for readability reasons)
+\end{verbatim}
+All lines are written with the same logic, in particular start with the time using format: hour, minutes and seconds followed by microseconds. After that into square brackets you have the number of milliseconds elapsed since the start of program, follewed by the name of class which execute log, always into square brackets. In upper case you have the level of log, followed by the complete name of class followed by double dots and the line of program execution. After that a free text message which inform you on operations, like state changes or errors.\\
+Logging into file system follow the same representation and database implementation instead use one table organized in five fields, see table \ref{tab:DBLog} at page \pageref{tab:DBLog}.
+\begin{table}[!ht]
+	\centering
+	\caption{Database table for logging system}
+	\begin{tabular}{|c|c|c|c|c|}
+	\hline\hline 
+	\textbf{Log identification} & \textbf{Level of log} & \textbf{Class name} & \textbf{Method name} & \textbf{Free message}\\
+	\hline
+	\hline     %inserts single line 
+ 	\end{tabular} 
+	\label{tab:DBLog}
+\end{table}
+Log identification is an unique number for log entry, other fields is the same of other log methods.
+\subsection{Vehicle moves}
+The system simulate vehicle moves, this implementation is really simple because simulator do not understard if two vehicle impact or is in a particular position. Vanet simulator move all vehicle on wireless area using the velocity information for computed how many cell of WIFI have to jump. Vehicle moves are only in horizontal, from left to right, no other moves are computed at this time.\\
+If a vehicle go out of the wireless area remain in this condition for one cicle and not trasmitt and receive, after this cicle re-enter into WIFI with 180 degree of rotation, \textit{y} coordinates do not change.
