@@ -1,6 +1,6 @@
 \section{Security Implementations}
 \subsection{Packet Dimension}\label{sec:PacketDimension}
-Before statarting with security implementation we want to focus on packet (beacon) dimension because is another central problem of this technology. Every message is based on 200 byte of paylad, the real message which we want send on an insecure network, followed by digital signature, tipically long 48 bytes and a certificate wit, tipically long 234 byte, for check signature. The longest certificate in the network is around 500 bytes, during this monography we analyze optimizations for reduce packet dimension to 250 bytes.
+Before starting with security implementation we want to focus on packet (beacon) dimension because is a most important problem of this technology. Every message is based on 200 byte of payload, the final message that will be send on the  network in other to provide all the security properties needed is a payload followed by digital signature 48 bytes size and a certificate 234 byte, for check signature. The longest certificate in the network is around 500 bytes, during this monograph we analyze optimizations for reduce packet dimension to 250.
 \pageref{tab:CryptographyOverhead} for more details.
 \begin{table}[!ht]
 	\centering

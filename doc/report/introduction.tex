@@ -17,7 +17,9 @@ Instead of stored the pseudonyms like in the previous case, the pseudonym  is ge
 These two techniques during the implatations has been subject to somes otpimization.
 \section{Framework Introduction}
 \subsection{Security Implementations}
-Befere starting with real implementation of Vanet Simulator we want to focus on security methods. All this technology walk around three main task: authentication, message integrity and no-repudiation; for this reason this technology use asymmetric cryptography. At this time we have two principal techniques: RSA and Elliptic curves. At the begining of this project we have implemented the first technique with 1024 bit of securtity level because is ready to use in java platform. After few steps in this project we reach a lot of problem linked to the nature of this security implementation. In first analysis we have a real good time responses, see table \ref{tab:RSAVelocity} at page \pageref{tab:RSAVelocity}, for sign and verify and authority verification but on the other hand we reach network problems caused by packet dimensions.
+Before starting with  a real implementation of VANET Simulator we want to focus on a security features  that has been chosen . This technology is focused around three main task: authentication, integrity and no-repudiation; and we can note that these properties are related to asymmetric cryptography.\\ 
+We have two  principals techniques for asymmetric cryptography that can provide these requires properties : RSA and Elliptic curves. At the beginning of this project we have implemented the first one RSA  with 1024 bit of security level because almost useful functionality are already available for Java Platform. After few tests performed we meet a lot of problem related to the implementation of the solution. First of all we have a  real good time responses, see table \ref{tab:RSAVelocity} at page \pageref{tab:RSAVelocity}, for sign and verify and authority verification but the big problems where at the transition level caused by packet dimensions. This has been required al lot of complexity to try to adapt.
+
 \begin{table}[!ht]
 	\centering
 	\caption{RSA Speed Analysis}
@@ -32,7 +34,7 @@ Befere starting with real implementation of Vanet Simulator we want to focus on 
 	\label{tab:RSAVelocity}
 \end{table}
 \subsection{From RSA to EC}
-If we consider to send on netowork beacons of 200 bytes with RSA technique we have an enormous crypyography overhead, see table \ref{tab:RSAOverHead} at page \pageref{tab:RSAOverHead}.
+If we consider to send on network beacons of 200 bytes with RSA technique we have an enormous cryptography overhead, see table the following table \ref{tab:RSAOverHead} at page \pageref{tab:RSAOverHead}.
 \begin{table}[!ht]
 	\centering
 	\caption{RSA Cryptography Overhead}
@@ -46,12 +48,12 @@ If we consider to send on netowork beacons of 200 bytes with RSA technique we ha
  	\end{tabular} 
 	\label{tab:RSAOverHead}
 \end{table}
-Before passing to Elliptic curves we check a solution on this technology, infact the real problem is the signature length and more of all certificate length. If we want 1024 bit of security level we can not modify signature length but we can working on certificate length, we have constructed a X509 striped certificate for reduce dimension of packet removing all not useful information from certificate. After this step we have reduced dimension to 750 bytes, too big yet. The real problem is length of public key inside certificate and we can not work on that.\\
-At this point we have decided to passed on elliptic curves because we are not able to explain motivation of RSA using in this project.
+The real problem with RSA is the signature length and more precisely the  certificate length. If we want 1024 bit of security level we cannot modify signature length but we can modify the  certificate length. To do , we have constructed a X509 striped certificate for reduce dimension of packet removing all useless  information from the  certificate. But the length of the certificate is reduced dimension to 750 bytes, that still too big respect to 32 bytes of public key  provided by \cite{calandriello}. The real problem is length of public key inside certificate and can't be modified.\\
+At this point we have decided to use elliptic curves according to data  provided in \cite{calandriello} short public key length.
 \subsection{Role of Certification Authority and CRL}
-Certification authority and CRL for Vanet Simulator is actually a point of discussion\cite{calandriello}. Vanet Simulator implement only one CA and not use certicate revocation list. In particular the positioning of CA and CRL is really difficult for Vanet and for simplicity at this this time the Simulator use only one CA for all vehicle. 
+Certification authority and CRL for VANET Simulator is actually a point of discussion\cite{calandriello}. VANET Simulator implement only one CA and not use certificate revocation list. In particular the positioning of CA and CRL is really difficult for VANET and for simplicity we decided to  use only one CA for all vehicle.
 \subsection{Output Reading}
-Vanet simulator have only a log system for show information, this lines are levelled on five states:
+VANET simulator have a log system for showing information, this lines are leveled on five states:
 \begin{itemize}
 	\item trace
 	\item debug
@@ -59,7 +61,7 @@ Vanet simulator have only a log system for show information, this lines are leve
 	\item error
 	\item fatal
 \end{itemize}
-More in general this implementation can represent information with three methods, directly on your screen using \textit{stdout} or put all into a new file or store all information on a database table. All log system show the same information but with different organization, a tipical stdout representation is:
+The simulator can provided log  information's with three ways, directly on your screen using \textit{stdout} or write into a new file or store into a database table. All log system show the same information but structured in different ways, a typical stdout representation is:
 \begin{verbatim}
 07:22:22,870 [1632] [Veichle - 1] (new line for readability reasons)
 	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
@@ -73,7 +75,7 @@ More in general this implementation can represent information with three methods
 	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
 		Veichle 2 position, x=53 y=50 (new line for readability reasons)
 \end{verbatim}
-All lines are written with the same logic, in particular start with the time using format: hour, minutes and seconds followed by microseconds. After that into square brackets you have the number of milliseconds elapsed since the start of program, follewed by the name of class which execute log, always into square brackets. In upper case you have the level of log, followed by the complete name of class followed by double dots and the line of program execution. After that a free text message which inform you on operations, like state changes or errors.\\
+All lines are written with the same logic, in particular start with the time using format: hour, minutes and seconds followed by microseconds. After that into square brackets you have the number of milliseconds elapsed since the start of program, followed by the name of the Java class which execute log, always into square brackets. Then in upper case you have the level of log, followed by the complete name of class followed by double dots and the line of program execution. After that a free text message which inform you on operations, like state changes or errors.\\
 Logging into file system follow the same representation and database implementation instead use one table organized in five fields, see table \ref{tab:DBLog} at page \pageref{tab:DBLog}.
 \begin{table}[!ht]
 	\centering
@@ -87,6 +89,6 @@ Logging into file system follow the same representation and database implementat
 	\label{tab:DBLog}
 \end{table}
 Log identification is an unique number for log entry, other fields is the same of other log methods.
-\subsection{Vehicle moves}
-The system simulate vehicle moves, this implementation is really simple because simulator do not understard if two vehicle impact or is in a particular position. Vanet simulator move all vehicle on wireless area using the velocity information for computed how many cell of WIFI have to jump. Vehicle moves are only in horizontal, from left to right, no other moves are computed at this time.\\
-If a vehicle go out of the wireless area remain in this condition for one cicle and not trasmitt and receive, after this cicle re-enter into WIFI with 180 degree of rotation, \textit{y} coordinates do not change.
+\subsection{Vehicle movement's}
+The simulator is also able to simulate vehicle movement's, its implementation is really simple because simulator do not consider the collisions of two vehicles or particular position for a given vehicle. VANET simulator move all the vehicles on wireless area according to the velocity information, computing how many cells of WIFI it have to jump. Vehicle movement's is consider only in horizontal direction, from left to right, no others movemenents are considered.\\
+If a vehicle go out of the wireless area it will remain there for one cycle,then stop any transmission and reception after a cycle time it will re-enter into WIFI with 180 degree of rotation, \textit{y} coordinates do not change.

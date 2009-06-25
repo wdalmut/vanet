@@ -30,14 +30,13 @@ Form these information like the signature performed on the message , the pseudon
 
 \item Optimization\\
 
-We can note in the securize part  that we sent principaly two kinds of messages the first one generated in long mode or without optimization and the other one in the short modeaccording the optimization scheme.The size of the message sent in long mode is 570 respect to the size of the payload, the overhead here is 370.\\
- One of the improvement we did here were to try to reduce that overhead keeping always the security level . The technique implemented  here is base on the  optimization 1\&2 provided by [2]. \\
+We can note in the securize part  that we sent principaly two kinds of messages the first one generated in long mode or without optimization and the other one in the short mode according the optimization scheme.The size of the message sent in long mode is 570 respect to the size of the payload, the overhead here is 370.\\
+ One of the improvement we did here were to try to reduce that overhead keeping always the security level . The technique implemented  here is base on the  optimization 1\&2 provided by \cite{calandriello}. \\
  \begin{itemize}
- \item Optimization 1: At the sender side, the self certificate  is computed only once per pseudonym, because it will remains unchanged throughout the pseudonym lifetime that can be se in a configuration file of the simulator. For the same reason, at the verifier's side the certificate is validated upon the first reception and stored, even though the sender appends it to multiple (all) messages. For all subsequent receptions, if the certificate has already been seen, the verifier skips its validation.
+ \item Optimization 1: At the sender side, the self certificate  is computed only once per pseudonym, because it will remains unchanged throughout the pseudonym lifetime that can be set in a configuration file of the simulator. For the same reason, at the verifier's side the certificate is validated upon the first reception and stored, even though the sender appends it to multiple (all) messages. For all subsequent receptions, if the certificate has already been seen, the verifier skips its validation.
  .\\
-    We have defined also a  counter for the number of messages sent using the same pseudonym, this allow us to don't need to attach the self certify for a given  number of messages set by the counter and will reduce for about 298 bytes the size of the message sent.\\
-   At the verification we choose to verify first the size of the received message  that allow us to check if or not the certificate where attached at the sender  and we decide or not  to skip the authentication.\\ 
-The counter value and the timer value can be set  in the configuration file.
+ \item Optimization 2: The sender appends  the signature on the message, the pseudonym and the self certificate once  every $\alpha$ messages (beacons); it appends only the signature on the message  on the remaining $\alpha-1$ ones. We call n the Certificate period. In this case the value of $\alpha$ can change through the configuration file. The sort mode message remain  unchanged, and all messages will carry a 4-byte Message ID field, that is, a random number indicating which pseudonym must be used to validate the . The Message ID does not affect privacy as there is a 1:1 correspondence with the pseudonym. When a pseudonym change occurs, the new triplet signature on the message, pseudonym and self certificate  must be computed and transmitted\\
+  These two optimization combined allow us to reduce to 72 bytes the overhead for the $\alpha-1$ messages sent after any new computation on the pseudonym, which is relatively significant.
 \end{itemize}
 \end{itemize}
 
