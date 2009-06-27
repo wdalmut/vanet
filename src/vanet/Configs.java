@@ -17,9 +17,9 @@ public class Configs
 	 */
 	public static double wifiCover = 200D;
 	/**
-	 * Max veichle speed in m/s
+	 * Max vehicle speed in m/s
 	 */
-	public static double maxVeichleSpeed = 140D/3.6D;
+	public static double maxVehicleSpeed = 140D/3.6D;
 	
 	/**
 	 * Address of broadcast server
@@ -37,7 +37,7 @@ public class Configs
 	public static double BEACONS_SEC = 0.5;
 	
 	/**
-	 * Lock moves of veichle for simulate only transmission and security implementation
+	 * Lock moves of vehicle for simulate only transmission and security implementation
 	 */
 	public static boolean NO_MOVES = false;
 	

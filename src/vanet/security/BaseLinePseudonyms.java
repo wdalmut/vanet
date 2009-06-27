@@ -26,7 +26,7 @@ public class BaseLinePseudonyms implements SecurityBox
 	private KeyStore keyStore;
 
 	/**
-	 * Certificate store for third party veichles. This system it's used for verify message with optimization
+	 * Certificate store for third party vehicles. This system it's used for verify message with optimization
 	 */
 	private CertificateStore certificateStore;
 
@@ -58,11 +58,11 @@ public class BaseLinePseudonyms implements SecurityBox
 	/**
 	 * Constructor of BaseLinePseudonyms
 	 * 
-	 * @param veichleID The ID of veiche. This parameter it's used for load the certificates and private key of veichle.
+	 * @param vehicleID The ID of vehicle. This parameter it's used for load the certificates and private key of veichle.
 	 */
-	public BaseLinePseudonyms( int veichleID )
+	public BaseLinePseudonyms( int vehicleID )
 	{
-		this.keyStore = new KeyStore( veichleID );
+		this.keyStore = new KeyStore( vehicleID );
 		this.certificateStore = new CertificateStore();
 		
 		try

@@ -10,7 +10,7 @@ package vanet;
 public class Moves 
 {	
 	/**
-	 * Move to another position your veichle. In case of NO MOVES mode this function not work.
+	 * Move to another position your vehicle. In case of NO MOVES mode this function not work.
 	 * 
 	 * @see vanet.Configs#NO_MOVES
 	 * 

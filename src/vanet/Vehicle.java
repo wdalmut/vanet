@@ -10,7 +10,7 @@ import vanet.security.BaseLinePseudonyms;
 import vanet.security.HybridScheme;
 
 /**
- * This class rappresent the veichle into area
+ * This class rappresent the vehicle into area
  * 
  * @author Walter Dal Mut
  * @date 2009
@@ -61,12 +61,12 @@ public class Vehicle extends TimerTask
 		boostrap();
 		
 		//Timer task for activate the transmission
-		this.time = new Timer( "Veichle - "+this.toString() );
+		this.time = new Timer( "Vehicle - "+this.toString() );
 		this.time.scheduleAtFixedRate(this, 1000, (long)(1000D/Configs.BEACONS_SEC) );
     }
     
     /** 
-     *  Get the veichle payload.
+     *  Get the vehicle payload.
      */
     private byte[] getPayload() 
     {
@@ -102,7 +102,7 @@ public class Vehicle extends TimerTask
 		try 
 		{
 			this.move();
-			log.debug("Veichle "+this.getId()+" position, x="+this.position.getX()+" y="+this.position.getY());
+			log.debug("Vehicle "+this.getId()+" position, x="+this.position.getX()+" y="+this.position.getY());
 			if( this.position.getX() <= Configs.wifiCover && this.position.getY() <= Configs.wifiCover )
 			{
 				log.debug("Vehicle "+this.getId()+" send new message");

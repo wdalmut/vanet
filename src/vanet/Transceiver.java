@@ -11,7 +11,7 @@ import vanet.security.SecurityBox;
 import vanet.security.VerifyMyMessageException;
 
 /**
- * This class rappresent the transceiver of veichle
+ * This class rappresent the transceiver of vehicle
  * 
  * @author Walter Dal Mut
  * @date 2009
@@ -62,7 +62,7 @@ public class Transceiver implements Runnable
 	}
   	
   	/** 
-  	 *  Send the payload to other veichles
+  	 *  Send the payload to other vehicles
   	 *  
   	 *  This function provide security to payload using the securize method of security box
   	 *  
@@ -97,7 +97,7 @@ public class Transceiver implements Runnable
 	}
   
   /** 
-   *  Receive message from other veichles
+   *  Receive message from other vehicles
    */
   public void receivedMessage(Message message) 
   {

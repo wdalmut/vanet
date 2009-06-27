@@ -6,18 +6,18 @@ package vanet;
 public class Position {
 
   /** 
-   *  The x position of the veichle inside wireless area
+   *  The x position of the vehicle inside wireless area
    */
   public int x;
 
   /** 
-   *  The y position of the veichle inside wireless area
+   *  The y position of the vehicle inside wireless area
    */
   public int y;
 
   
   /** 
-   *  Retrive X position of the veichle
+   *  Retrive X position of the vehicle
    */
   public int getX() 
   {
@@ -25,7 +25,7 @@ public class Position {
   }
 
   /** 
-   *  Retrive Y position of the veichle
+   *  Retrive Y position of the vehicle
    */
   public int getY() 
   {

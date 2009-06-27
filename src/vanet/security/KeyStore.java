@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 
 /** 
- *  This class rappresent the key store for veichle certificates
+ *  This class rappresent the key store for vehicle certificates
  */
 public class KeyStore
 {

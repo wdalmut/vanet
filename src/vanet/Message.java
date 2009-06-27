@@ -10,7 +10,7 @@ package vanet;
 public class Message {
 
   /** 
-   *  The ID of certificate into message or in case of optimization, the certificate which the veichle have to use for verify the signature
+   *  The ID of certificate into message or in case of optimization, the certificate which the vehicle have to use for verify the signature
    */
   private int id;
 

@@ -14,11 +14,11 @@ Instead of stored the pseudonyms like in the previous case, the pseudonym  is ge
 \\
 \url{http://www.sigmobile.org/workshops/vanet2007/slides/3.pdf}
 \end{itemize}
-These two techniques during the implatations has been subject to somes otpimization.
+These two techniques during the implementations has been subject to some optimizations.
 \section{Framework Introduction}
 \subsection{Security Implementations}
-Before starting with  a real implementation of VANET Simulator we want to focus on a security features  that has been chosen . This technology is focused around three main task: authentication, integrity and no-repudiation; and we can note that these properties are related to asymmetric cryptography.\\ 
-We have two  principals techniques for asymmetric cryptography that can provide these requires properties : RSA and Elliptic curves. At the beginning of this project we have implemented the first one RSA  with 1024 bit of security level because almost useful functionality are already available for Java Platform. After few tests performed we meet a lot of problem related to the implementation of the solution. First of all we have a  real good time responses, see table \ref{tab:RSAVelocity} at page \pageref{tab:RSAVelocity}, for sign and verify and authority verification but the big problems where at the transition level caused by packet dimensions. This has been required al lot of complexity to try to adapt.
+Before starting with  a real implementation of VANET Simulator we want to focus on a security features  that has been chosen. This technology is focused around three main task: privacy, authentication, integrity and no-repudiation; and we can note that these properties are related to asymmetric cryptography.\\ 
+We have two  principals techniques for asymmetric cryptography that can provide these requires properties : RSA and Elliptic curves. At the beginning of this project, we have implemented the first one RSA with 1024 bit of security level because almost useful functionality are already available for Java Platform. After few tests performed we meet a lot of problem related to the implementation of the solution. First of all we have a  real good time responses, see table \ref{tab:RSAVelocity} at page \pageref{tab:RSAVelocity}, for sign and verify and authority verification but the big problems where at the transition level caused by packet dimensions. This has been required al lot of complexity to try to adapt.
 
 \begin{table}[!ht]
 	\centering
@@ -65,7 +65,7 @@ The simulator can provided log  information's with three ways, directly on your 
 \begin{verbatim}
 07:22:22,870 [1632] [Veichle - 1] (new line for readability reasons)
 	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
-		Veichle 1 position, x=37 y=20(new line for readability reasons)
+		Vehicle 1 position, x=37 y=20(new line for readability reasons)
 		
 07:22:22,870 [1632] [Veichle - 1] (new line for readability reasons)
 	DEBUG vanet.Vehicle:108 - (new line for readability reasons)
@@ -73,7 +73,7 @@ The simulator can provided log  information's with three ways, directly on your 
 		
 07:22:22,905 [1667] [Veichle - 2] (new line for readability reasons)
 	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
-		Veichle 2 position, x=53 y=50 (new line for readability reasons)
+		Vehicle 2 position, x=53 y=50 (new line for readability reasons)
 \end{verbatim}
 All lines are written with the same logic, in particular start with the time using format: hour, minutes and seconds followed by microseconds. After that into square brackets you have the number of milliseconds elapsed since the start of program, followed by the name of the Java class which execute log, always into square brackets. Then in upper case you have the level of log, followed by the complete name of class followed by double dots and the line of program execution. After that a free text message which inform you on operations, like state changes or errors.\\
 Logging into file system follow the same representation and database implementation instead use one table organized in five fields, see table \ref{tab:DBLog} at page \pageref{tab:DBLog}.

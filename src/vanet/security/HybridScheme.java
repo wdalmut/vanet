@@ -70,14 +70,14 @@ private PersonalCertificate personalCertificate;
  /** 
   *  The Hybrid Scheme constructor 
   */
- public HybridScheme(int veichleID){
+ public HybridScheme(int vehicleID){
 	 this.certificateStore = new CertificateStore();
 	 try {
 		this.sign = Signature.getInstance("SHA1withECDSA");
 	
 	
 	//Load the group Private key of a given car.
-	String fId = new Integer( veichleID ).toString();
+	String fId = new Integer( vehicleID ).toString();
 	
 	String folder = "security/hybribKey";
 	
@@ -85,7 +85,7 @@ private PersonalCertificate personalCertificate;
 	
 	FileInputStream fr=null;
 	
-	fr = new FileInputStream( folder+"/"+veichleID+".key" );
+	fr = new FileInputStream( folder+"/"+vehicleID+".key" );
 	
 	KeyFactory kf = KeyFactory.getInstance("ECDSA", "BC");
 	

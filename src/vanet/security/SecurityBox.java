@@ -23,7 +23,7 @@ public interface SecurityBox {
   public byte[] securize(byte[] payload);
 
   /** 
-   *  Verify the message which the veichle have receive by other veichles
+   *  Verify the message which the vehicle have receive by other vehicles
    *  
    *  @param message Message which you want test for security reasons
    *  

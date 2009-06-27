@@ -45,7 +45,7 @@ public class Boostrap
 			
 			String vS;
 			if( (vS = (String)properties.get( "max_speed" )) != null )
-				Configs.maxVeichleSpeed = Double.valueOf(vS).doubleValue();
+				Configs.maxVehicleSpeed = Double.valueOf(vS).doubleValue();
 			if( (vS = (String)properties.getProperty( "wifi_cover" )) != null )
 				Configs.wifiCover = Double.valueOf(vS).doubleValue();
 			if( (vS = (String)properties.getProperty( "server_broadcast_point" )) != null )
