@@ -1,25 +1,25 @@
 \section{Comparisons and conclusions}
 We have able at the end of this work to design a very simple as possible simulator that were able to provide the principals properties required to exchange secure messages in broadcast between vehicles in movement in a given WiFi area.    
-During the simulation and the development the behavior of the two scheme were little different in some points the principal difference has been noted at the test where for the \baseline increasing the sending rate ( number of messages sent per  second by each vehicle) some wrong messages start been appeared due to the impossibility of some vehicle to sign some messages or the overlap time of the life time of two consecutives pseudonyms. The main reason of this can also be due to the fact that simulator run in a same computer.After havee testing the exchange of the message between two vehicles by installing the framework on two separated computers connected we have noted the difference and some improvements
+During the simulation and the development the behavior of the two scheme were little different in some points the principal difference has been noted at the test where for the \baseline increasing the sending rate ( number of messages sent per  second by each vehicle) some wrong messages start been appeared due to the impossibility of some vehicle to sign some messages or the overlap time of the life time of two consecutive s pseudonyms. The main reason of this can also be due to the fact that simulator run in a same computer.After have testing the exchange of the message between two vehicles by installing the framework on two separated computers connected we have noted the difference and some improvements
 This situation is not more present in the hybrid scheme due to the fact that some of the mains functions are not really implemented like the group signature and the group verification that are only dummy function.\\
 
-The log report below dispaly the result after running \baseline and \hybrid scheme with the same parameters.
+The log report below display the result after running \baseline and \hybrid scheme with the same parameters.
 
-\baseline tipical response
+\baseline typical response
 \begin{verbatim}
-19:43:10,752 [1664] [Veichle - 1] 
-      DEBUG vanet.Vehicle:105 - Veichle 1 position, x=37 y=20
-19:43:10,752 [1664] [Veichle - 1] 
+19:43:10,752 [1664] [Vehicle - 1] 
+      DEBUG vanet.Vehicle:105 - Vehicle 1 position, x=37 y=20
+19:43:10,752 [1664] [Vehicle - 1] 
       DEBUG vanet.Vehicle:108 - Vehicle 1 send new message
-19:43:10,754 [1666] [Veichle - 1] 
+19:43:10,754 [1666] [Vehicle - 1] 
       DEBUG vanet.security.BaseLinePseudonyms:128 - 
            Message sent in LONG MODE. Certificate expired use new pseudonymous. 
            Certificate ID: 39883
-19:43:10,789 [1701] [Veichle - 2] 
-      DEBUG vanet.Vehicle:105 - Veichle 2 position, x=53 y=50
-19:43:10,789 [1701] [Veichle - 2] 
+19:43:10,789 [1701] [Vehicle - 2] 
+      DEBUG vanet.Vehicle:105 - Vehicle 2 position, x=53 y=50
+19:43:10,789 [1701] [Vehicle - 2] 
       DEBUG vanet.Vehicle:108 - Vehicle 2 send new message
-19:43:10,789 [1701] [Veichle - 2] 
+19:43:10,789 [1701] [Vehicle - 2] 
       DEBUG vanet.security.BaseLinePseudonyms:128 - 
            Message sent in LONG MODE. Certificate expired use new pseudonymous. 
            Certificate ID: 35990
@@ -29,15 +29,15 @@ The log report below dispaly the result after running \baseline and \hybrid sche
       INFO  vanet.Transceiver:113 - Message secure: 39883
 \end{verbatim}
 
-\hybrid tipical response
+\hybrid typical response
 \begin{verbatim}
-20:17:00,886 [3152] [Veichle - 1] 
-      DEBUG vanet.Vehicle:105 - Veichle 1 position, x=91 y=20
-20:17:00,886 [3152] [Veichle - 1] 
+20:17:00,886 [3152] [Vehicle - 1] 
+      DEBUG vanet.Vehicle:105 - Vehicle 1 position, x=91 y=20
+20:17:00,886 [3152] [Vehicle - 1] 
       DEBUG vanet.Vehicle:108 - Vehicle 1 send new message
-20:17:00,887 [3153] [Veichle - 2] 
-      DEBUG vanet.Vehicle:105 - Veichle 2 position, x=119 y=50
-20:17:00,887 [3153] [Veichle - 2] 
+20:17:00,887 [3153] [Vehicle - 2] 
+      DEBUG vanet.Vehicle:105 - Vehicle 2 position, x=119 y=50
+20:17:00,887 [3153] [Vehicle - 2] 
       DEBUG vanet.Vehicle:108 - Vehicle 2 send new message
 20:17:00,914 [3180] [Transceiver For Vehicle] 
       INFO  vanet.Transceiver:123 - 
@@ -52,4 +52,4 @@ The log report below dispaly the result after running \baseline and \hybrid sche
       INFO  vanet.Transceiver:113 - 
             Message secure: 3442
 \end{verbatim}
-We can said that up to these basics functionalities of the framework implemented, some of the improvements can be added.  In the optimization scheme used in this case is not so efficient because we didn't tacking in account the case where some receiver lost two consecutive messages that can be the last signed by the old pseudonym and the first signed by the  new pseudonym . This could be improved by adding in the combination scheme the optimization 3 provided by [2] and try to implemented in some robust scheme both in sircuze and in verify.\\
+We can said that up to these basics functionalities of the framework implemented, some of the improvements can be added.  In the optimization scheme used in this case is not so efficient because we did n't tacking in account the case where some receiver lost two consecutive messages that can be the last signed by the old pseudonym and the first signed by the  new pseudonym . This could be improved by adding in the combination scheme the optimization 3 provided by [2] and try to implemented in some robust scheme both in secure and in verify.\\
