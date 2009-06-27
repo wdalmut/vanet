@@ -4,7 +4,7 @@ Version=2
 
 [SessionInfo]
 ActiveTab=2
-FrameCount=7
+FrameCount=8
 ActiveFrame=0
 
 [Frame0]
@@ -32,9 +32,9 @@ cxCur=1054
 cxMin=10
 
 [Frame0_View0,0]
-Cursor.row=75
-Cursor.column=20
-TopSubLine=64
+Cursor.row=0
+Cursor.column=1
+TopSubLine=57
 
 [Frame1]
 Columns=1
@@ -61,9 +61,9 @@ cxCur=936
 cxMin=10
 
 [Frame1_View0,0]
-Cursor.row=31
-Cursor.column=24
-TopSubLine=23
+Cursor.row=34
+Cursor.column=37
+TopSubLine=30
 
 [Frame2]
 Columns=1
@@ -90,9 +90,9 @@ cxCur=936
 cxMin=10
 
 [Frame2_View0,0]
-Cursor.row=158
-Cursor.column=52
-TopSubLine=177
+Cursor.row=119
+Cursor.column=14
+TopSubLine=126
 
 [Frame3]
 Columns=1
@@ -120,39 +120,10 @@ cxMin=10
 
 [Frame3_View0,0]
 Cursor.row=0
-Cursor.column=0
+Cursor.column=47
 TopSubLine=0
 
 [Frame4]
-Columns=1
-Rows=1
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-4
-MaxPos.y=-23
-NormalPos.left=44
-NormalPos.top=44
-NormalPos.right=1008
-NormalPos.bottom=319
-Class=CLatexEdit
-Document=introduction.tex
-
-[Frame4_Row0]
-cyCur=228
-cyMin=10
-
-[Frame4_Col0]
-cxCur=936
-cxMin=10
-
-[Frame4_View0,0]
-Cursor.row=0
-Cursor.column=0
-TopSubLine=0
-
-[Frame5]
 Columns=1
 Rows=1
 Flags=0
@@ -168,20 +139,20 @@ NormalPos.bottom=341
 Class=CLatexEdit
 Document=bibliography.tex
 
-[Frame5_Row0]
+[Frame4_Row0]
 cyCur=228
 cyMin=10
 
-[Frame5_Col0]
+[Frame4_Col0]
 cxCur=936
 cxMin=10
 
-[Frame5_View0,0]
+[Frame4_View0,0]
 Cursor.row=31
 Cursor.column=0
 TopSubLine=19
 
-[Frame6]
+[Frame5]
 Columns=1
 Rows=1
 Flags=0
@@ -197,6 +168,35 @@ NormalPos.bottom=275
 Class=CLatexEdit
 Document=uml_diagrams.tex
 
+[Frame5_Row0]
+cyCur=228
+cyMin=10
+
+[Frame5_Col0]
+cxCur=936
+cxMin=10
+
+[Frame5_View0,0]
+Cursor.row=53
+Cursor.column=41
+TopSubLine=45
+
+[Frame6]
+Columns=1
+Rows=1
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-4
+MaxPos.y=-23
+NormalPos.left=0
+NormalPos.top=0
+NormalPos.right=964
+NormalPos.bottom=275
+Class=CLatexEdit
+Document=hybrid_scheme.tex
+
 [Frame6_Row0]
 cyCur=228
 cyMin=10
@@ -206,7 +206,36 @@ cxCur=936
 cxMin=10
 
 [Frame6_View0,0]
-Cursor.row=10
-Cursor.column=38
-TopSubLine=2
+Cursor.row=0
+Cursor.column=4
+TopSubLine=0
+
+[Frame7]
+Columns=1
+Rows=1
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-4
+MaxPos.y=-23
+NormalPos.left=22
+NormalPos.top=22
+NormalPos.right=986
+NormalPos.bottom=297
+Class=CLatexEdit
+Document=baseline_pseudonyms.tex
+
+[Frame7_Row0]
+cyCur=228
+cyMin=10
+
+[Frame7_Col0]
+cxCur=936
+cxMin=10
+
+[Frame7_View0,0]
+Cursor.row=1
+Cursor.column=0
+TopSubLine=0
 
