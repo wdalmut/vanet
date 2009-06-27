@@ -119,6 +119,43 @@ mysql>CREATE TABLE IF NOT EXISTS `logs` (
 ...
 \end{verbatim}
 After this step you have configured the MySQL database for record logs from Vanet Simulator.
+\subsection{Output Reading}
+VANET simulator have a log system for showing information, this lines are leveled on five states:
+\begin{itemize}
+	\item trace
+	\item debug
+	\item warn
+	\item error
+	\item fatal
+\end{itemize}
+The simulator can provided log  information's with three ways, directly on your screen using \textit{std out} or write into a new file or store into a database table. All log system show the same information but structured in different ways, a typical std out representation is:
+\begin{verbatim}
+07:22:22,870 [1632] [Vehicle - 1] (new line for readability reasons)
+	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
+		Vehicle 1 position, x=37 y=20(new line for readability reasons)
+		
+07:22:22,870 [1632] [Vehicle - 1] (new line for readability reasons)
+	DEBUG vanet.Vehicle:108 - (new line for readability reasons)
+		Vehicle 1 send new message(new line for readability reasons)
+		
+07:22:22,905 [1667] [Vehicle - 2] (new line for readability reasons)
+	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
+		Vehicle 2 position, x=53 y=50 (new line for readability reasons)
+\end{verbatim}
+All lines are written with the same logic, in particular start with the time using format: hour, minutes and seconds followed by microseconds. After that into square brackets you have the number of milliseconds elapsed since the start of program, followed by the name of the Java class which execute log, always into square brackets. Then in upper case you have the level of log, followed by the complete name of class followed by double dots and the line of program execution. After that a free text message which inform you on operations, like state changes or errors.\\
+Logging into file system follow the same representation and database implementation instead use one table organized in five fields, see table \ref{tab:DBLog} at page \pageref{tab:DBLog}.
+\begin{table}[!ht]
+	\centering
+	\caption{Database table for logging system}
+	\begin{tabular}{|c|c|c|c|c|}
+	\hline\hline 
+	\textbf{Log identification} & \textbf{Level of log} & \textbf{Class name} & \textbf{Method name} & \textbf{Free message}\\
+	\hline
+	\hline     %inserts single line 
+ 	\end{tabular} 
+	\label{tab:DBLog}
+\end{table}
+Log identification is an unique number for log entry, other fields is the same of other log methods.
 \subsubsection{Install Vanet Simulator on Windows}
 For install Vanet simulator on Windows operating system you can use the installer \textit{setupVanetSimulator.exe} and follow the screen information for complete the setup of application.\\
 After install procedure you have to open a new console and go into install directory and send the command

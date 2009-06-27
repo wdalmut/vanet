@@ -1,13 +1,11 @@
 \section{Introduction}
-A Vehicular Ad-Hoc Network, or VANET, is a form of Mobile ad-hoc network, to provide communications among nearby vehicles and between vehicles and nearby fixed equipment, usually described as roadside equipment. It will contribute to safer and more efficient roads by providing timely information to drivers and concerned authorities.
-As all wireless networks, VANET can be easily subject to any kinds of security  attacks then, for ensure a good security, VANET needs an appropriate security architecture that should be based on different security aspects like: Threat model, Authentication and key management, Privacy, Secure positioning. We focused our work in on the  Authentication and Key management.\\
-Our project was to implement a simple frame work for the simulation of secure messages exchange in VANET. The simulator is essentially based on  signing  messages before send them in network area, to be able to verify the integrity of any messages received from the network area. All the messages are sent in broadcast way in a limit area\\
-The techniques used to provide these security features are essentially based on two mains approaches provided
- by\cite{calandriello} which are :
+A Vehicular Ad-Hoc Network, or VANET, is a form of Mobile ad-hoc network, to provide communications among nearby vehicles and between vehicles and nearby fixed equipment, usually described as roadside equipment. It will contribute to safety and more efficient roads by providing information to drivers and concerned authorities around street condition, traffic problems and others.
+As all wireless networks, VANET can be easily subject to any kinds of security  attacks then, for ensure a good security, VANET needs an appropriate security architecture that should be based on different security aspects like: Threat model, Authentication and key management, Privacy, Secure positioning. We focused our work in on the Authentication and Key management.\\
+Our project was to implement a simple framework for the simulation of secure messages exchange in VANET. The simulator is essentially based on  signing  messages before send them in network area, to be able to verify the integrity of any messages received from the network area. All the messages are sent in broadcast way in a limited area\\
+Techniques used to provide these security features are essentially based on two mains approaches provided by\cite{calandriello} which are :
 \begin{itemize}
 \item BaseLine Pseudonyms,\\
-In this aspect a considerable amount of certified public key called pseudonym  will stored in a vehicle, in order the ensure the privacy of the sender it will continuously change the public key certificate or pseudonym to sign a given amount of messages or to sign for a limited time this to avoid the sender to be retrieved by some receivers from a subsequent signed messages. These pseudonym should issued by a well known Certificated Authority in order to provide authentication.
-
+In this aspect a considerable amount of certified public key called pseudonym will stored in a vehicle, in order the ensure the privacy of the sender it will continuously change the public key certificate or pseudonym to sign a given amount of messages or to sign for a limited time this to avoid the sender to be retrieved by some receivers from a subsequent signed messages. These pseudonym should issued by a well known Certificated Authority in order to provide authentication.
 \item Hybrib Scheme\\
 This technique combines two approaches, coupling the pseudonym generation and the Group signature scheme.
 Instead of stored the pseudonyms like in the previous case, the pseudonym  is generated on the fly when the vehicle wants to send a message, it has to be sign by a group public key provided to any vehicle by a Certificate Authority that operate as a group manager in order to guaranty the authentication between users assuming that all legitimate vehicles belongs to the same group.
@@ -16,10 +14,9 @@ Instead of stored the pseudonyms like in the previous case, the pseudonym  is ge
 \end{itemize}
 These two techniques during the implementations has been subject to some optimizations.
 \section{Framework Introduction}
-\subsection{Security Implementations}
-Before starting with  a real implementation of VANET Simulator we want to focus on a security features  that has been chosen. This technology is focused around three main task: privacy, authentication, integrity and no-repudiation; and we can note that these properties are related to asymmetric cryptography.\\ 
-We have two  principals techniques for asymmetric cryptography that can provide these requires properties : RSA and Elliptic curves. At the beginning of this project, we have implemented the first one RSA with 1024 bit of security level because almost useful functionality are already available for Java Platform. After few tests performed we meet a lot of problem related to the implementation of the solution. First of all we have a  real good time responses, see table \ref{tab:RSAVelocity} at page \pageref{tab:RSAVelocity}, for sign and verify and authority verification but the big problems where at the transition level caused by packet dimensions. This has been required a lot of complexity to try to adapt.
-
+\subsection{Security Implementations}\label{sec:CryptographyOverhead}
+Before starting with  a real implementation of VANET Simulator we want to focus on a security features that has been chosen. This technology is focused around four main task: privacy, authentication, integrity and no-repudiation; and we can note that these properties are related to asymmetric cryptography.\\ 
+We have two  principals techniques for asymmetric cryptography that can provide these requires properties : RSA and Elliptic curves. At the beginning of this project, we have implemented the first one, RSA with 1024 bit of security level because almost useful functionality are already available for Java Platform. After few tests performed we meet a lot of problem related to the implementation of the solution. First of all we have a real good time responses, see table \ref{tab:RSAVelocity} at page \pageref{tab:RSAVelocity}, for sign and verify and authority verification but the big problems where at the trasmission level caused by packet dimensions.
 \begin{table}[!ht]
 	\centering
 	\caption{RSA Speed Analysis}
@@ -48,8 +45,8 @@ If we consider to send on network beacons of 200 bytes with RSA technique we hav
  	\end{tabular} 
 	\label{tab:RSAOverHead}
 \end{table}
-The real problem with RSA is the signature length and more precisely the  certificate length. If we want 1024 bit of security level we cannot modify signature length but we can modify the  certificate length. To do , we have constructed a X509 striped certificate for reduce dimension of packet removing all useless  information from the  certificate. But the length of the certificate is reduced dimension to 750 bytes, that still too big respect to 32 bytes of public key  provided by \cite{calandriello}. The real problem is length of public key inside certificate and we can not be modified.\\
-At this point we have decided to use elliptic curves according to data  provided in \cite{calandriello} short public key length. Every message is based on 200 byte of payload, the final message that will be send on the  network in other to provide all the security properties needed is a payload followed by digital signature 48 bytes size and a certificate 234 byte, for check signature. The longest certificate in the network is around 500 bytes, during this monograph we analyze optimizations for reduce packet dimension to 250. See table \ref{tab:CryptographyOverhead} at page \pageref{tab:CryptographyOverhead} for more details on cryptography overhead.
+The real problem with RSA is the signature length and more precisely the  certificate length. If we want 1024 bit of security level we cannot modify signature length but we can modify the  certificate length. To do that, we have constructed a X509 striped certificate for reduce dimension of packet removing all useless information from the  certificate. But the length of the certificate reduced dimension to 750 bytes, that still too big. The real problem is length of public key inside certificate and we can not modify that unless we reduce security level.\\
+At this point we have decided to use elliptic curves according to data provided in \cite{calandriello}. Consider the same data, for payload, around 200 bytes with 163 bit of security level using elliptic curves we have very little certificates and public key. The longest certificate in the network is around 500 bytes, during this monograph we analyze optimizations for reduce packet dimension to 250 bytes. See table \ref{tab:CryptographyOverhead} at page \pageref{tab:CryptographyOverhead} for more details on cryptography overhead.
 \begin{table}[!ht]
 	\centering
 	\caption{Elliptic curves cryptography overhead}
@@ -60,48 +57,11 @@ At this point we have decided to use elliptic curves according to data  provided
 	$200$ &	$48$ & $234$\\
 	\hline
 	\hline     %inserts single line 
- 	\end{tabular} 
-	\label{tab:MessagesOnNetwork}
+ 	\end{tabular} mignottamignotta
+	\label{tab:CryptographyOverhead}
 \end{table}
 \subsection{Role of Certification Authority and CRL}
-Certification authority and CRL for VANET Simulator is actually a point of discussion\cite{calandriello}. VANET Simulator implement only one CA and not use certificate revocation list. In particular the positioning of CA and CRL is really difficult for VANET and for simplicity we decided to  use only one CA for all vehicle.
-\subsection{Output Reading}
-VANET simulator have a log system for showing information, this lines are leveled on five states:
-\begin{itemize}
-	\item trace
-	\item debug
-	\item warn
-	\item error
-	\item fatal
-\end{itemize}
-The simulator can provided log  information's with three ways, directly on your screen using \textit{std out} or write into a new file or store into a database table. All log system show the same information but structured in different ways, a typical std out representation is:
-\begin{verbatim}
-07:22:22,870 [1632] [Vehicle - 1] (new line for readability reasons)
-	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
-		Vehicle 1 position, x=37 y=20(new line for readability reasons)
-		
-07:22:22,870 [1632] [Vehicle - 1] (new line for readability reasons)
-	DEBUG vanet.Vehicle:108 - (new line for readability reasons)
-		Vehicle 1 send new message(new line for readability reasons)
-		
-07:22:22,905 [1667] [Vehicle - 2] (new line for readability reasons)
-	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
-		Vehicle 2 position, x=53 y=50 (new line for readability reasons)
-\end{verbatim}
-All lines are written with the same logic, in particular start with the time using format: hour, minutes and seconds followed by microseconds. After that into square brackets you have the number of milliseconds elapsed since the start of program, followed by the name of the Java class which execute log, always into square brackets. Then in upper case you have the level of log, followed by the complete name of class followed by double dots and the line of program execution. After that a free text message which inform you on operations, like state changes or errors.\\
-Logging into file system follow the same representation and database implementation instead use one table organized in five fields, see table \ref{tab:DBLog} at page \pageref{tab:DBLog}.
-\begin{table}[!ht]
-	\centering
-	\caption{Database table for logging system}
-	\begin{tabular}{|c|c|c|c|c|}
-	\hline\hline 
-	\textbf{Log identification} & \textbf{Level of log} & \textbf{Class name} & \textbf{Method name} & \textbf{Free message}\\
-	\hline
-	\hline     %inserts single line 
- 	\end{tabular} 
-	\label{tab:DBLog}
-\end{table}
-Log identification is an unique number for log entry, other fields is the same of other log methods.
+Certification authority and CRL for VANET Simulator is actually a point of discussion \cite{calandriello}, in particular the positioning of CA and CRL is really difficult for vehicular networks. VANET Simulator implement only one CA and not use certificate revocation list. 
 \subsection{Vehicle movement's}
-The simulator is also able to simulate vehicle movement's, its implementation is really simple because simulator do not consider the collisions of two vehicles or particular position for a given vehicle. VANET simulator move all the vehicles on wireless area according to the velocity information, computing how many cells of WIFI it have to jump. Vehicle movement's is consider only in horizontal direction, from left to right, no others movements are considered.\\ents are considered.\\
-If a vehicle go out of the wireless area it will remain there for one cycle,then stop any transmission and reception after a cycle time it will re-enter into WIFI with 180 degree of rotation, \textit{y} coordinates do not change.
+The simulator is also able to simulate vehicle movements, it's implementation is really simple because simulator do not consider the collisions of two or more vehicles or particular position for a given vehicle. VANET simulator move all the vehicles on wireless area according to the velocity information, computing how many cells of WIFI it have to jump. Vehicle movements is only in horizontal direction, from left to right, no others movements are considered.\\
+If a vehicle go out of the wireless area it will remain there for one cycle, the vehicle stop any transmission and reception. After a cycle time it will re-enter into WIFI with 180 degree of rotation, \textit{y} coordinates do not change.

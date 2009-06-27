@@ -1,4 +1,4 @@
-\section{Simulations and Tests}
+\section{Implementation, Simulations and Tests}
 VANET Simulator is written in Java because this programming language is really powerful and flexible to use but more over we see the Java problems with cryptography. First of all the Java security implementation, at this time (version 1.6.x), do not include elliptic curves for asymmetric cryptography and we have been able to find  on Internet a provider which release elliptic curves : found \textit{Bouncy Castle}\footnote{See bibliography at \pageref{bibliography} for more details on this provider}, then we decided to  use 163 bits  of security level of digital signature \textit{nistb}, after that we have also computed with \emph{openssl}\footnote{See bibliography at page \pageref{bibliography} for more details} the typical speed\footnote{For computation we have used: Pentium 4 Core 2 Duo, processor: Intel T5450 (1.66GHz, 667 Mhz FSB, 2 MB L2 Cache, 2 GB DDR2 RAM} for sign and verify a digital message, see table \ref{tab:OpensslVelocity} at page \pageref{tab:OpensslVelocity}.
 \begin{table}[!ht]
 	\centering
@@ -17,21 +17,6 @@ VANET Simulator is written in Java because this programming language is really p
 \end{table}
 The Bouncy Castle implementation is slowly than OpenSLL and we have found a difference time order  between C (OpenSSL)  implementation and Java implementation (Bouncy Castle), see table \ref{tab:OpensslVelocity} at page 
 After additional analysis we verified the certificates with the certification authority and for doing that in Java it last typically $0.038708s$ roughly $25.83 {verify \over s}$
-\subsection{Cryptography Overhead}\label{sec:CryptographyOverhead}
-In this section we want spent two words around cryptography overhead. During the simulation we sent 200 bytes of secured payload but ensure that security,we needed to insert more bytes for signature and certificate for realize digital signatures. These additional bytes  increase the packet dimensions. This is reason for what an optimization were really useful use.\cite{calandriello}, see table \ref{tab:CryptographyOverhead} at page \pageref{tab:CryptographyOverhead} for more details.
-\begin{table}[!ht]
-	\centering
-	\caption{Cryptography Overhead}
-	\begin{tabular}{|c|c|}
-	\hline\hline 
-	\textbf{Signature} & \textbf{Certificate}\\
-	\hline
-		48 & 234\\
-	\hline
-	\hline     %inserts single line 
- 	\end{tabular} 
-	\label{tab:CryptographyOverhead}
-\end{table}
 \subsection{Real Vanet implementation to Simulator}
 The main task of Vehicular Networks is privacy, integrity and not repudiation of messages and for do that we use a lot of methods, like pseudonyms change or group keys. In the simulator we are obliged to use all network stack from application level to physical level and this feature remove privacy because we are not able to change MAC address dynamically and if we analyze the network traffic we can found MAC address and track vehicle moves. Real system do not use the complete network stack and work only on level two (MAC layer) with changing MAC address for every beacon sent on the network.
 \subsection{Simulation of Baseline Pseudonyms}
