@@ -221,6 +221,9 @@ public class BaseLinePseudonyms implements SecurityBox
 	@Override
 	public boolean verify(Message message) throws VerifyMyMessageException 
 	{
+		if( this.personalCertificate == null )
+			return false;
+		
 		if( message.getId() == this.personalCertificate.getId() )
 			throw new VerifyMyMessageException();
 		
