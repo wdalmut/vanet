@@ -155,7 +155,7 @@ Logging into file system follows the same representation and database implementa
  	\end{tabular} 
 	\label{tab:DBLog}
 \end{table}
-Log identification is an unique number for log entry, other fields is the same of other log methods.
+\textbf{Log identification} is an unique number for log entry, other fields represent the same information already expressed for stdout log system, in particular the \textbf{level of log} is always on six step (trace, debug, info, warn, error, fatal), the \textbf{class name} is the name of java class which use the log system, the \textbf{method name} is name of method which call the log system and \textbf{free message} express how the system have logged into database.
 \subsubsection{Read vanet simulator operation from log}
 Before closing the output reading we want to explain with an example the normal flow of Vanet Simulator with vehicles on the roads. The simulator is multi-thread and don't use syncronization, for that reason the output could be confused. In this section we log pieces of log output but for readability reasons we remove all information which do not have sense for this section, like timestamp and other not useful parts. In addition long line are splitted into two lines, but we consider for one line only those who start with square brackets.\\
 \begin{verbatim}
