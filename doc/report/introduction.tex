@@ -46,7 +46,7 @@ If we consider to send on network beacons of 200 bytes with RSA technique we hav
 	\label{tab:RSAOverHead}
 \end{table}
 The real problem with RSA is the signature length and more precisely the  certificate length. If we want 1024 bit of security level we cannot modify signature length but we can modify the  certificate length. To do that, we have constructed a X509 striped certificate for reduce dimension of packet removing all useless information from the  certificate. But the length of the certificate reduced dimension to 750 bytes, that still too big. The real problem is length of public key inside certificate and we can not modify that unless we reduce security level.\\
-At this point we have decided to use elliptic curves according to data provided in \cite{calandriello}. Consider the same data, for payload, around 200 bytes with 163 bit of security level using elliptic curves we have very little certificates and public key. The longest certificate in the network is around 500 bytes, during this monograph we analyze optimizations for reduce packet dimension to 250 bytes. See table \ref{tab:CryptographyOverhead} at page \pageref{tab:CryptographyOverhead} for more details on cryptography overhead.
+At this point we have decided to use elliptic curves according to data provided in \cite{calandriello}. Consider the same data, for payload, around 200 bytes with 163 bit of security level using elliptic curves we have very little certificates and public key. The longest message in the network is around 500 bytes, during this monography we analyze optimizations for reduce packet dimension to 250 bytes. See table \ref{tab:CryptographyOverhead} at page \pageref{tab:CryptographyOverhead} for more details on cryptography overhead.
 \begin{table}[!ht]
 	\centering
 	\caption{Elliptic curves cryptography overhead}
@@ -57,7 +57,7 @@ At this point we have decided to use elliptic curves according to data provided 
 	$200$ &	$48$ & $234$\\
 	\hline
 	\hline     %inserts single line 
- 	\end{tabular} mignottamignotta
+ 	\end{tabular}
 	\label{tab:CryptographyOverhead}
 \end{table}
 \subsection{Role of Certification Authority and CRL}
