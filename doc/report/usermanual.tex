@@ -128,7 +128,7 @@ VANET simulator have a log system for showing information, this lines are levele
 	\item [error] Severe error
 	\item [fatal] Impossibile to run over, the program terminate immediatly
 \end{description}
-The simulator can provided log  information's with three ways, directly on your screen using \textit{std out} or write into a new file or store into a database table. All log system show the same information but structured in different ways, a typical std out representation is:
+The simulator can provided log  information's in three differents ways, directly on your screen using \textit{std out} or writing into a new file or storing into a database table. All log system show the same information but structured in different ways, a typical std out representation is:
 \begin{verbatim}
 07:22:22,870 [1632] [Vehicle - 1] (new line for readability reasons)
 	DEBUG vanet.Vehicle:105 - (new line for readability reasons)
@@ -143,7 +143,7 @@ The simulator can provided log  information's with three ways, directly on your 
 		Vehicle 2 position, x=53 y=50 (new line for readability reasons)
 \end{verbatim}
 All lines are written with the same logic, in particular start with the time using format: hour, minutes and seconds followed by microseconds. After that into square brackets you have the number of milliseconds elapsed since the start of program, followed by the name of the Java class which execute log, always into square brackets. Then in upper case you have the level of log, followed by the complete name of class followed by double dots and the line of program execution. After that a free text message which inform you on operations, like state changes or errors.\\
-Logging into file system follow the same representation and database implementation instead use one table organized in five fields, see table \ref{tab:DBLog} at page \pageref{tab:DBLog}.
+Logging into file system follows the same representation and database implementation instead use one table organized in five fields, see table \ref{tab:DBLog} at page \pageref{tab:DBLog}.
 \begin{table}[!ht]
 	\centering
 	\caption{Database table for logging system}
