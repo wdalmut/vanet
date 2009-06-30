@@ -143,7 +143,7 @@ The simulator can provided log  information's in three differents ways, directly
 		Vehicle 2 position, x=53 y=50 (new line for readability reasons)
 \end{verbatim}
 All lines are written with the same logic, in particular start with the time using format: hour, minutes and seconds followed by microseconds. After that into square brackets you have the number of milliseconds elapsed since the start of program, followed by the name of the Java class which execute log, always into square brackets. Then in upper case you have the level of log, followed by the complete name of class followed by double dots and the line of program execution. After that a free text message which inform you on operations, like state changes or errors.\\
-Logging into file system follows the same representation and database implementation instead use one table organized in five fields, see table \ref{tab:DBLog} at page \pageref{tab:DBLog}.
+Logging into files follows the same representation of stdout. Database implementation instead use one table organized in five fields, see table \ref{tab:DBLog} at page \pageref{tab:DBLog}.
 \begin{table}[!ht]
 	\centering
 	\caption{Database table for logging system}
